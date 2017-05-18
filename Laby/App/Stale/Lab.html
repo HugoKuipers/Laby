@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Labyrinth</title>
+    <link rel="stylesheet" href="Lab.css">
+    <link rel="shortcut icon" href="Images/Torch.jpg">
+    <!-- <script src="Library/jquery-3.2.1.js"></script> -->
+  </head>
+  <body>
+    <div id="buttons">
+      <h1 id="welcome">Welcome to the Labyrinth!</h1>
+      <button type="button" id="enter">Enter the Labyrinth</button>
+      <button type="button" id="north" disabled class="direction">North</button>
+      <button type="button" id="east" disabled class="direction">East</button>
+      <button type="button" id="south" disabled class="direction">South</button>
+      <button type="button" id="west" disabled class="direction">West</button>
+    </div>
+    <div id="text">
+      <div id="alertdiv">
+        <p id="alert"></p>
+        <p id="prevalert"></p>
+      </div>
+      <div id="itemtextdiv">
+        <p id="itemtext"></p>
+        <p id="formsitems"></p>
+      </div>
+      <div id="messagediv">
+        <p id="message"></p>
+        <p id="forms"></p>
+        <p id="prevmessage"></p>
+      </div>
+    </div>
+    <div id="status">
+      <span id="life"></span>
+      <span id="gold"></span>
+      <button type="button" id="openinv" title="Open your inventory">Inventory</button>
+      <button type="button" id="openset" title="Open settings">Settings</button>
+    </div>
+    <div id="inventory">
+      <div id="dragbar">
+        <span id="invheader">Inventory</span>
+      </div>
+      <button id="closeinv">&#10006;</button>
+      <p id="itemspace"></p>
+    </div>
+    <div id="dropdown">
+      <p id="use" title="Use this item">Use</p>
+      <p id="drop" title="Drop this item">Drop</p>
+    </div>
+    <div id="settings">
+      <div id="settingsdragbar">
+        <span id="setheader">Settings</span>
+      </div>
+      <button id="closeset">&#10006;</button>
+      <p id="actualsettings">Empty</p>
+    </div>
+    <div id="visual">
+      <table id="laby">
+      </table>
+    </div>
+    <script src="Settings.js"></script>
+    <script src="Lab.js"></script>
+    <script src="Events.js"></script>
+    <script src="ItemEvents.js"></script>
+  </body>
+</html>

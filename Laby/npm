@@ -1,0 +1,11 @@
+download npm
+
+windowsknop + r > cmd
+
+naar labymap gaan in cmd waar package.json staat
+
+npm install
+
+npm install electron -g
+
+electron ( .)
