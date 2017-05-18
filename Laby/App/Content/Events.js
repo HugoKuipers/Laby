@@ -67,14 +67,6 @@ events = function() {
       }
       else {
         m("You return to the giant floating orb. You know that it is important, but don't understand how exactly.");
-        if(player.inventory.includes("Labyrinth Key")) {
-          var goldGain = Math.floor((Math.random()*(51+(player.luck*10))+75));
-          m("You place the key on the pedestal, for a while nothing happens, then a beam of light shoot up from the pedestal to the orb. The orb begins to release light, a little at first, but it quickly becomes blinding. When the light fades a great treasure of gold lies before you, and on the pedestal a giant crystal. In the air, where the orb used to be, a large portal has opened up, leading outside.<br>You have lost the Labyrinth Key.<br>You have gained the Labyrinth's Crystal.");
-          changeInventory("-Labyrinth Key");
-          changeGold(goldGain);
-          changeInventory("Labyrinth's Crystal");
-          createInputOpt(["Yes", "No"], "No");
-        };
       };
       break;
     case "exit":
@@ -191,7 +183,7 @@ events = function() {
         m("blablabal");
       }
       else if(questionAnswer === "No") {
-        m("blablabal");s
+        m("blablabal");
       }
       else {
         m("A secret passage leads you to a small room, dominated by a large circle that is drawn on the floor and filled with strange runes, in the middle of the circle you notice a peculier hole. You are fairly certain this is a magic formation, although if you don't know it's purpose. Once you inspect the room a little closer you see a lever hidden in a corner.<br>Pull the lever?");
@@ -199,7 +191,7 @@ events = function() {
       };
       break;
     case "daedalus":
-      m("A ray of sun shines through a broken part of the labyrinth's ceiling, it touches a large hill covered with beautiful flowers. High on the hill a huge statue of a boy catches your eye, a wooden framework sprouting from it's back. A strange presence fills the room, giving you goosebumps, it seems to demand you to do something for it, but you are unsure what that would be.");
+      m("A ray of sun shines through a broken part of the labyrinth's ceiling, it touches a large hill covered with beautiful flowers. High on the hill a bronze statue of a boy catches your eye, a wooden framework sprouting from it's back. A strange presence fills the room, giving you goosebumps, it seems to demand you to do something for it, but you are unsure what that would be.");
       break;
     case "beehive":
       break;

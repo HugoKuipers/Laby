@@ -1,6 +1,6 @@
 "use strict";
 var dontUseThat = function() {
-  if(forms.firstChild) {
+  if(forms.firstChild || formsitems.firstChild) {
     a("You have something to do first!");
     return true;
   };
@@ -35,7 +35,7 @@ useItemEvents = function(id) {
       switch (laby.rows[player.y].cells[player.x].id) {
         case "treasureSeen":
           var goldGain = Math.floor((Math.random()*(51+(player.luck*10)))+75);
-          m("You place the key on the pedestal, for a while nothing happens, then a beam of light shoot up from the pedestal to the orb. The orb begins to release light, a little at first, but it quickly becomes blinding. When the light fades a great treasure of gold lies before you, and on the pedestal a giant crystal. In the air, where the orb used to be, a large portal has opened up, leading outside.<br>You have gained" + goldGain + " gold.<br>You have lost the Labyrinth Key.<br>You have gained the Labyrinth's Crystal.");
+          m("You place the key on the pedestal, for a while nothing happens, then a beam of light shoot up from the pedestal to the orb. The orb begins to release light, a little at first, but it quickly becomes blinding. When the light fades a great treasure of gold lies before you, and on the pedestal a giant crystal. In the air, where the orb used to be, a large portal has opened up, leading outside.<br>You have lost the Labyrinth Key.<br>You have gained the Labyrinth's Crystal.");
           changeInventory("-Labyrinth Key");
           changeGold(goldGain);
           changeInventory("Labyrinth's Crystal");

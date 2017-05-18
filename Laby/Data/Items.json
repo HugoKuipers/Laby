@@ -2,84 +2,84 @@
   "Labyrinth Key": {
     "name": "Labyrinth Key",
     "hover": "Labyrinth Key",
-    "image": "Images/Key.jpg",
+    "image": "../../Images/Key.jpg",
     "value": "",
     "equip": "no"
   },
   "Makeshift Club": {
     "name": "Makeshift Club",
     "hover": "Makeshift Club",
-    "image": "Images/Club.png",
+    "image": "../../Images/Club.png",
     "value": "",
     "equip": "hands"
   },
   "Labyrinth's Crystal": {
     "name": "Labyrinth's Crystal",
     "hover": "Labyrinth's Crystal",
-    "image": "Images/Crystal.png",
+    "image": "../../Images/Crystal.png",
     "value": "",
     "equip": "no"
   },
   "Strange Artifact": {
     "name": "Strange Artifact",
     "hover": "Strange Artifact",
-    "image": "",
+    "image": "../../Images/StrangeArt.png",
     "value": "",
     "equip": ""
   },
   "Potion": {
     "name": "Potion",
     "hover": "Potion",
-    "image": "Images/Potion.png",
+    "image": "../../Images/Potion.png",
     "value": "20",
     "equip": "no"
   },
   "Cartography Tool": {
     "name": "Cartography Tool",
     "hover": "Cartography Tool",
-    "image": "Images/Passer.png",
+    "image": "../../Images/Passer.png",
     "value": "10",
     "equip": "no"
   },
   "Magic Scroll: Earth": {
     "name": "Magic Scroll: Earth",
     "hover": "Magic Scroll: Earth",
-    "image": "Images/ScrollEarth.png",
+    "image": "../../Images/ScrollEarth.png",
     "value": "",
     "equip": "no"
   },
   "Magic Scroll: Air": {
     "name": "Magic Scroll: Air",
     "hover": "Magic Scroll: Air",
-    "image": "Images/ScrollAir.png",
+    "image": "../../Images/ScrollAir.png",
     "value": "",
     "equip": "no"
   },
   "Magic Scroll: Fire": {
     "name": "Magic Scroll: Fire",
     "hover": "Magic Scroll: Fire",
-    "image": "Images/ScrollFire.png",
+    "image": "../../Images/ScrollFire.png",
     "value": "",
     "equip": "no"
   },
   "Magic Scroll: Water": {
     "name": "Magic Scroll: Water",
     "hover": "Magic Scroll: Water",
-    "image": "Images/ScrollWater.png",
+    "image": "../../Images/ScrollWater.png",
     "value": "",
     "equip": "no"
   },
   "Minotaur Horn": {
     "name": "Minotaur Horn",
     "hover": "Minotaur Horn",
-    "image": "Images/Horn.jpg",
+    "image": "../../Images/Horn.jpg",
     "value": "",
     "equip": "no"
   },
   "Wooden Sword": {
     "name": "Wooden Sword",
     "hover": "Wooden Sword",
-    "image": "Images/Sword.png",
+    "image": "../../Images/Sword.png",
     "value": "",
     "equip": "hands"
   }

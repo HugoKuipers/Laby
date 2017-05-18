@@ -3,9 +3,10 @@
   <head>
     <meta charset="utf-8">
     <title>Labyrinth</title>
-    <link rel="stylesheet" href="Lab.css">
-    <link rel="shortcut icon" href="Images/Torch.jpg">
-    <!-- <script src="Library/jquery-3.2.1.js"></script> -->
+    <link rel="stylesheet" href="../../Css/Lab.css">
+    <link rel="shortcut icon" href="../../Images/Torch.jpg">
+    <script src="Vardoc.js"></script>
+    <script src="Settings.js"></script>
   </head>
   <body>
     <div id="buttons">
@@ -17,15 +18,15 @@
       <button type="button" id="west" disabled class="direction">West</button>
     </div>
     <div id="text">
-      <div id="alertdiv">
+      <div id="alertdiv" class="divintext">
         <p id="alert"></p>
         <p id="prevalert"></p>
       </div>
-      <div id="itemtextdiv">
+      <div id="itemtextdiv" class="divintext">
         <p id="itemtext"></p>
         <p id="formsitems"></p>
       </div>
-      <div id="messagediv">
+      <div id="messagediv" class="divintext">
         <p id="message"></p>
         <p id="forms"></p>
         <p id="prevmessage"></p>
@@ -53,15 +54,16 @@
         <span id="setheader">Settings</span>
       </div>
       <button id="closeset">&#10006;</button>
-      <p id="actualsettings">Empty</p>
+      <p id="actualsettings"></p>
     </div>
     <div id="visual">
       <table id="laby">
       </table>
     </div>
-    <script src="Settings.js"></script>
-    <script src="Lab.js"></script>
-    <script src="Events.js"></script>
-    <script src="ItemEvents.js"></script>
+    <script src="VardocAfter.js"></script>
+    <script src="../Funct/Lab.js"></script>
+    <script src="../Funct/ClickStuff.js"></script>
+    <script src="../Content/Events.js"></script>
+    <script src="../Content/ItemEvents.js"></script>
   </body>
 </html>

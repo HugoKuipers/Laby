@@ -6,7 +6,7 @@ button {
   position: absolute;
   background-color: rgb(166, 250, 227);
   font-family: initial;
-  font-size: 24px;
+  font-size: 1.8em;
   cursor: pointer;
   border-radius: 20px;
   border: 2px solid rgb(20, 140, 107);
@@ -23,24 +23,18 @@ button:focus {
   outline: none;
 }
 
-
-
-div {
-  border: 1px solid red;
-}
-
-
-
-
 #text {
-  width: 27%;
+  width: 40%;
   height: 20%;
-  padding: 10px;
-  position: fixed;
-  left: 88px;
-  top: 600px;
+  position: absolute;
+  left: 0px;
+  top: 30%;
   text-align: center;
-  font-size: 20px;
+  font-size: 1.25em;
+}
+.divintext {
+  padding-left: 20px;
+  padding-right: 20px;
 }
 #alert {
   color: red;
@@ -315,51 +309,51 @@ div {
   background-repeat: no-repeat;
 }
 #laby td.explored {
-  background-image: url("Images/Compass.png");
+  background-image: url("../Images/Compass.png");
   opacity: 0.05;
 }
 #laby td.xmark {
-  background-image: url("Images/BigX.png");
+  background-image: url("../Images/BigX.png");
   opacity: 0.5;
 }
 #laby td.xmark.minotaur {
-  background-image: url("Images/BigXMinotaur.png");
+  background-image: url("../Images/BigXMinotaur.png");
   opacity: 1;
 }
 #laby td.xmark.player {
-  background-image: url("Images/BigXPlayer.png");
+  background-image: url("../Images/BigXPlayer.png");
   opacity: 1;
 }
 #laby td.flagmark {
-  background-image: url("Images/Flag.png");
+  background-image: url("../Images/Flag.png");
   opacity: 0.5;
 }
 #laby td.flagmark.minotaur {
-  background-image: url("Images/FlagMinotaur.png");
+  background-image: url("../Images/FlagMinotaur.png");
   opacity: 1;
 }
 #laby td.flagmark.player {
-  background-image: url("Images/FlagPlayer.png");
+  background-image: url("../Images/FlagPlayer.png");
   opacity: 1;
 }
 #laby td.starmark {
-  background-image: url("Images/Star.png");
+  background-image: url("../Images/Star.png");
   opacity: 0.5;
 }
 #laby td.starmark.minotaur {
-  background-image: url("Images/StarMinotaur.png");
+  background-image: url("../Images/StarMinotaur.png");
   opacity: 1;
 }
 #laby td.starmark.player {
-  background-image: url("Images/StarPlayer.png");
+  background-image: url("../Images/StarPlayer.png");
   opacity: 1;
 }
 #laby td.minotaur {
-  background-image: url("Images/Minotaur.jpeg");
+  background-image: url("../Images/Minotaur.jpeg");
   opacity: 1;
 }
 #laby td.player {
-  background-image: url("Images/Torch.jpg");
+  background-image: url("../Images/Torch.jpg");
   opacity: 1;
 }
 #laby td.wall {}
@@ -372,60 +366,61 @@ div {
   left: 0%;
   top: 0%;
   background-color: rgba(221, 255, 250, 0.8);
-  text-align: center;
 }
 #buttons h1 {
-  font-size: 300%;
+  position: absolute;
+  font-size: 3vw;
   color: rgb(168, 13, 176);
-  top: 10%;
+  left: 8%;
+  top: 3%;
 }
 #enter {
-  top: 30%;
-  left: 30%;
-  height: 4em;
-  width: 12em;
+  top: 25%;
+  left: 25%;
+  height: 10vh;
+  width: 50%;
 }
 #enter:active {
-  top: 31%;
-  left: 29%
+  top: 26%;
+  left: 24%
 }
 #north {
   top: 50%;
-  left: 40%;
-  height: 4em;
-  width: 4em;
+  left: 41%;
+  height: 10vh;
+  width: 10vh;
 }
 #north:active {
   top: 51%;
-  left: 39%;
+  left: 40%;
 }
 #east {
-  top: 65%;
-  left: 55%;
-  height: 4em;
-  width: 4em;
+  top: 60%;
+  left: 61%;
+  height: 10vh;
+  width: 10vh;
 }
 #east:active {
-  top: 66%;
-  left: 54%;
+  top: 61%;
+  left: 60%;
 }
 #south {
-  top: 80%;
-  left: 40%;
-  height: 4em;
-  width: 4em;
+  top: 70%;
+  left: 41%;
+  height: 10vh;
+  width: 10vh;
 }
 #south:active {
-  top: 81%;
-  left: 39%;
+  top: 71%;
+  left: 40%;
 }
 #west {
-  top: 65%;
-  left: 25%;
-  height: 4em;
-  width: 4em;
+  top: 60%;
+  left: 21%;
+  height: 10vh;
+  width: 10vh;
 }
 #west:active {
-  top: 66%;
-  left: 24%;
+  top: 61%;
+  left: 20%;
 }

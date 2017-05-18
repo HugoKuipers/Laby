@@ -1,69 +1,4 @@
 "use strict";
-var jsonItems = $.getJSON("Data/Items.json", function(json) {
-  jsonItems =  json;
-});
-var rooms = ["goblin", "chest", "randomTrap", "merchant", "lab", "riddle", "sky", "daedalus"];
-var traps = ["boulder", "pitfall"];
-var laby = document.getElementById("laby");
-var labyTd = laby.getElementsByTagName("td");
-var alert = document.getElementById("alert");
-var prevAlert = document.getElementById("prevalert");
-var message = document.getElementById("message");
-var prevMessage = document.getElementById("prevmessage");
-var itemText = document.getElementById("itemtext");
-var forms = document.getElementById("forms");
-var openInv = document.getElementById("openinv");
-var inventory = document.getElementById("inventory");
-var dragBar = document.getElementById("dragbar");
-var itemspace = document.getElementById("itemspace");
-var itemImage = itemspace.getElementsByTagName("img");
-var enter = document.getElementById("enter");
-var north = document.getElementById("north");
-var east = document.getElementById("east");
-var south = document.getElementById("south");
-var west = document.getElementById("west");
-var playerClass = document.getElementsByClassName("player");
-var exploredClass = document.getElementsByClassName("explored")
-var visual = document.getElementById("visual");
-var dropdown = $("#dropdown");
-var useDrop = $("#use");
-var dropDrop = $("#drop");
-var events;
-var itemEvents;
-var useItemEvents;
-var questionAnswer;
-var draggable = false;
-var startX;
-var startY;
-var prevM = "";
-var prevA = "";
-var attackAmount = 0;
-var cancelableTimer;
-var cancelNextFunction = 0;
-var inside = 0;
-var inputSize;
-var size;
-var rowsStart;
-var cellsStart;
-var autoWidth;
-var player;
-var minotaur;
-var labyrinth = {
-  width: undefined,
-  height: undefined
-};
-var rowsNr;
-var prevRowsNr = 101;
-var prev2RowsNr = 102;
-var prev3RowsNr = 103;
-var prev4RowsNr = 104;
-var cellsNr;
-var prevCellsNr = 101;
-var prev2CellsNr = 102;
-var prev3CellsNr = 103;
-var prev4CellsNr = 104;
-var newEventLocation;
-
 var setPlayer = function() {
   player = {
     x: Math.floor(labyrinth.width/2),
@@ -157,13 +92,13 @@ var cancelThisFunction = function() {
   };
 };
 
-var createInputNum = function(min, max) {
+var createInputNum = function(min, max, start) {
   var form = document.createElement("form");
   var input = document.createElement("input");
   input.type = "number";
   input.min = min;
   input.max = max;
-  input.value = min;
+  input.value = start;
   input.maxLength = max.length;
   input.step = 1;
   input.id = "inputnum";
@@ -261,12 +196,12 @@ var createInputOptItems = function(n, selected, id) {
       }
       else if(document.getElementById(n[i]).checked === true) {
         questionAnswer = n[i];
-        useItemEvents(id);
-        ableMove(true);
-        questionAnswer = "";
         while (formsitems.firstChild) {
           formsitems.removeChild(formsitems.firstChild);
         };
+        useItemEvents(id);
+        ableMove(true);
+        questionAnswer = "";
       };
     };
   };
@@ -641,6 +576,14 @@ var clickMove = function() {
 var changeLife = function(amount) {
   player.life += amount;
   document.getElementById("life").innerHTML = "Life: " + player.life;
+  if(amount > 0) {
+    message.innerHTML += "<br>You have gained " + amount + " life.";
+    prevM += "<br>You have gained " + amount + " life.";
+  }
+  else if(amount < 0) {
+    amount = amount*-1;
+    a("<br>You have lost " + amount + " gold.");
+  };
   if(player.life <= 0) {
     a("You have died");
     m("Your life has come to an end, but not with nothing to show for it. You think back fondly to all your adventures, and the fortunes they brought you.<br>" + document.getElementById("gold").innerHTML);
@@ -652,21 +595,20 @@ var changeLife = function(amount) {
     while (itemspace.firstChild) {
       itemspace.removeChild(itemspace.firstChild);
     };
-    openSet.style.display = "none";
     laby.innerHTML = "";
     ableMove(false);
   };
 };
 var changeGold = function(amount) {
+  if(amount*-1 > player.gold) amount = player.gold*-1;
   player.gold += amount;
-  if(player.gold < 0) player.gold = 0;
   document.getElementById("gold").innerHTML = "Gold: " + player.gold;
   if(amount > 0) {
     message.innerHTML += "<br>You have gained " + amount + " gold.";
     prevM += "<br>You have gained " + amount + " gold.";
   }
   else if(amount < 0) {
-    amount = amount.replace("-", "");
+    amount = amount*-1;
     message.innerHTML += "<br>You have lost " + amount + " gold.";
     prevM += "<br>You have lost " + amount + " gold.";
   };
@@ -676,6 +618,8 @@ var changeInventory = function(item) {
     var removeRandomItemNum = Math.floor(Math.random()*player.inventory.length);
     player.inventory.splice(removeRandomItemNum, 1);
     itemImage[removeRandomItemNum].remove();
+    message.innerHTML += "<br>You have lost the " + player.inventory[removeRandomItemNum].name + ".";
+    prevM += "<br>You have lost the " + player.inventory[removeRandomItemNum].name + ".";
   }
   else if(item[0] === "-") {
     item = item.replace("-", "");
@@ -684,6 +628,8 @@ var changeInventory = function(item) {
       var removeThisItem = player.inventory.indexOf(item);
       player.inventory.splice(removeThisItem, 1);
       itemImage[removeThisItem].remove();
+      message.innerHTML += "<br>You have lost the " + item + ".";
+      prevM += "<br>You have lost the " + item + ".";
     };
   }
   else {
@@ -699,192 +645,5 @@ var changeInventory = function(item) {
       itemEvents(this.id ,e);
     })
     $("#itemspace").append(newItemImgTag);
-  };
-};
-
-document.onkeydown = function(e) {
-  switch(e.keyCode) {
-    case 13:
-      e.preventDefault();
-      if(forms.innerHTML !== "") {
-        document.getElementById("submitinput").click();
-      }
-      else if(formsitems.innerHTML !== "") {
-        document.getElementById("submitinput").click();
-      }
-      else {
-        enter.click();
-      };
-      break;
-    case 27:
-      e.preventDefault();
-      if(settings.style.display === "none" || settings.style.display === "") {
-        openSet.click();
-      }
-      else {
-        document.getElementById("closeset").click();
-      };
-      break;
-    case 37:
-      e.preventDefault();
-      if(forms.innerHTML !== "" && forms.firstChild.firstChild === document.getElementById("inputnum")) {
-        document.getElementById("inputnum").value = document.getElementById("inputnum").min;
-      }
-      else if((forms.innerHTML !== "" && forms.firstChild.firstChild === document.getElementsByName("choice")[0]) || (formsitems.innerHTML !== "" && formsitems.firstChild.firstChild === document.getElementsByName("choice")[0])) {
-        document.getElementsByName("choice")[0].checked = true;
-      }
-      else {
-        west.click();
-      };
-      break;
-    case 38:
-      e.preventDefault();
-      if(forms.innerHTML !== "" && forms.firstChild.firstChild === document.getElementById("inputnum")) {
-        document.getElementById("inputnum").value = parseInt(document.getElementById("inputnum").value) + 1;
-        if(parseInt(document.getElementById("inputnum").value) > parseInt(document.getElementById("inputnum").max)) {
-          document.getElementById("inputnum").value = parseInt(document.getElementById("inputnum").value) - 1;
-        };
-      }
-      else if((forms.innerHTML !== "" && forms.firstChild.firstChild === document.getElementsByName("choice")[0]) || (formsitems.innerHTML !== "" && formsitems.firstChild.firstChild === document.getElementsByName("choice")[0])) {
-        for(var i = 0; i < document.getElementsByName("choice").length; i++) {
-          if(document.getElementsByName("choice")[i].checked === true) {
-            if(i === 0) {
-              return;
-            };
-            document.getElementsByName("choice")[i-1].checked = true;
-          };
-        };
-      }
-      else {
-        north.click();
-      };
-      break;
-    case 39:
-      e.preventDefault();
-      if(forms.innerHTML !== "" && forms.firstChild.firstChild === document.getElementById("inputnum")) {
-        document.getElementById("inputnum").value = document.getElementById("inputnum").max;
-      }
-      else if((forms.innerHTML !== "" && forms.firstChild.firstChild === document.getElementsByName("choice")[0]) || (formsitems.innerHTML !== "" && formsitems.firstChild.firstChild === document.getElementsByName("choice")[0])) {
-        for(var i in document.getElementsByName("choice")) {
-          document.getElementsByName("choice")[document.getElementsByName("choice").length - 1].checked = true;
-        };
-      }
-      else {
-        east.click();
-      };
-      break;
-    case 40:
-      e.preventDefault();
-      if(forms.innerHTML !== "" && forms.firstChild.firstChild === document.getElementById("inputnum")) {
-        document.getElementById("inputnum").value = parseInt(document.getElementById("inputnum").value) - 1;
-        if(parseInt(document.getElementById("inputnum").value) < parseInt(document.getElementById("inputnum").min)) {
-          document.getElementById("inputnum").value = parseInt(document.getElementById("inputnum").value) + 1;
-        };
-      }
-      else if((forms.innerHTML !== "" && forms.firstChild.firstChild === document.getElementsByName("choice")[0]) || (formsitems.innerHTML !== "" && formsitems.firstChild.firstChild === document.getElementsByName("choice")[0])) {
-        for(var i = 0; i < document.getElementsByName("choice").length; i++) {
-          if(document.getElementsByName("choice")[i].checked === true) {
-            if(i === document.getElementsByName("choice").length - 1) {
-              return;
-            };
-            document.getElementsByName("choice")[i+1].checked = true;
-            return;
-          };
-        };
-      }
-      else {
-        south.click();
-      };
-      break;
-    case 73:
-      if(inventory.style.display === "none" || inventory.style.display === "") {
-        openInv.click();
-      }
-      else if(inventory.style.display === "initial") {
-        document.getElementById("closeinv").click();
-      };
-      break;
-  };
-};
-
-enter.onclick = function() {
-  if(inside <= 0) {
-    m("What size labyrinth would you like to enter?");
-    a("");
-    enter.style.display = "none";
-    document.getElementById("welcome").style.display = "none";
-    createInputNum(5, 15);
-    document.getElementById("submitinput").onclick = function() {
-      if(document.getElementById("inputnum").value < 5 || document.getElementById("inputnum").value > 15) return;
-      inputSize = document.getElementById("inputnum").value;
-      size = parseInt(inputSize);
-      setLabyrinth();
-      a("");
-      events();
-      while (forms.firstChild) {
-        forms.removeChild(forms.firstChild);
-      };
-    };
-    inside = 0;
-  }
-  else if(inside === 2) {
-    a("You're already inside!");
-  }
-  else if(inside > 13) {
-    a("A curse lowers your life!");
-    changeLife(-1);
-  }
-  else if(inside > 12) {
-    a("I'm going to start killing you now, don't say I didn't warn you!");
-  }
-  else if(inside > 6) {
-    a("Stop clicking that damned button!!");
-  }
-  else if(inside > 2) {
-    a("Like I've said before, you're already inside!");
-  }
-  else {
-    a("You're already inside");
-  };
-  inside += 1;
-};
-
-north.onclick = function() {
-  move("y", false);
-};
-east.onclick = function() {
-  move("x", true);
-};
-south.onclick = function() {
-  move("y", true);
-};
-west.onclick = function() {
-  move("x", false);
-};
-
-openInv.onclick = function() {
-  if(openInv.style.display === "") return;
-  inventory.style.display = "initial";
-};
-document.getElementById("closeinv").onclick = function() {
-  inventory.style.display = "none";
-};
-dragBar.onmousedown = function(e) {
-  e.preventDefault();
-  draggable = true;
-  startX = e.clientX;
-  startY = e.clientY;
-  onmouseup = function(e) {
-    draggable = false;
-  };
-  onmousemove = function(e) {
-    e.preventDefault();
-    if(!draggable) return;
-    var deltaX = e.clientX - startX;
-    var deltaY = e.clientY - startY;
-    inventory.style.left = deltaX + inventory.offsetLeft + "px";
-    inventory.style.top = deltaY + inventory.offsetTop + "px";
-    startX = e.clientX;
-    startY = e.clientY;
   };
 };
