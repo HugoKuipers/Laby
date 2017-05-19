@@ -1,0 +1,38 @@
+{
+  "total": {
+    "clearTimes": "0",
+    "largestSizeClear": "0",
+    "mostGoldTakenHome": "0",
+    "goldTakenHome": "0",
+    "totalGold": "0",
+    "mostPoints": "0",
+    "pointsTotal": "0",
+  },
+  "easy": {
+    "clearTimes": "0",
+    "largestSizeClear": "0",
+    "mostGoldTakenHome": "0",
+    "goldTakenHome": "0",
+    "totalGold": "0",
+    "mostPoints": "0",
+    "pointsTotal": "0",
+  },
+  "normal": {
+    "clearTimes": "0",
+    "largestSizeClear": "0",
+    "mostGoldTakenHome": "0",
+    "goldTakenHome": "0",
+    "totalGold": "0",
+    "mostPoints": "0",
+    "pointsTotal": "0",
+  },
+  "hard": {
+    "clearTimes": "0",
+    "largestSizeClear": "0",
+    "mostGoldTakenHome": "0",
+    "goldTakenHome": "0",
+    "totalGold": "0",
+    "mostPoints": "0",
+    "pointsTotal": "0",
+  },
+}

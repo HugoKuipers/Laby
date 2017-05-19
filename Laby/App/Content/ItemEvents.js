@@ -5,6 +5,11 @@ var dontUseThat = function() {
     return true;
   };
 };
+var drinkPotion = function() {
+  y("You examine the potion a bit closer, it smells somewhat funny, but it should be fine to drink it. You take a small sip at first... It tastes great! You quickly gulp down the entire potion.<br>You have gained 2 life.");
+  changeLife(2);
+  changeInventory("-Potion");
+};
 itemEvents = function(id, e) {
   dropDrop.off("click");
   useDrop.off("click");
@@ -81,14 +86,22 @@ useItemEvents = function(id) {
       break;
     case "Potion":
       switch (laby.rows[player.y].cells[player.x].id) {
-        case "asdf":
-          m("");
+        case "goblinDead":
+          if(deadGobPotTry === 0) {
+            y("Magical potions can do a lot of things, but they won't raise the dead.");
+            deadGobPotTry += 1;
+          }
+          else if(deadGobPotTry === 1) {
+            y("Look what's dead stays dead, one little potion isn't going to change that.");
+            deadGobPotTry += 1;
+          }
+          else {
+            drinkPotion();
+          };
           break;
         default:
           if(dontUseThat()) return;
-          y("You examine the potion a bit closer, it smells somewhat funny, but it should be fine to drink it. You take a small sip at first... It tastes great! You quickly gulp down the entire potion.<br>You have gained 2 life.");
-          changeLife(2);
-          changeInventory("-Potion");
+          drinkPotion();
       };
       break;
     case "Cartography Tool":

@@ -22,6 +22,7 @@ var startY;
 var prevM = "";
 var prevA = "";
 var attackAmount = 0;
+var deadGobPotTry = 0;
 var cancelableTimer;
 var cancelNextFunction = 0;
 var inside = 0;

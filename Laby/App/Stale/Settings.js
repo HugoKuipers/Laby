@@ -1,22 +1,26 @@
 "use strict";
-fs.readFile("Data/Settings.json", function(err, data) {
-  if(err) return;
-  jsonSettings = JSON.parse(data);
-  switch (jsonSettings.actualSettings.Difficulty) {
-    case "Easy":
-      difficulty = easy;
-      break;
-    case "Normal":
-      difficulty = normal;
-      break;
-    case "Hard":
-      difficulty = hard;
-      break;
-    default:
-      difficulty = easy;
-  };
-  defaultSize = parseInt(jsonSettings.actualSettings["Preferred Size"]);
-});
+var readSettings = function() {
+  fs.readFile("Data/Settings.json", function(err, data) {
+    if(err) return;
+    jsonSettings = JSON.parse(data);
+    switch (jsonSettings.actualSettings.Difficulty) {
+      case "Easy":
+        difficulty = easy;
+        break;
+      case "Normal":
+        difficulty = normal;
+        break;
+      case "Hard":
+        difficulty = hard;
+        break;
+      default:
+        difficulty = easy;
+    };
+    defaultSize = parseInt(jsonSettings.actualSettings["Preferred Size"]);
+  });
+};
+
+readSettings();
 
 var writeSettings = function() {
   let jsonSettingsString = JSON.stringify(jsonSettings);
@@ -63,5 +67,12 @@ var createSettings = function() {
   var applySettings = document.createElement("button");
   applySettings.type = "button";
   applySettings.innerHTML = "Apply";
+  applySettings.id = "applyset";
+  applySettings.onclick = function() {
+    for(var i = 0; i < actualSettings.childNodes.length - 1; i++) {
+      jsonSettings.actualSettings[actualSettings.childNodes[i].id] = actualSettings.childNodes[i].childNodes[2].innerHTML;
+    };
+    writeSettings();
+  };
   actualSettings.appendChild(applySettings);
 };

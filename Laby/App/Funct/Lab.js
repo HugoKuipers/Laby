@@ -467,7 +467,7 @@ var move = function(xy, posmin) {
   else {
     a("");
     laby.rows[prevY].cells[prevX].classList.remove("player");
-    laby.rows[prevY].cells[prevX].className += " explored";
+    if($(laby.rows[prevY].cells[prevX]).hasClass("explored") === false) laby.rows[prevY].cells[prevX].className += " explored";
     laby.rows[player.y].cells[player.x].className += " player";
     clearTimeout(cancelableTimer);
     minoMove();

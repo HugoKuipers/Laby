@@ -169,7 +169,15 @@ events = function() {
       m("something later");
       break;
     case "sky":
-      m("something later");
+      if(questionAnswer === "") {
+
+      }
+      else if(questionAnswer === "") {
+
+      }
+      else {
+        m("You have entered a large open space with an elevated stone platform in middle. After climbing up you behold the scenery before you: a small pond filled with crystal clear water, surrounded by a field of the flowers in the most beautiful colors, the air buzzing with bees, and a single large oak standing by the water. You are overcome with a feeling of calm, ");
+      };
       break;
     case "entrance":
       m("You stand at the entrance of a massive labyrinth. You are nervous, for this labyrinth is known to be the death of many a brave adventurer. You take a deep breath, light your torch, and step inside. With a loud rumbling the entrance closes behind you on it's own, there is no way back now.");
@@ -192,6 +200,9 @@ events = function() {
       break;
     case "daedalus":
       m("A ray of sun shines through a broken part of the labyrinth's ceiling, it touches a large hill covered with beautiful flowers. High on the hill a bronze statue of a boy catches your eye, a wooden framework sprouting from it's back. A strange presence fills the room, giving you goosebumps, it seems to demand you to do something for it, but you are unsure what that would be.");
+      laby.rows[player.y].cells[player.x].id = "returnDaedalus";
+      break;
+    case "returnDaedalus":
       break;
     case "beehive":
       break;

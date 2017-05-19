@@ -17,15 +17,16 @@ function createWindow() {
         height: 1080,
         minWidth: 1920,
         minHeight: 1080,
-        titleBarStyle: "hidden"
+        titleBarStyle: "hidden",
+        //fullscreen: true
     })
-
+    mainWindow.maximize();
     // and load the index.html of the app.
     mainWindow.loadURL(`file://${__dirname}/App/Stale/Lab.html`)
 
     // Open the DevTools.
     mainWindow.webContents.openDevTools({
-        mode: "undocked"
+        mode: "docked"
     })
 
     // Emitted when the window is closed.
