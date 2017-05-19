@@ -153,6 +153,10 @@ useItemEvents = function(id) {
       };
       break;
     case "Magic Scroll: Fire":
+      if(laby.rows[player.y].cells[player.x].classList.contains("minotaur")) {
+        m("it's alive");
+        return;
+      };
       switch (laby.rows[player.y].cells[player.x].id) {
         case "asdf":
           m("");

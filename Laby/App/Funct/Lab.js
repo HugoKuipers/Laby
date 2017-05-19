@@ -6,7 +6,8 @@ var setPlayer = function() {
     life: 5,
     gold: 0,
     luck: 0,
-    inventory: []
+    inventory: [],
+    points: 0
   };
   attackAmount = 0;
   changeInventory("Cartography Tool");
@@ -377,10 +378,24 @@ var setLabyrinth = function() {
   clickMove();
 };
 
-var exitLabyrinth = function() {
-  inside = 0;
+var resetPage = function(clear) {
+  inside = -1;
+  document.getElementById("life").innerHTML = "";
+  document.getElementById("gold").innerHTML = "";
+  openInv.style.display = "none";
+  inventory.style.display = "none";
+  while (itemspace.firstChild) {
+    itemspace.removeChild(itemspace.firstChild);
+  };
   laby.innerHTML = "";
   ableMove(false);
+  if(clear) {
+    for(var i = 0; i < player.inventory.length; i++) {
+      player.points += player.inventory[i].value;
+    };
+    player.points += player.gold;
+  };
+  editStats(clear);
 };
 
 var viewRow = function(l, kMin, kMax) {
@@ -480,7 +495,7 @@ var randomMove = function() {
   var prevX = player.x;
   var prevY = player.y;
   laby.rows[prevY].cells[prevX].classList.remove("player");
-  laby.rows[player.y].cells[player.x].className += " explored";
+  if($(laby.rows[prevY].cells[prevX]).hasClass("explored") === false) laby.rows[prevY].cells[prevX].className += " explored";
   player.x = Math.floor(Math.random()*labyrinth.width);
   player.y = Math.floor(Math.random()*size);
   if(laby.rows[player.y].cells[player.x].className === "wall" || laby.rows[player.y].cells[player.x] === laby.rows[prevY].cells[prevX]) {
@@ -582,21 +597,12 @@ var changeLife = function(amount) {
   }
   else if(amount < 0) {
     amount = amount*-1;
-    a("<br>You have lost " + amount + " gold.");
+    a("<br>You have lost " + amount + " life.");
   };
   if(player.life <= 0) {
     a("You have died");
     m("Your life has come to an end, but not with nothing to show for it. You think back fondly to all your adventures, and the fortunes they brought you.<br>" + document.getElementById("gold").innerHTML);
-    inside = -1;
-    document.getElementById("life").innerHTML = "";
-    document.getElementById("gold").innerHTML = "";
-    openInv.style.display = "none";
-    inventory.style.display = "none";
-    while (itemspace.firstChild) {
-      itemspace.removeChild(itemspace.firstChild);
-    };
-    laby.innerHTML = "";
-    ableMove(false);
+    resetPage(false);
   };
 };
 var changeGold = function(amount) {
@@ -616,16 +622,17 @@ var changeGold = function(amount) {
 var changeInventory = function(item) {
   if(item === "-random") {
     var removeRandomItemNum = Math.floor(Math.random()*player.inventory.length);
+    let removeItemName = player.inventory[removeRandomItemNum].name;
     player.inventory.splice(removeRandomItemNum, 1);
     itemImage[removeRandomItemNum].remove();
-    message.innerHTML += "<br>You have lost the " + player.inventory[removeRandomItemNum].name + ".";
-    prevM += "<br>You have lost the " + player.inventory[removeRandomItemNum].name + ".";
+    message.innerHTML += "<br>You have lost the " + removeItemName + ".";
+    prevM += "<br>You have lost the " + removeItemName + ".";
   }
   else if(item[0] === "-") {
     item = item.replace("-", "");
-    item = jsonItems[item];
-    if(player.inventory.includes(item)) {
-      var removeThisItem = player.inventory.indexOf(item);
+    itemJ = jsonItems[item];
+    if(player.inventory.includes(itemJ)) {
+      var removeThisItem = player.inventory.indexOf(itemJ);
       player.inventory.splice(removeThisItem, 1);
       itemImage[removeThisItem].remove();
       message.innerHTML += "<br>You have lost the " + item + ".";
@@ -646,4 +653,8 @@ var changeInventory = function(item) {
     })
     $("#itemspace").append(newItemImgTag);
   };
+};
+
+var exitLabyrinth = function() {
+  resetPage(true);
 };

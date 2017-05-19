@@ -7,9 +7,10 @@ var jsonItems = $.getJSON("../../Data/Items.json", function(json) {
 const easy = ["treasure", "key"];
 const normal = ["treasureTwo", "keyTwo1", "keyTwo2"];
 const hard = ["treasureThree", "keyThree1", "keyThree2", "keyThree3"];
-var rooms = ["goblin", "chest", "randomTrap", "merchant", "lab", "riddle", "sky", "daedalus", "teleporter"];
+var rooms = ["goblin", "chest", "randomTrap", "merchant", "lab", "riddle", "nap", "daedalus", "teleporter"];
 var traps = ["boulder", "pitfall"];
 var jsonSettings;
+var jsonStats;
 var difficulty;
 var defaultSize;
 var events;

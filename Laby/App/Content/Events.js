@@ -7,7 +7,6 @@ events = function() {
           if(laby.rows[player.y].cells[player.x].id === "goblin") {
             if(attackAmount < 3) {
               m("After a while of staring at eachother, the goblin seems to make up it's mind. Suddenly it rushes at you and attacks with a makeshift club.");
-              a("You have lost 1 life.");
               changeLife(-1);
               attackAmount += 1;
               cancelableTimer = setTimeout(function() {
@@ -35,7 +34,7 @@ events = function() {
         m("Your eyes begin to water, your head start to spin, the smell of death is all around you, you have to get out of here.");
         cancelableTimer = setTimeout(function() {
           var goldLoss = Math.floor((Math.random()*11)+10);
-          m("Your conciousness starts to fade, slowly everything goes black as you slip into a deep sleep. When you wake up it feels af if a considerable amount of time has passed. Looking around you notice the absence of the goblin's carcass, and the smell that accompanies it. As you get up your pockets feel lighter than you remember, it seems you have been robbed while you were out cold.<br>You have lost an item.");
+          m("Your conciousness starts to fade, slowly everything goes black as you slip into a deep sleep. When you wake up it feels af if a considerable amount of time has passed. Looking around you notice the absence of the goblin's carcass, and the smell that accompanies it. As you get up your pockets feel lighter than you remember, it seems you have been robbed while you were out cold.");
           changeGold(-goldLoss);
           changeInventory("-random");
         }, 10000);
@@ -43,18 +42,8 @@ events = function() {
       laby.rows[player.y].cells[player.x].id = "goblinDeadGone";
       break;
     case "treasure":
-      if(questionAnswer === "Yes") {
-        m("You decide to leave the labyrinth alive, much richer than when you first entered.");
-        exitLabyrinth();
-      }
-      else if(questionAnswer === "No") {
-        m("You decide to keep exploring the labyrinth.");
-        laby.rows[player.y].cells[player.x].id = "exit";
-      }
-      else {
-        m("A giant orb made of some kind of metal floats in the air before you, a pedestal stands in it's shadow, requiring some kind of key to activate and unlock it's secrets.");
-        laby.rows[player.y].cells[player.x].id = "treasureSeen";
-      };
+      m("A giant orb made of some kind of metal floats in the air before you, a pedestal stands in it's shadow, requiring some kind of key to activate and unlock it's secrets.");
+      laby.rows[player.y].cells[player.x].id = "treasureSeen";
       break;
     case "treasureSeen":
       if(questionAnswer === "Yes") {
@@ -158,7 +147,7 @@ events = function() {
       addEvent("merchant");
       break;
     case "lab":
-      m("In a cavern you discover an alchemical lab, it seems like it was abandoned just recently and in a hurry, and hasn't been found by the local inhabitants yet. There are old tomes and empty flasks of glass scattered about, but you lack the understanding required to really understand what the owner was trying to accomplish. Just as you start to grow bored, you notice a flask still containing some liquid behind a large pile of rocks, the owner must have missed it when they made their escape. You take the flask and want to continue looking around, but then you hear heavy footsteps approaching, and decide not to find out who they belong to.<br>You have gained a Potion.");
+      m("In a cavern you discover an alchemical lab, it seems like it was abandoned just recently and in a hurry, and hasn't been found by the local inhabitants yet. There are old tomes and empty flasks of glass scattered about, but you lack the understanding required to really understand what the owner was trying to accomplish. Just as you start to grow bored, you notice a flask still containing some liquid behind a large pile of rocks, the owner must have missed it when they made their escape. You take the flask and want to continue looking around, but then you hear heavy footsteps approaching, and decide not to find out who, or what, they belong to.<br>You have gained a Potion.");
       changeInventory("Potion");
       laby.rows[player.y].cells[player.x].id = "labAgain";
       break;
@@ -168,16 +157,28 @@ events = function() {
     case "riddle":
       m("something later");
       break;
-    case "sky":
-      if(questionAnswer === "") {
-
+    case "nap":
+      if(questionAnswer === "Yes") {
+        m("napy nap nap");
+        let napTime = 5 - player.life;
+        if(napTime < 0) napTime = 0;
+        changeLife(napTime);
+        for(var i = -1; i < napTime; i++) {
+          minoMove();
+        };
+        viewMap();
+        laby.rows[player.y].cells[player.x].id = "napAgain";
       }
-      else if(questionAnswer === "") {
-
+      else if(questionAnswer === "No") {
+        m("The whole situation seems too good to be true, you'll find some other place to rest.");
+        laby.rows[player.y].cells[player.x].id = "napAgain";
       }
       else {
-        m("You have entered a large open space with an elevated stone platform in middle. After climbing up you behold the scenery before you: a small pond filled with crystal clear water, surrounded by a field of the flowers in the most beautiful colors, the air buzzing with bees, and a single large oak standing by the water. You are overcome with a feeling of calm, ");
+        m("You have entered a large open space with an elevated stone platform in middle. After climbing up you behold the scenery before you: a small pond filled with crystal clear water, surrounded by a field of the flowers in the most beautiful colors, the air buzzing with bees, and a single large oak standing by the water. You are overcome with a feeling of calm, after all the dangers of the labyrinth this seems like the perfect place to get some rest.<br>Take a nap?");
+        createInputOpt(["Yes", "No"], "Yes");
       };
+      break;
+    case "napAgain":
       break;
     case "entrance":
       m("You stand at the entrance of a massive labyrinth. You are nervous, for this labyrinth is known to be the death of many a brave adventurer. You take a deep breath, light your torch, and step inside. With a loud rumbling the entrance closes behind you on it's own, there is no way back now.");
@@ -206,11 +207,10 @@ events = function() {
       break;
     case "beehive":
       break;
+    case "apprentice":
+      break;
     default:
-      for(var i = 0; i < laby.rows[player.y].cells[player.x].classList.length; i++) {
-        if(laby.rows[player.y].cells[player.x].classList[i] === "explored") var ex = true;
-      };
-      if(ex) {
+      if(laby.rows[player.y].cells[player.x].classList.contains("explored")) {
         m("You backtrack quickly through a previously explored section of the labyrinth.");
       }
       else {
