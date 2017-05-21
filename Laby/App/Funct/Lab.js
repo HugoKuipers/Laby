@@ -112,7 +112,7 @@ var createInputNum = function(min, max, start) {
   form.appendChild(submitInput);
   forms.appendChild(form);
 };
-var createInputOpt = function(n, selected) {
+var createInputOpt = function(n, selected, place, id) {
   ableMove(false);
   var form = document.createElement("form");
   var submitInput = document.createElement("button");
@@ -133,7 +133,7 @@ var createInputOpt = function(n, selected) {
   submitInput.innerHTML = "Go!";
   submitInput.id = "submitinput";
   form.appendChild(submitInput);
-  forms.appendChild(form);
+  place.appendChild(form);
   if(selected) document.getElementById(selected).checked = true;
   // document.getElementById("Just walk away").onclick = function() {
   //   ableMove(true);
@@ -145,63 +145,20 @@ var createInputOpt = function(n, selected) {
     // };  /////wat als je de pijltjes gebruikt?
   document.getElementById("submitinput").onclick = function() {
     for(var i in n) {
-      if(forms.innerHTML === "") {
+      if(place.innerHTML === "") {
         return
       }
       else if(document.getElementById(n[i]).checked === true) {
         questionAnswer = n[i];
-        events();
-        ableMove(true);
-        questionAnswer = "";
-        while (forms.firstChild) {
-          forms.removeChild(forms.firstChild);
+        while (place.firstChild) {
+          place.removeChild(place.firstChild);
         };
-      };
-    };
-  };
-};
-var createInputOptItems = function(n, selected, id) {
-  ableMove(false);
-  var form = document.createElement("form");
-  var submitInput = document.createElement("button");
-  for(var i in n) {
-    var radio = document.createElement("input");
-    radio.type = "radio";
-    radio.value = n[i];
-    radio.id = n[i];
-    radio.checked = false;
-    radio.name = "choice"
-    var label = document.createElement("label");
-    label.htmlFor = n[i];
-    label.innerHTML = n[i] + "<br>";
-    form.appendChild(radio);
-    form.appendChild(label);
-  };
-  submitInput.type = "button";
-  submitInput.innerHTML = "Go!";
-  submitInput.id = "submitinput";
-  form.appendChild(submitInput);
-  formsitems.appendChild(form);
-  if(selected) document.getElementById(selected).checked = true;
-  // document.getElementById("Just walk away").onclick = function() {
-  //   ableMove(true);
-  //   document.getElementById("submitinput").disabled = true;
-  // };
-    //     ableMove(false);
-    //     document.getElementById("submitinput").disabled = false;
-    //   };
-    // };  /////wat als je de pijltjes gebruikt?
-  document.getElementById("submitinput").onclick = function() {
-    for(var i in n) {
-      if(formsitems.innerHTML === "") {
-        return
-      }
-      else if(document.getElementById(n[i]).checked === true) {
-        questionAnswer = n[i];
-        while (formsitems.firstChild) {
-          formsitems.removeChild(formsitems.firstChild);
+        if(place === forms) {
+          events();
+        }
+        else {
+          useItemEvents(id);
         };
-        useItemEvents(id);
         ableMove(true);
         questionAnswer = "";
       };
@@ -357,7 +314,7 @@ var setLabyrinth = function() {
   };
   createPath();
   setMinotaur();
-  laby.rows[minotaur.y].cells[minotaur.x].className = "minotaur";
+  laby.rows[minotaur.y].cells[minotaur.x].className = "hiddenminotaur";
   for(var data in rooms) {
     addEvent(rooms[data]);
   };
@@ -402,13 +359,19 @@ var resetPage = function(clear) {
 var viewRow = function(l, kMin, kMax) {
   var locationIndex = ((laby.rows[player.y].rowIndex * labyrinth.width) + laby.rows[player.y].cells[player.x].cellIndex);
   for(var k = kMin; k < kMax; k++) {
-    if(labyTd[locationIndex +(labyrinth.width*k) +l].className === "wall") {
+    if(labyTd[locationIndex +(labyrinth.width*k) +l].classList.contains("wall")) {
       labyTd[locationIndex +(labyrinth.width*k) +l].style.backgroundColor = "rgb(28, 16, 4)";
       labyTd[locationIndex +(labyrinth.width*k) +l].style.border = "0.1em solid rgb(28, 16, 4)";
+    };
+    if(labyTd[locationIndex +(labyrinth.width*k) +l].classList.contains("hiddenminotaur") && labyTd[locationIndex +(labyrinth.width*k) +l].classList.contains("minotaur") === false) {
+      labyTd[locationIndex +(labyrinth.width*k) +l].classList += " minotaur";
     };
   };
 };
 var viewMap = function() {
+  for(var i = 0; i < minoClass.length; i++) {
+    minoClass[0].classList.remove("minotaur");
+  };
   if(laby.rows[player.y].rowIndex !== 0 && laby.rows[player.y].rowIndex !== size && laby.rows[player.y].cells[player.x].cellIndex !== 0 && laby.rows[player.y].cells[player.x].cellIndex !== labyrinth.width - 1) {
     for(var l = -1; l < 2; l++) {
       viewRow(l, -1, 2);
@@ -436,14 +399,15 @@ var viewMap = function() {
   };
 };
 
-var minoCheck = function() {
+var minoCheck = function(n) {
   if(laby.rows[minotaur.y].cells[minotaur.x] === laby.rows[player.y].cells[player.x]) {
-    cancelNextFunction += 1;
+    m("You are walking through a long and narrow corridor when you hear a wild snorting behind you, turning around you see the minotaur, the great beast of the labyrinth.");
+    cancelNextFunction += n;
   };
 };
 var minoMove = function() {
   if(minotaur.life <= 0) return;
-  minoCheck();
+  minoCheck(2);
   if(cancelThisFunction()) return;
   var minoPrevX = minotaur.x;
   var minoPrevY = minotaur.y;
@@ -465,10 +429,10 @@ var minoMove = function() {
     minotaur.y = minoPrevY;
   }
   else {
-    laby.rows[minoPrevY].cells[minoPrevX].classList.remove("minotaur");
-    laby.rows[minotaur.y].cells[minotaur.x].className += " minotaur";
+    laby.rows[minoPrevY].cells[minoPrevX].classList.remove("hiddenminotaur");
+    laby.rows[minotaur.y].cells[minotaur.x].className += " hiddenminotaur";
   };
-  minoCheck();
+  minoCheck(1);
 };
 
 var move = function(xy, posmin) {

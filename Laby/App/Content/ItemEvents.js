@@ -44,7 +44,7 @@ useItemEvents = function(id) {
           changeInventory("-Labyrinth Key");
           changeGold(goldGain);
           changeInventory("Labyrinth's Crystal");
-          createInputOpt(["Yes", "No"], "No");
+          createInputOpt(["Yes", "No"], "No", forms);
           break;
         default:
           if(dontUseThat()) return;
@@ -128,7 +128,7 @@ useItemEvents = function(id) {
           }
           else {
             y("The cartography tool can be used to mark down places of interest on your map.<br>Would you like to place a mark on your current position?");
-            createInputOptItems(["Flag mark", "X mark", "Star mark", "No"], "No", id);
+            createInputOpt(["Flag mark", "X mark", "Star mark", "No"], "No", formsitems, id);
           };
       };
       break;
@@ -170,6 +170,36 @@ useItemEvents = function(id) {
       switch (laby.rows[player.y].cells[player.x].id) {
         case "asdf":
           m("");
+          break;
+        default:
+          if(dontUseThat()) return;
+          y("");
+      };
+      break;
+    case "Geese Feathers":
+      switch (laby.rows[player.y].cells[player.x].id) {
+        case "returnDaedalus":
+          if(player.inventory.includes(jsonItems["Beeswax"])) {
+            m("Using the beeswax as glue you attach the feathers to the wooden framework on the back of the statue,");
+          }
+          else {
+            y("You attempt to attach the feathers to the back of the statue, however they keep falling down. You'll need something to make them stick together.");
+          };
+          break;
+        default:
+          if(dontUseThat()) return;
+          y("");
+      };
+      break;
+    case "Beeswax":
+      switch (laby.rows[player.y].cells[player.x].id) {
+        case "returnDaedalus":
+          if(player.inventory.includes(jsonItems["Geese Feathers"])) {
+            m("Using the beeswax as glue you attach the feathers to the wooden framework on the back of the statue,");
+          }
+          else {
+            y("You .");
+          };
           break;
         default:
           if(dontUseThat()) return;

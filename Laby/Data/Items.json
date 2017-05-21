@@ -82,5 +82,26 @@
     "image": "../../Images/Sword.png",
     "value": 0,
     "equip": "hands"
+  },
+  "Beeswax": {
+    "name": "Beeswax",
+    "hover": "Beeswax",
+    "image": "../../Images/Beeswax.png",
+    "value": 0,
+    "equip": "no"
+  },
+  "": {
+    "name": "",
+    "hover": "",
+    "image": "../../Images/Honey.jpg",
+    "value": 0,
+    "equip": "no"
+  },
+  "Geese Feathers": {
+    "name": "Geese Feathers",
+    "hover": "Geese Feathers",
+    "image": "../../Images/Feathers.png",
+    "value": 0,
+    "equip": "no"
   }
 }

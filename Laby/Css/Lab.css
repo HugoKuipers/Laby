@@ -357,6 +357,7 @@ button:focus {
   background-image: url("../Images/StarPlayer.png");
   opacity: 1;
 }
+#laby td.hiddenminotaur{}
 #laby td.minotaur {
   background-image: url("../Images/Minotaur.jpeg");
   opacity: 1;

@@ -1,5 +1,6 @@
 "use strict";
 events = function() {
+  if(cancelThisFunction()) return;
   switch(laby.rows[player.y].cells[player.x].id) {
     case "goblin":
       var goblinAttack = function() {
@@ -68,7 +69,7 @@ events = function() {
       }
       else {
         m("The portal that opened up here still remains, releasing an enticing glow.<br>Would you like to exit the labyrinth?");
-        createInputOpt(["Yes", "No"], "No");
+        createInputOpt(["Yes", "No"], "No", forms);
       };
       break;
     case "key":
@@ -130,7 +131,7 @@ events = function() {
       }
       else {
         m("You find an unopened treasure chest, it's not even hidden at all, just lying about in the open.<br>Would you like to open the chest?");
-        createInputOpt(["Yes", "No"], "Yes");
+        createInputOpt(["Yes", "No"], "Yes", forms);
       };
       break;
     case "chestGone":
@@ -175,10 +176,11 @@ events = function() {
       }
       else {
         m("You have entered a large open space with an elevated stone platform in middle. After climbing up you behold the scenery before you: a small pond filled with crystal clear water, surrounded by a field of the flowers in the most beautiful colors, the air buzzing with bees, and a single large oak standing by the water. You are overcome with a feeling of calm, after all the dangers of the labyrinth this seems like the perfect place to get some rest.<br>Take a nap?");
-        createInputOpt(["Yes", "No"], "Yes");
+        createInputOpt(["Yes", "No"], "Yes", forms);
       };
       break;
     case "napAgain":
+      m("placeholder")
       break;
     case "entrance":
       m("You stand at the entrance of a massive labyrinth. You are nervous, for this labyrinth is known to be the death of many a brave adventurer. You take a deep breath, light your torch, and step inside. With a loud rumbling the entrance closes behind you on it's own, there is no way back now.");
@@ -196,7 +198,7 @@ events = function() {
       }
       else {
         m("A secret passage leads you to a small room, dominated by a large circle that is drawn on the floor and filled with strange runes, in the middle of the circle you notice a peculier hole. You are fairly certain this is a magic formation, although if you don't know it's purpose. Once you inspect the room a little closer you see a lever hidden in a corner.<br>Pull the lever?");
-        createInputOpt(["Yes", "No"], "Yes");
+        createInputOpt(["Yes", "No"], "Yes", forms);
       };
       break;
     case "daedalus":
@@ -204,7 +206,10 @@ events = function() {
       laby.rows[player.y].cells[player.x].id = "returnDaedalus";
       break;
     case "returnDaedalus":
+      m("On the hill the statue still stands. You climb to the top of the hill, while looking out over the surroundings you suddenly feel lightheaded, for a brief moment an image of a boy flying through the sky appears in you mind, and then it is gone. Again you feel the presence, it still wants something from you.");
       break;
+    case "destroyDaedalus":
+      m("");
     case "beehive":
       break;
     case "apprentice":
