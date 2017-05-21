@@ -209,6 +209,27 @@ events = function() {
       break;
     case "apprentice":
       break;
+    case "booty":
+      if(player.luck === Math.floor(labyrinth.width*size*0.1)) {
+        m("You notice a small hole in the wall, you stick your finger inside, because why not right? The stones start to shift and an passage is formed.");
+        laby.rows[player.y].cells[player.x].id = "bootyFound";
+      }
+      else {
+        m("Geen idee joh");
+        laby.rows[player.y].cells[player.x].id = "returnBooty";
+      };
+      break;
+    case "returnBooty":
+      if(player.luck === Math.floor(labyrinth.width*size*0.1)) {
+        m("You notice a small hole in the wall, you stick your finger inside, because why not right? The stones start to shift and an passage is formed.");
+        laby.rows[player.y].cells[player.x].id = "bootyFound";
+      }
+      else {
+        m("Geen idee joh");
+      };
+      break;
+    case "bootyFound":
+      break;
     default:
       if(laby.rows[player.y].cells[player.x].classList.contains("explored")) {
         m("You backtrack quickly through a previously explored section of the labyrinth.");

@@ -10,6 +10,7 @@ var setPlayer = function() {
     points: 0
   };
   attackAmount = 0;
+  deadGobPotTry = 0;
   changeInventory("Cartography Tool");
 }
 var setMinotaur = function() {
@@ -630,7 +631,7 @@ var changeInventory = function(item) {
   }
   else if(item[0] === "-") {
     item = item.replace("-", "");
-    itemJ = jsonItems[item];
+    let itemJ = jsonItems[item];
     if(player.inventory.includes(itemJ)) {
       var removeThisItem = player.inventory.indexOf(itemJ);
       player.inventory.splice(removeThisItem, 1);
