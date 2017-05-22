@@ -190,16 +190,26 @@ events = function() {
       m("The entrance is still closed, there is no way out here.");
       break;
     case "teleporter":
+      m("A secret passage leads you to a small room, dominated by a large circle that is drawn on the floor and filled with strange runes, in the middle of the circle you notice a peculier hole. You are fairly certain this is a magic formation, although if you don't know it's purpose. Once you inspect the room a little closer you see a differnt colored brick sitcking out of the wall.<br>Push the brick in?");
+      createInputOpt(["Yes", "No"], "Yes", forms);
+      laby.rows[player.y].cells[player.x].id = "inactiveTeleporter";
+      break;
+    case "inactiveTeleporter":
       if(questionAnswer === "Yes") {
-        m("blablabal");
+        m("You");
+        laby.rows[player.y].cells[player.x].id = "activeTeleporter";
+        laby.rows[player.y].cells[player.x].class = "teleportHere";
       }
       else if(questionAnswer === "No") {
-        m("blablabal");
+        m("Probably best not to mess with it, you know of too many incidents involing magic that ended with people turning into frogs, or worse.");
       }
       else {
-        m("A secret passage leads you to a small room, dominated by a large circle that is drawn on the floor and filled with strange runes, in the middle of the circle you notice a peculier hole. You are fairly certain this is a magic formation, although if you don't know it's purpose. Once you inspect the room a little closer you see a lever hidden in a corner.<br>Pull the lever?");
+        m("You return to the small room with large magic circle, your eyes are quickly drawn to the brick, it still sticks out of the wall, waiting to be pushed in.<br>Push the brick in?");
         createInputOpt(["Yes", "No"], "Yes", forms);
       };
+      break;
+    case "activeTeleporter":
+      m("You");
       break;
     case "daedalus":
       m("A ray of sun shines through a broken part of the labyrinth's ceiling, it touches a large hill covered with beautiful flowers. High on the hill a bronze statue of a boy catches your eye, a wooden framework sprouting from it's back. A strange presence fills the room, giving you goosebumps, it seems to demand you to do something for it, but you are unsure what that would be.");

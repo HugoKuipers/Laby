@@ -17,19 +17,22 @@ var setMinotaur = function() {
   minotaur = {
     x: prev2CellsNr,
     y: prev2RowsNr,
-    life: 1,
+    life: 2,
+    power: 2,
     gold: Math.floor(Math.random()*51+25)
   };
   if(difficulty === "normal") {
     minotaur.x = prev3CellsNr;
     minotaur.y = prev3RowsNr;
-    minotaur.life = 3;
+    minotaur.life = 4;
+    minotaur.power = 4;
     minotaur.gold = Math.floor(Math.random()*51+50)
   }
   else if(difficulty === "hard") {
     minotaur.x = prev4CellsNr;
     minotaur.y = prev4RowsNr;
-    minotaur.life = 5;
+    minotaur.life = 6;
+    minotaur.power = 6;
     minotaur.gold = Math.floor(Math.random()*51+80)
   };
 };
@@ -163,6 +166,26 @@ var createInputOpt = function(n, selected, place, id) {
         questionAnswer = "";
       };
     };
+  };
+};
+var createContinueButton = function(text, id) {
+  var goOn =  document.createElement("button");
+  goOn.innerHTML = text;
+  goOn.id = "goOn";
+  goOn.type = "button";
+  goOn.onclick = function() {
+    if(id) {
+      itemEvents(id);
+    }
+    else {
+      events();
+    };
+  };
+  if(id) {
+    formsitems.appendChild(goOn);
+  }
+  else {
+    forms.appendChild(goOn);
   };
 };
 
@@ -306,7 +329,8 @@ var setLabyrinth = function() {
   document.getElementById("life").innerHTML = "Life: " + player.life;
   document.getElementById("gold").innerHTML = "Gold: " + player.gold;
   openInv.style.display = "initial";
-  openset.style.display = "initial";
+  openSet.style.display = "initial";
+  openChar.style.display = "initial";
   ableMove(true);
   for(var c = 0; c < player.x; c++) {
     laby.rows[labyrinth.height-1].cells[c].className = "wall";
@@ -341,7 +365,9 @@ var resetPage = function(clear) {
   document.getElementById("life").innerHTML = "";
   document.getElementById("gold").innerHTML = "";
   openInv.style.display = "none";
+  openChar.style.display = "none";
   inventory.style.display = "none";
+  character.style.display = "none";
   while (itemspace.firstChild) {
     itemspace.removeChild(itemspace.firstChild);
   };
@@ -615,7 +641,26 @@ var changeInventory = function(item) {
     });
     newItemImgTag.click(function(e) {
       itemEvents(this.id ,e);
-    })
+    });
+    newItemImgTag.on("mousedown", function(e) {
+      e.preventDefault();
+      draggableItem = true;
+      startX = e.clientX;
+      startY = e.clientY;
+      onmouseup = function(e) {
+        draggableItem = false;
+      };
+      onmousemove = function(e) {
+        e.preventDefault();
+        if(!draggableItem) return;
+        var deltaX = e.clientX - startX;
+        var deltaY = e.clientY - startY;
+        newItemImgTag[0].style.left = deltaX + newItemImgTag[0].offsetLeft + "px";
+        newItemImgTag[0].style.top = deltaY + newItemImgTag[0].offsetTop + "px";
+        startX = e.clientX;
+        startY = e.clientY;
+      };
+    });
     $("#itemspace").append(newItemImgTag);
   };
 };

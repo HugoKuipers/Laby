@@ -47,10 +47,14 @@ button:focus {
   color: rgb(168, 13, 176);
 }
 #message {}
+#prevmessage{
+  opacity: 0.7;
+}
+
 #forms {
   text-align: center;
 }
-#inputnum{
+#inputnum {
   width: 75px;
   height: 75px;
   position: relative;
@@ -65,7 +69,7 @@ button:focus {
 #inputnum:focus {
   outline: none;
 }
-#submitinput{
+#submitinput {
   width: 85px;
   height: 80px;
   position: relative;
@@ -79,8 +83,19 @@ button:focus {
 #submitinput:active {
   background-color: rgb(129, 154, 228);
 }
-#prevmessage{
-  opacity: 0.7;
+#goOn {
+  width: 85px;
+  height: 80px;
+  position: relative;
+  background-color: rgb(182, 195, 236);
+  font-size: 24px;
+  cursor: pointer;
+  border-radius: 10px;
+  border: 1px solid rgb(34, 59, 135);
+  margin-left: 10px;
+}
+#GoOn:active {
+  background-color: rgb(129, 154, 228);
 }
 
 #status {
@@ -124,21 +139,38 @@ button:focus {
   color: rgb(255, 229, 199);
 }
 #openset {
-  background-color: rgb(210, 199, 179);
-  color: rgb(65, 43, 17);
+  background-color: rgb(189, 121, 50);
+  color: rgb(80, 26, 5);
   font-size: 20px;
   display: none;
   position: relative;
   width: 100px;
   height: 30px;
   border-radius: 10px;
-  border: 1px solid rgb(111, 77, 14);
+  border: 1px solid black;
   left: 36%;
   top: 60%;
 }
 #openset:active {
-  background-color: rgb(167, 141, 94);
-  color: rgb(255, 229, 199);
+  background-color: rgb(124, 62, 32);
+  color: rgb(250, 192, 145);
+}
+#openchar {
+  background-color: rgb(93, 182, 198);
+  color: rgb(0, 8, 47);
+  font-size: 20px;
+  display: none;
+  position: relative;
+  width: 100px;
+  height: 30px;
+  border-radius: 10px;
+  border: 1px solid rgb(2, 4, 11);
+  left: 46%;
+  top: 60%;
+}
+#openchar:active {
+  background-color: rgb(53, 63, 115);
+  color: rgb(102, 232, 255);
 }
 
 #inventory {
@@ -199,6 +231,7 @@ button:focus {
   margin: 0px;
 }
 #itemspace img {
+  position: absolute;
   width: 58px;
   height: 58px;
   border: 1px solid rgb(81, 29, 84);
@@ -238,11 +271,10 @@ button:focus {
 
 #settings {
   position: fixed;
-  background-color: rgb(98, 66, 27);
-  min-width: 120px;
-  max-width: 520px;
-  min-height: 120px;
-  z-index: 10;
+  background-color: rgb(237, 157, 113);
+  width: 20%;
+  min-height: 30%;
+  z-index: 20;
   display: none;
   border-radius: 20px;
   border: 1px solid rgb(38, 23, 4);
@@ -258,19 +290,19 @@ button:focus {
   border-bottom: solid black 1px;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  background-color: rgb(65, 43, 17);
+  background-color: rgb(55, 8, 5);
 }
 #setheader {
   position: relative;
   right: 5px;
-  color: rgb(224, 186, 140);
+  color: rgb(189, 121, 50);
   font-size: 20px;
   top: 1px;
-  z-index: 12;
+  z-index: 22;
 }
 #closeset {
-  color: rgb(17, 10, 3);
-  background-color: rgb(65, 43, 17);
+  color: rgb(189, 121, 50);
+  background-color: rgb(55, 8, 5);
   right: 0px;
   top: 0px;
   border-radius: 0px;
@@ -280,24 +312,135 @@ button:focus {
   width: 25px;
   height: 26px;
   font-size: 16px;
-  z-index: 11;
+  z-index: 21;
 }
 #closeset:hover {
   color: rgb(250, 54, 54);
 }
 #closeset:active {
   position: absolute;
-  background-color: rgb(65, 43, 17);
+  background-color: rgb(55, 8, 5);
   color: rgb(213, 12, 12);
 }
 #actualsettings {
-
+  font-size: 20px;
 }
 #actualsettings button {
-
+  font-size: 24px;
+  background-color: rgb(237, 157, 113);
+  border: 0px solid black;
+}
+#actualsettings button:active {
+  position: absolute;
+  background-color: rgb(237, 157, 113);
+  color: rgb(237, 157, 113);
 }
 #actualsettings #applyset {
+  background-color: rgb(227, 116, 68);
+  border: 1px solid black;
+}
+#actualsettings #applyset:active {
+  background-color: rgb(227, 116, 68);
+  color: rgb(237, 157, 113);
+}
 
+#character {
+  position: fixed;
+  background-color: rgb(64, 135, 148);
+  width: 242px;
+  height: 348px;;
+  z-index: 5;
+  display: none;
+  border-radius: 20px;
+  border: 1px solid rgb(2, 4, 11);
+  box-shadow: -5px 5px 5px 0px black;
+  left: 60%;
+  top: 10%;
+  text-align: center;
+}
+#chardragbar {
+  cursor: pointer;
+  width: 100%;
+  height: 25px;
+  border-bottom: solid black 1px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  background-color: rgb(0, 8, 47);
+}
+#charheader {
+  position: relative;
+  right: 5px;
+  color: rgb(120, 224, 242);
+  font-size: 20px;
+  top: 1px;
+  z-index: 7;
+}
+#closechar {
+  color: rgb(115, 134, 227);
+  background-color: rgb(0, 8, 47);
+  right: 0px;
+  top: 0px;
+  border-radius: 0px;
+  border-top-right-radius: 20px;
+  border: 0px;
+  border-bottom: 1px solid black;
+  width: 25px;
+  height: 26px;
+  font-size: 16px;
+  z-index: 6;
+}
+#closechar:hover {
+  color: rgb(250, 54, 54);
+}
+#closechar:active {
+  position: absolute;
+  background-color: rgb(0, 8, 47);
+  color: rgb(213, 12, 12);
+}
+#equipspace {
+  margin: 0px;
+}
+#equipspace img {
+  position: absolute;
+  width: 58px;
+  height: 58px;
+  border: 1px solid rgb(10, 60, 33);
+  border-radius: 4px;
+  margin: 10px;
+  cursor: pointer;
+}
+#equipspace img:hover {
+  width: 60px;
+  height: 60px;
+  margin: 9px;
+}
+#headequipment {
+  top: 27px;
+  left: 81px;
+}
+#amuletequipment {
+  top: 67px;
+  left: 161px;
+}
+#torsoequipment {
+  top: 107px;
+  left: 81px;
+}
+#righthandequipment {
+  top: 147px;
+  left: 1px;
+}
+#lefthandequipment {
+  top: 147px;
+  left: 161px;
+}
+#legsequipment {
+  top: 187px;
+  left: 81px;
+}
+#feetequipment {
+  top: 267px;
+  left: 81px;
 }
 
 #visual {

@@ -93,6 +93,14 @@ document.onkeydown = function(e) {
         south.click();
       };
       break;
+    case 67:
+      if(character.style.display === "none" || inventory.style.display === "") {
+         openChar.click();
+      }
+      else if(character.style.display === "initial") {
+         document.getElementById("closechar").click();
+      };
+      break;
     case 73:
       if(inventory.style.display === "none" || inventory.style.display === "") {
         openInv.click();
@@ -210,6 +218,33 @@ settingsDragBar.onmousedown = function(e) {
     var deltaY = e.clientY - startY;
     settings.style.left = deltaX + settings.offsetLeft + "px";
     settings.style.top = deltaY + settings.offsetTop + "px";
+    startX = e.clientX;
+    startY = e.clientY;
+  };
+};
+
+openChar.onclick = function() {
+  if(openChar.style.display === "") return;
+  character.style.display = "initial";
+};
+document.getElementById("closechar").onclick = function() {
+  character.style.display = "none";
+};
+charDragBar.onmousedown = function(e) {
+  e.preventDefault();
+  draggable = true;
+  startX = e.clientX;
+  startY = e.clientY;
+  onmouseup = function(e) {
+    draggable = false;
+  };
+  onmousemove = function(e) {
+    e.preventDefault();
+    if(!draggable) return;
+    var deltaX = e.clientX - startX;
+    var deltaY = e.clientY - startY;
+    character.style.left = deltaX + character.offsetLeft + "px";
+    character.style.top = deltaY + character.offsetTop + "px";
     startX = e.clientX;
     startY = e.clientY;
   };

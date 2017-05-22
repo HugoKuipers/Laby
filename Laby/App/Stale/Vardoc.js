@@ -7,7 +7,7 @@ var jsonItems = $.getJSON("../../Data/Items.json", function(json) {
 const easy = ["treasure", "key"];
 const normal = ["treasureTwo", "keyTwo1", "keyTwo2"];
 const hard = ["treasureThree", "keyThree1", "keyThree2", "keyThree3"];
-var rooms = ["goblin", "chest", "randomTrap", "merchant", "lab", "riddle", "nap", "daedalus", "teleporter", "booty"];
+var rooms = ["goblin", "chest", "randomTrap", "randomTrap", "merchant", "lab", "riddle", "nap", "daedalus", "teleporter", "teleporter", "booty"];
 var traps = ["boulder", "pitfall"];
 var jsonSettings;
 var jsonStats;
@@ -18,6 +18,7 @@ var itemEvents;
 var useItemEvents;
 var questionAnswer;
 var draggable = false;
+var draggableItem = false;
 var startX;
 var startY;
 var prevM = "";
