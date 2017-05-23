@@ -329,6 +329,7 @@ button:focus {
   font-size: 24px;
   background-color: rgb(237, 157, 113);
   border: 0px solid black;
+  border-radius: 0px;
 }
 #actualsettings button:active {
   position: absolute;
@@ -336,11 +337,10 @@ button:focus {
   color: rgb(237, 157, 113);
 }
 #actualsettings #applyset {
-  background-color: rgb(227, 116, 68);
-  border: 1px solid black;
+  left: 30%;
+  width: 40%;
 }
 #actualsettings #applyset:active {
-  background-color: rgb(227, 116, 68);
   color: rgb(237, 157, 113);
 }
 

@@ -94,7 +94,7 @@ document.onkeydown = function(e) {
       };
       break;
     case 67:
-      if(character.style.display === "none" || inventory.style.display === "") {
+      if(character.style.display === "none" || character.style.display === "") {
          openChar.click();
       }
       else if(character.style.display === "initial") {
