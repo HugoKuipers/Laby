@@ -245,6 +245,19 @@ events = function() {
       break;
     case "bootyFound":
       break;
+    case "math":
+      if(questionAnswer === "Accept") {
+
+        m("'Very well', he says, looking delighted, 'solve this:'<br>");
+      }
+      else if(questionAnswer === "Refuse") {
+        m("");
+      }
+      else {
+        m("Just as you're about to turn a corner a well dressed young man appears from the other side, his face lights up the moment he sees you; 'At last, someone who might alleviate my boredom!', he looks you up and down, 'well, maybe not, but this could still be fun.' he mutters. 'Traveller, I'm a student of math, but have grown bored with simple academics, would you be interested in a little wager? I will present you with a problem, if you can solve it in 1 minute you can have my abacus, if not you'll give me 20 gold.<br>Take the wager?");
+        createInputOpt(["Accept", "Refuse", "Just walk away"], "Accept", forms);
+      };
+      break;
     default:
       if(laby.rows[player.y].cells[player.x].classList.contains("explored")) {
         m("You backtrack quickly through a previously explored section of the labyrinth.");

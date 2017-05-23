@@ -7,7 +7,7 @@ var dontUseThat = function() {
 };
 var drinkPotion = function() {
   y("You examine the potion a bit closer, it smells somewhat funny, but it should be fine to drink it. You take a small sip at first... It tastes great! You quickly gulp down the entire potion.<br>You have gained 2 life.");
-  changeLife(2);
+  changeLife(2, true);
   changeInventory("-Potion");
 };
 itemEvents = function(id, e) {
@@ -25,7 +25,7 @@ itemEvents = function(id, e) {
       });
   }, 1);
   dropDrop.click(function() {
-    changeInventory("-" + id);
+    changeInventory("-" + id, true);
     y("You have dropped the " + id);
     dropdown.hide(100);
   });

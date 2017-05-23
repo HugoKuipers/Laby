@@ -19,6 +19,7 @@ var useItemEvents;
 var questionAnswer;
 var draggable = false;
 var draggableItem = false;
+var deze;
 var startX;
 var startY;
 var prevM = "";

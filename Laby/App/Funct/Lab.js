@@ -7,6 +7,15 @@ var setPlayer = function() {
     gold: 0,
     luck: 0,
     inventory: [],
+    equipment: {
+      head: "",
+      amulet: "",
+      torso: "",
+      rightHand: "",
+      leftHand: "",
+      legs: "",
+      feet: ""
+    },
     points: 0
   };
   attackAmount = 0;
@@ -168,14 +177,14 @@ var createInputOpt = function(n, selected, place, id) {
     };
   };
 };
-var createContinueButton = function(text, id) {
+var createContinueButton = function(text, id, noitems) {
   var goOn =  document.createElement("button");
   goOn.innerHTML = text;
   goOn.id = "goOn";
   goOn.type = "button";
   goOn.onclick = function() {
     if(id) {
-      itemEvents(id);
+      useItemEvents(id);
     }
     else {
       events();
@@ -579,12 +588,18 @@ var clickMove = function() {
   clickMoveInner(checkUp, checkRight, checkDown, checkLeft);
 };
 
-var changeLife = function(amount) {
+var changeLife = function(amount, item) {
+  if(item) {
+    let place = itemText;
+  }
+  else {
+    let place = message;
+  };
   player.life += amount;
   document.getElementById("life").innerHTML = "Life: " + player.life;
   if(amount > 0) {
-    message.innerHTML += "<br>You have gained " + amount + " life.";
-    prevM += "<br>You have gained " + amount + " life.";
+    place.innerHTML += "<br>You have gained " + amount + " life.";
+    if(!item) prevM += "<br>You have gained " + amount + " life.";
   }
   else if(amount < 0) {
     amount = amount*-1;
@@ -596,28 +611,37 @@ var changeLife = function(amount) {
     resetPage(false);
   };
 };
-var changeGold = function(amount) {
+var changeGold = function(amount, item) {
+  if(item) {
+    let place = itemText;
+  }
+  else {
+    let place = message;
+  };
+  console.log(place);
   if(amount*-1 > player.gold) amount = player.gold*-1;
   player.gold += amount;
   document.getElementById("gold").innerHTML = "Gold: " + player.gold;
   if(amount > 0) {
-    message.innerHTML += "<br>You have gained " + amount + " gold.";
-    prevM += "<br>You have gained " + amount + " gold.";
+    place.innerHTML += "<br>You have gained " + amount + " gold.";
+    if(!item) prevM += "<br>You have gained " + amount + " gold.";
   }
   else if(amount < 0) {
     amount = amount*-1;
-    message.innerHTML += "<br>You have lost " + amount + " gold.";
-    prevM += "<br>You have lost " + amount + " gold.";
+    place.innerHTML += "<br>You have lost " + amount + " gold.";
+    if(!item) prevM += "<br>You have lost " + amount + " gold.";
   };
 };
-var changeInventory = function(item) {
+var changeInventory = function(item, dont) {
   if(item === "-random") {
     var removeRandomItemNum = Math.floor(Math.random()*player.inventory.length);
     let removeItemName = player.inventory[removeRandomItemNum].name;
     player.inventory.splice(removeRandomItemNum, 1);
     itemImage[removeRandomItemNum].remove();
-    message.innerHTML += "<br>You have lost the " + removeItemName + ".";
-    prevM += "<br>You have lost the " + removeItemName + ".";
+    if(!dont) {
+      message.innerHTML += "<br>You have lost the " + removeItemName + ".";
+      prevM += "<br>You have lost the " + removeItemName + ".";
+    };
   }
   else if(item[0] === "-") {
     item = item.replace("-", "");
@@ -626,8 +650,10 @@ var changeInventory = function(item) {
       var removeThisItem = player.inventory.indexOf(itemJ);
       player.inventory.splice(removeThisItem, 1);
       itemImage[removeThisItem].remove();
-      message.innerHTML += "<br>You have lost the " + item + ".";
-      prevM += "<br>You have lost the " + item + ".";
+      if(!dont) {
+        message.innerHTML += "<br>You have lost the " + item + ".";
+        prevM += "<br>You have lost the " + item + ".";
+      };
     };
   }
   else {
@@ -639,30 +665,118 @@ var changeInventory = function(item) {
       src: item.image,
       title: item.hover
     });
-    newItemImgTag.click(function(e) {
-      itemEvents(this.id ,e);
-    });
     newItemImgTag.on("mousedown", function(e) {
-      e.preventDefault();
-      draggableItem = true;
-      startX = e.clientX;
-      startY = e.clientY;
-      onmouseup = function(e) {
-        draggableItem = false;
+      if(!(ssX < startX + 20 && ssX > startX -20 && ssY < startY +20 && ssY > startY -20)) {
+        newItemImgTag.on("click", function(e) {
+          itemEvents(this.id ,e);
+        });
       };
-      onmousemove = function(e) {
+      if(item.equip !== "no") {
+        deze = $(this);
         e.preventDefault();
-        if(!draggableItem) return;
-        var deltaX = e.clientX - startX;
-        var deltaY = e.clientY - startY;
-        newItemImgTag[0].style.left = deltaX + newItemImgTag[0].offsetLeft + "px";
-        newItemImgTag[0].style.top = deltaY + newItemImgTag[0].offsetTop + "px";
+        draggableItem = true;
         startX = e.clientX;
         startY = e.clientY;
+        var ssX = startX;
+        var ssY = startY;
+        $(document).on("mouseup", function(e) {
+          if(ssX < startX + 20 && ssX > startX -20 && ssY < startY +20 && ssY > startY -20) {
+            newItemImgTag.on("click", function(e) {
+              itemEvents(this.id ,e);
+            });
+          }
+          else {
+            newItemImgTag.off("click");
+          };
+          draggableItem = false;
+          if(item.equip === "hands") {
+            if(deze.offset().left < $("#righthandequipment").offset().left + 60 && deze.offset().left > $("#righthandequipment").offset().left - 60 && deze.offset().top < $("#righthandequipment").offset().top + 60 && deze.offset().top > $("#righthandequipment").offset().top - 60) {
+              var checkEquipSpace = "#righthandequipment";
+              var checkEquipPlayer = player.equipment.rightHand;
+              equipItem(item, checkEquipSpace, checkEquipPlayer);
+            }
+            else if(deze.offset().left < $("#lefthandequipment").offset().left + 60 && deze.offset().left > $("#lefthandequipment").offset().left - 60 && deze.offset().top < $("#lefthandequipment").offset().top + 60 && deze.offset().top > $("#lefthandequipment").offset().top - 60) {
+              var checkEquipSpace = "#lefthandequipment";
+              var checkEquipPlayer = player.equipment.leftHand;
+              equipItem(item, checkEquipSpace, checkEquipPlayer);
+            }
+            else {
+              deze.css({
+                "left": 0,
+                "top": 0,
+                "z-index": 10
+              });
+            };
+          }
+          else {
+            switch (item.equip) {
+              case "head":
+                var checkEquipSpace = "#headequipment";
+                var checkEquipPlayer = player.equipment.head;
+                break;
+              case "amulet":
+                var checkEquipSpace = "#amuletequipment";
+                var checkEquipPlayer = player.equipment.amulet;
+                break;
+              case "torso":
+                var checkEquipSpace = "#torsoequipment";
+                var checkEquipPlayer = player.equipment.torso;
+                break;
+              case "legs":
+                var checkEquipSpace = "#legsequipment";
+                var checkEquipPlayer = player.equipment.legs;
+                break;
+              case "feet":
+                var checkEquipSpace = "#feetequipment";
+                var checkEquipPlayer = player.equipment.feet;
+                break;
+            };
+            if(deze.offset().left < $(checkEquipSpace).offset().left + 60 && deze.offset().left > $(checkEquipSpace).offset().left - 60 && deze.offset().top < $(checkEquipSpace).offset().top + 60 && deze.offset().top > $(checkEquipSpace).offset().top - 60) {
+              equipItem(item, checkEquipSpace, checkEquipPlayer);
+            }
+            else {
+              deze.css({
+                "left": 0,
+                "top": 0,
+                "z-index": 10
+              });
+            };
+          };
+        });
+        $(document).on("mousemove", function(e) {
+          e.preventDefault();
+          if(!draggableItem) return;
+          var deltaX = e.clientX - startX;
+          var deltaY = e.clientY - startY;
+          deze.css({
+            "z-index": 50,
+            "left": parseInt(deze.css("left").replace("px", "")) + deltaX + "px",
+            "top": parseInt(deze.css("top").replace("px", "")) + deltaY + "px"
+          });
+          startX = e.clientX;
+          startY = e.clientY;
+          dropdown.hide(100);
+        });
       };
     });
     $("#itemspace").append(newItemImgTag);
   };
+};
+
+var equipItem = function(item, checkEquipSpace, checkEquipPlayer) {
+  changeInventory("-" + item.name, true);
+  if($(checkEquipSpace).attr("class") === "fullEquip") {
+    changeInventory($(checkEquipSpace).attr("name"), true);
+  };
+  $(checkEquipSpace).attr({
+    "src": item.image,
+    "title": item.hover,
+    "class": "fullEquip",
+    "name": item.id
+  });
+  $(checkEquipSpace).on("click", function(e) {
+    itemEvents(this.id ,e);
+  });
 };
 
 var exitLabyrinth = function() {

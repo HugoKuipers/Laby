@@ -1,5 +1,6 @@
 "use strict";
 document.onkeydown = function(e) {
+  dropdown.hide(100);
   switch(e.keyCode) {
     case 13:
       e.preventDefault();
