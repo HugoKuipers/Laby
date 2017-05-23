@@ -247,14 +247,56 @@ events = function() {
       break;
     case "math":
       if(questionAnswer === "Accept") {
-
-        m("'Very well', he says, looking delighted, 'solve this:'<br>");
+        switch (difficulty.length) {
+          case 2:
+            let a = Math.ceil(Math.random()*9);
+            let b = Math.ceil(Math.random()*9);
+            let c = Math.ceil(Math.random()*9);
+            let d = Math.ceil(Math.random()*9);
+            fourNumberProblem(a,b,c,d);
+            break;
+          case 3:
+            break;
+          case 4:
+            break;
+        };
+        m("'Very well', he says, looking delighted, 'solve this:'<br>" + askProblem + " " + "=");
+        createInputNum("","",0);
+        document.getElementById("submitinput").onclick = function() {
+          if(parseInt(document.getElementById("inputnum").value) === answerProblem) {
+            correctProblem = 1;
+          }
+          else {
+            correctProblem = 2;
+          };
+          events();
+          while (forms.firstChild) {
+            forms.removeChild(forms.firstChild);
+          };
+        };
       }
       else if(questionAnswer === "Refuse") {
         m("");
       }
+      else if(correctProblem === 1) {
+        m("Correct!");
+      }
+      else if(correctProblem === 2) {
+        m("Wrong!");
+      }
       else {
-        m("Just as you're about to turn a corner a well dressed young man appears from the other side, his face lights up the moment he sees you; 'At last, someone who might alleviate my boredom!', he looks you up and down, 'well, maybe not, but this could still be fun.' he mutters. 'Traveller, I'm a student of math, but have grown bored with simple academics, would you be interested in a little wager? I will present you with a problem, if you can solve it in 1 minute you can have my abacus, if not you'll give me 20 gold.<br>Take the wager?");
+        switch (difficulty.length) {
+          case 2:
+            var betGold = 20;
+            break;
+          case 3:
+            var betGold = 35;
+            break;
+          case 4:
+            var betGold = 50;
+            break;
+        };
+        m("Just as you're about to turn a corner a well dressed young man appears from the other side, his face lights up the moment he sees you; 'At last, someone who might alleviate my boredom!', he looks you up and down, 'well, maybe not, but this could still be fun.' he mutters. 'Traveller, I'm a student of math, but have grown bored with simple academics, would you be interested in a little wager? I will present you with a problem, if you can solve it in 1 minute you can have my abacus, if not you'll give me " + betGold + " gold.<br>Take the wager?");
         createInputOpt(["Accept", "Refuse", "Just walk away"], "Accept", forms);
       };
       break;

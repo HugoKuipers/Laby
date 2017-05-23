@@ -113,7 +113,6 @@ var createInputNum = function(min, max, start) {
   input.min = min;
   input.max = max;
   input.value = start;
-  input.maxLength = max.length;
   input.step = 1;
   input.id = "inputnum";
   var submitInput = document.createElement("button");
