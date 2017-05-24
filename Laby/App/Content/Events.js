@@ -256,24 +256,12 @@ events = function() {
             fourNumberProblem(a,b,c,d);
             break;
           case 3:
+            solveXproblem();
             break;
           case 4:
             break;
         };
-        m("'Very well', he says, looking delighted, 'solve this:'<br>" + askProblem + " " + "=");
-        createInputNum("","",0);
-        document.getElementById("submitinput").onclick = function() {
-          if(parseInt(document.getElementById("inputnum").value) === answerProblem) {
-            correctProblem = 1;
-          }
-          else {
-            correctProblem = 2;
-          };
-          events();
-          while (forms.firstChild) {
-            forms.removeChild(forms.firstChild);
-          };
-        };
+        m("'Very well', he says, looking delighted, 'solve this:'<br>" + askProblem);
       }
       else if(questionAnswer === "Refuse") {
         m("");

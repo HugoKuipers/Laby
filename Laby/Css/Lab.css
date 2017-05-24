@@ -54,7 +54,7 @@ button:focus {
 #forms {
   text-align: center;
 }
-#inputnum {
+.numbutton {
   width: 75px;
   height: 75px;
   position: relative;
@@ -63,10 +63,11 @@ button:focus {
   border: 1px solid rgb(34, 59, 135);
   background-color: rgb(182, 195, 236);
   margin-right: 10px;
+  margin-left: 10px;
   text-align: center;
   padding-left: 10px;
 }
-#inputnum:focus {
+.numbutton:focus {
   outline: none;
 }
 #submitinput {

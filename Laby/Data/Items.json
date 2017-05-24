@@ -32,14 +32,14 @@
     "hover": "Potion",
     "image": "../../Images/Potion.png",
     "value": 20,
-    "equip": "head"
+    "equip": "no"
   },
   "Cartography Tool": {
     "name": "Cartography Tool",
     "hover": "Cartography Tool",
     "image": "../../Images/Passer.png",
     "value": 10,
-    "equip": "hands"
+    "equip": "feet"
   },
   "Magic Scroll: Earth": {
     "name": "Magic Scroll: Earth",

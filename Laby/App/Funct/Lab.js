@@ -115,6 +115,7 @@ var createInputNum = function(min, max, start) {
   input.value = start;
   input.step = 1;
   input.id = "inputnum";
+  input.className = "numbutton";
   var submitInput = document.createElement("button");
   submitInput.type = "button";
   submitInput.innerHTML = "Go!";
@@ -122,6 +123,17 @@ var createInputNum = function(min, max, start) {
   form.appendChild(input);
   form.appendChild(submitInput);
   forms.appendChild(form);
+};
+var createExtraNum = function(min, max, start) {
+  var input = document.createElement("input");
+  input.type = "number";
+  input.min = min;
+  input.max = max;
+  input.value = start;
+  input.step = 1;
+  input.id = "inputnum2";
+  input.className = "numbutton";
+  forms.firstChild.insertBefore(input, forms.firstChild.lastChild);
 };
 var createInputOpt = function(n, selected, place, id) {
   ableMove(false);
@@ -679,6 +691,8 @@ var changeInventory = function(item, dont) {
         var ssX = startX;
         var ssY = startY;
         $(document).on("mouseup", function(e) {
+          $(document).off("mousemove");
+          $(document).off("mouseup");
           if(ssX < startX + 20 && ssX > startX -20 && ssY < startY +20 && ssY > startY -20) {
             newItemImgTag.on("click", function(e) {
               itemEvents(this.id ,e);
@@ -762,20 +776,122 @@ var changeInventory = function(item, dont) {
   };
 };
 
-var equipItem = function(item, checkEquipSpace, checkEquipPlayer) {
-  changeInventory("-" + item.name, true);
-  if($(checkEquipSpace).attr("class") === "fullEquip") {
-    changeInventory($(checkEquipSpace).attr("name"), true);
+var equipItem = function(item, checkEquipSpace, checkEquipPlayer, handSwitch) {
+  if(item === "-random") {
+    // later issues
+  }
+  else if(item[0] === "-") {
+    // item = item.replace("-", "");
+    // let itemJ = jsonItems[item];
+    // if(player.inventory.includes(itemJ)) {
+    //   var removeThisItem = player.inventory.indexOf(itemJ);
+    //   player.inventory.splice(removeThisItem, 1);
+    //   itemImage[removeThisItem].remove();
+    //   if(!dont) {
+    //     message.innerHTML += "<br>You have lost the " + item + ".";
+    //     prevM += "<br>You have lost the " + item + ".";
+    //   };
+    // };    // later later later
+  }
+  else {
+    deze.css({
+      "left": 0,
+      "top": 0,
+      "z-index": 10
+    });
+    if(!handSwitch) {
+      changeInventory("-" + item.name, true);
+      if($(checkEquipSpace).attr("class") === "fullEquip") {
+        changeInventory($(checkEquipSpace).attr("name"), true);
+      };
+    };
+    $(checkEquipSpace).attr({
+      "src": item.image,
+      "title": item.hover,
+      "class": "fullEquip",
+      "name": item.name
+    });
+    $(checkEquipSpace).on("mousedown", function(e) {
+      if(!(ssX < startX + 20 && ssX > startX -20 && ssY < startY +20 && ssY > startY -20)) {
+        $(checkEquipSpace).on("click", function(e) {
+          itemEquipEvents(item.name ,e);
+        });
+      };
+      deze = $(this);
+      e.preventDefault();
+      draggableItem = true;
+      startX = e.clientX;
+      startY = e.clientY;
+      var ssX = startX;
+      var ssY = startY;
+      $(document).on("mouseup", function(e) {
+        $(document).off("mousemove");
+        $(document).off("mouseup");
+        if(ssX < startX + 20 && ssX > startX -20 && ssY < startY +20 && ssY > startY -20) {
+          $(checkEquipSpace).on("click", function(e) {
+            itemEquipEvents(item.name ,e);
+          });
+        }
+        else {
+          $(checkEquipSpace).off("click");
+        };
+        draggableItem = false;
+        if(item.equip === "hands") {
+          if(deze.offset().left < $("#righthandequipmentunder").offset().left + 60 && deze.offset().left > $("#righthandequipmentunder").offset().left - 60 && deze.offset().top < $("#righthandequipmentunder").offset().top + 60 && deze.offset().top > $("#righthandequipmentunder").offset().top - 60) {
+            console.log("hi");
+            deze = 0;
+            var checkEquipSpace = "#righthandequipment";
+            var checkEquipPlayer = player.equipment.rightHand;
+            equipItem(item, checkEquipSpace, checkEquipPlayer, true);
+          }
+          else if(deze.offset().left < $("#lefthandequipmentunder").offset().left + 60 && deze.offset().left > $("#lefthandequipmentunder").offset().left - 60 && deze.offset().top < $("#lefthandequipmentunder").offset().top + 60 && deze.offset().top > $("#lefthandequipmentunder").offset().top - 60) {
+            var checkEquipSpace = "#lefthandequipment";
+            var checkEquipPlayer = player.equipment.leftHand;
+            equipItem(item, checkEquipSpace, checkEquipPlayer, true);
+          }
+          else if(deze.offset().left > $("#character").offset().right || deze.offset().left < $("#character").offset().left - 60 || deze.offset().top > $("#character").offset().bottom || deze.offset().top < $("#character").offset().top - 60) {
+            // equipItem("-" + item.name);
+            changeInventory(item.name);
+          }
+          else {
+            console.log($(deze.attr("id") + "under"));
+            deze.css({
+              "left": $(deze.attr("id") + "under").attr("left") + "px",
+              "top": $(deze.attr("id") + "under").attr("top") + "px",
+              "z-index": 10
+            });
+          };
+        }
+        else {
+          if(deze.offset().left > $("#character").offset().right || deze.offset().left < $("#character").offset().left - 60 || deze.offset().top > $("#character").offset().bottom || deze.offset().top < $("#character").offset().top - 60) {
+            // equipItem("-" + item.name);
+            changeInventory(item.name);
+          }
+          else {
+            deze.css({
+              "left": 0,
+              "top": 0,
+              "z-index": 10
+            });
+          };
+        };
+      });
+      $(document).on("mousemove", function(e) {
+        e.preventDefault();
+        if(!draggableItem) return;
+        var deltaX = e.clientX - startX;
+        var deltaY = e.clientY - startY;
+        deze.css({
+          "z-index": 50,
+          "left": parseInt(deze.css("left").replace("px", "")) + deltaX + "px",
+          "top": parseInt(deze.css("top").replace("px", "")) + deltaY + "px"
+        });
+        startX = e.clientX;
+        startY = e.clientY;
+        dropdown.hide(100);
+      });
+    });
   };
-  $(checkEquipSpace).attr({
-    "src": item.image,
-    "title": item.hover,
-    "class": "fullEquip",
-    "name": item.id
-  });
-  $(checkEquipSpace).on("click", function(e) {
-    itemEvents(this.id ,e);
-  });
 };
 
 var exitLabyrinth = function() {
