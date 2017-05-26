@@ -415,7 +415,17 @@ button:focus {
   height: 60px;
   margin: 9px;
 }
+#equipspace .fullEquip {
+  z-index: 8;
+}
+#equipspace .emptyEquip {
+  z-index: 7;
+}
 #headequipment {
+  top: 27px;
+  left: 81px;
+}
+#headequipmentunder {
   top: 27px;
   left: 81px;
 }
@@ -423,7 +433,15 @@ button:focus {
   top: 67px;
   left: 161px;
 }
+#amuletequipmentunder {
+  top: 67px;
+  left: 161px;
+}
 #torsoequipment {
+  top: 107px;
+  left: 81px;
+}
+#torsoequipmentunder {
   top: 107px;
   left: 81px;
 }
@@ -431,7 +449,15 @@ button:focus {
   top: 147px;
   left: 1px;
 }
+#righthandequipmentunder {
+  top: 147px;
+  left: 1px;
+}
 #lefthandequipment {
+  top: 147px;
+  left: 161px;
+}
+#lefthandequipmentunder {
   top: 147px;
   left: 161px;
 }
@@ -439,7 +465,15 @@ button:focus {
   top: 187px;
   left: 81px;
 }
+#legsequipmentunder {
+  top: 187px;
+  left: 81px;
+}
 #feetequipment {
+  top: 267px;
+  left: 81px;
+}
+#feetequipmentunder {
   top: 267px;
   left: 81px;
 }
