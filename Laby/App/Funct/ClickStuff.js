@@ -169,14 +169,7 @@ west.onclick = function() {
   move("x", false);
 };
 
-openInv.onclick = function() {
-  if(openInv.style.display === "") return;
-  inventory.style.display = "initial";
-};
-document.getElementById("closeinv").onclick = function() {
-  inventory.style.display = "none";
-};
-dragBar.onmousedown = function(e) {
+var generalMove = function(e, place) {
   e.preventDefault();
   draggable = true;
   startX = e.clientX;
@@ -189,11 +182,22 @@ dragBar.onmousedown = function(e) {
     if(!draggable) return;
     var deltaX = e.clientX - startX;
     var deltaY = e.clientY - startY;
-    inventory.style.left = deltaX + inventory.offsetLeft + "px";
-    inventory.style.top = deltaY + inventory.offsetTop + "px";
+    place.style.left = deltaX + place.offsetLeft + "px";
+    place.style.top = deltaY + place.offsetTop + "px";
     startX = e.clientX;
     startY = e.clientY;
   };
+};
+
+openInv.onclick = function() {
+  if(openInv.style.display === "") return;
+  inventory.style.display = "initial";
+};
+document.getElementById("closeinv").onclick = function() {
+  inventory.style.display = "none";
+};
+dragBar.onmousedown = function(e) {
+  generalMove(e, inventory);
 };
 
 openSet.onclick = function() {
@@ -205,23 +209,7 @@ document.getElementById("closeset").onclick = function() {
   settings.style.display = "none";
 };
 settingsDragBar.onmousedown = function(e) {
-  e.preventDefault();
-  draggable = true;
-  startX = e.clientX;
-  startY = e.clientY;
-  onmouseup = function(e) {
-    draggable = false;
-  };
-  onmousemove = function(e) {
-    e.preventDefault();
-    if(!draggable) return;
-    var deltaX = e.clientX - startX;
-    var deltaY = e.clientY - startY;
-    settings.style.left = deltaX + settings.offsetLeft + "px";
-    settings.style.top = deltaY + settings.offsetTop + "px";
-    startX = e.clientX;
-    startY = e.clientY;
-  };
+  generalMove(e, settings);
 };
 
 openChar.onclick = function() {
@@ -232,21 +220,5 @@ document.getElementById("closechar").onclick = function() {
   character.style.display = "none";
 };
 charDragBar.onmousedown = function(e) {
-  e.preventDefault();
-  draggable = true;
-  startX = e.clientX;
-  startY = e.clientY;
-  onmouseup = function(e) {
-    draggable = false;
-  };
-  onmousemove = function(e) {
-    e.preventDefault();
-    if(!draggable) return;
-    var deltaX = e.clientX - startX;
-    var deltaY = e.clientY - startY;
-    character.style.left = deltaX + character.offsetLeft + "px";
-    character.style.top = deltaY + character.offsetTop + "px";
-    startX = e.clientX;
-    startY = e.clientY;
-  };
+  generalMove(e, character);
 };

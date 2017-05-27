@@ -131,7 +131,7 @@ var createExtraNum = function(min, max, start) {
   input.max = max;
   input.value = start;
   input.step = 1;
-  input.id = "inputnum2";
+  input.id = "inputnum" + (forms.firstChild.childNodes.length);
   input.className = "numbutton";
   forms.firstChild.insertBefore(input, forms.firstChild.lastChild);
 };

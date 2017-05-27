@@ -221,8 +221,10 @@ events = function() {
     case "destroyDaedalus":
       m("");
     case "beehive":
+      m("");
       break;
     case "apprentice":
+      m("As you are traversing a large plain with rocks strewn all over it you hear a cry for help. When you approach you find a man stuck")
       break;
     case "booty":
       if(player.luck === Math.floor(labyrinth.width*size*0.1)) {
@@ -259,6 +261,7 @@ events = function() {
             solveXproblem();
             break;
           case 4:
+            multipleEquations(4, 16);
             break;
         };
         m("'Very well', he says, looking delighted, 'solve this:'<br>" + askProblem);
