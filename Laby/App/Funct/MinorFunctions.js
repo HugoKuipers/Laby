@@ -1,19 +1,9 @@
 "use strict";
-// var randomOperator = function() {
-//   switch (Math.floor(Math.random()*3)) {
-//     case 0:
-//       return '+';
-//       break;
-//     case 1:
-//       return '-';
-//       break;
-//     case 2:
-//       return '*';
-//       break;
-//   };
-// };
-
-var fourNumberProblem = function(a,b,c,d) {
+var fourNumberProblem = function(x) {
+  let a = Math.ceil(Math.random()*x);
+  let b = Math.ceil(Math.random()*x);
+  let c = Math.ceil(Math.random()*x);
+  let d = Math.ceil(Math.random()*x);
   switch (Math.floor(Math.random()*3)) {
     case 0:
       var sign1 = "+";
@@ -66,10 +56,10 @@ var fourNumberProblem = function(a,b,c,d) {
   };
 };
 
-var solveXproblem = function(a,b,c) {
-  a = Math.floor(Math.random()*10);
-  b = Math.floor(Math.random()*20);
-  c = Math.floor(Math.random()*10);
+var solveXproblem = function(x) {
+  a = Math.floor(Math.random()*x);
+  b = Math.floor(Math.random()*2*x);
+  c = Math.floor(Math.random()*x);
   switch (Math.floor(Math.random()*2)) {
     case 0:
       var sign1 = "+";
@@ -150,27 +140,22 @@ var multipleEquations = function(n, x) {
     equationVariables[String.fromCharCode(startVariableCode + i)] = parseInt(tempSign+tempNumber);
   };
   for(var i = 0; i < n; i++) {
-    switch (Math.floor((Math.random()*11)/6)) {
+    switch (Math.floor((Math.random()*10)/4)) {
       case 0:
         var tempNumber = Math.floor(Math.random()*x);
         var tempNumberPrint = tempNumber;
-        switch (Math.floor((Math.random()*6)/5)) {
-          case 0:
-            var tempSaveRandom = Math.floor(Math.random()*n);
-            while(tempSaveRandom === i) {
-              tempSaveRandom = Math.floor(Math.random()*n);
-            };
-            var tempCompare = equationVariables[String.fromCharCode(startVariableCode + tempSaveRandom)];
-            var tempComparePrint = String.fromCharCode(startVariableCode + tempSaveRandom);
-            break;
-          case 1:
-            var tempCompare = Math.floor(Math.random()*x);
-            var tempComparePrint = tempCompare;
-            break;
-        };
-        break;
-      case 1:
         var tempSaveRandom = Math.floor(Math.random()*n);
+        while(tempSaveRandom === i) {
+          tempSaveRandom = Math.floor(Math.random()*n);
+        };
+        var tempCompare = equationVariables[String.fromCharCode(startVariableCode + tempSaveRandom)];
+        var tempComparePrint = String.fromCharCode(startVariableCode + tempSaveRandom);
+        break;
+      default:
+        var tempSaveRandom = Math.floor(Math.random()*n);
+        while(tempSaveRandom === i) {
+          tempSaveRandom = Math.floor(Math.random()*n);
+        };
         var tempNumber = equationVariables[String.fromCharCode(startVariableCode + tempSaveRandom)];
         var tempNumberPrint = String.fromCharCode(startVariableCode + tempSaveRandom);
         switch (Math.floor(Math.random()*3)) {

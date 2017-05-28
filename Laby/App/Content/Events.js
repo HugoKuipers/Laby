@@ -251,17 +251,13 @@ events = function() {
       if(questionAnswer === "Accept") {
         switch (difficulty.length) {
           case 2:
-            let a = Math.ceil(Math.random()*9);
-            let b = Math.ceil(Math.random()*9);
-            let c = Math.ceil(Math.random()*9);
-            let d = Math.ceil(Math.random()*9);
-            fourNumberProblem(a,b,c,d);
+            fourNumberProblem(9);
             break;
           case 3:
-            solveXproblem();
+            solveXproblem(10);
             break;
           case 4:
-            multipleEquations(4, 16);
+            multipleEquations(5, 21);
             break;
         };
         m("'Very well', he says, looking delighted, 'solve this:'<br>" + askProblem);
