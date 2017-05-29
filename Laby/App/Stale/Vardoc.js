@@ -16,6 +16,8 @@ var defaultSize;
 var events;
 var itemEvents;
 var useItemEvents;
+var attEvents;
+var defEvents;
 var questionAnswer;
 var draggable = false;
 var draggableItem = false;

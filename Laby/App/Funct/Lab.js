@@ -6,15 +6,17 @@ var setPlayer = function() {
     life: 5,
     gold: 0,
     luck: 0,
+    dmg: 1,
+    def: 1,
     inventory: [],
     equipment: {
-      head: "",
-      amulet: "",
-      torso: "",
-      rightHand: "",
-      leftHand: "",
-      legs: "",
-      feet: ""
+      head: {},
+      amulet: {},
+      torso: {},
+      rightHand: {},
+      leftHand: {},
+      legs: {},
+      feet: {}
     },
     points: 0
   };
@@ -601,10 +603,10 @@ var clickMove = function() {
 
 var changeLife = function(amount, item) {
   if(item) {
-    let place = itemText;
+    var place = itemText;
   }
   else {
-    let place = message;
+    var place = message;
   };
   player.life += amount;
   document.getElementById("life").innerHTML = "Life: " + player.life;
@@ -624,12 +626,11 @@ var changeLife = function(amount, item) {
 };
 var changeGold = function(amount, item) {
   if(item) {
-    let place = itemText;
+    var place = itemText;
   }
   else {
-    let place = message;
+    var place = message;
   };
-  console.log(place);
   if(amount*-1 > player.gold) amount = player.gold*-1;
   player.gold += amount;
   document.getElementById("gold").innerHTML = "Gold: " + player.gold;
@@ -703,14 +704,14 @@ var changeInventory = function(item, dont) {
           };
           draggableItem = false;
           if(item.equip === "hands") {
-            if(deze.offset().left < $("#righthandequipment").offset().left + 60 && deze.offset().left > $("#righthandequipment").offset().left - 60 && deze.offset().top < $("#righthandequipment").offset().top + 60 && deze.offset().top > $("#righthandequipment").offset().top - 60) {
+            if(deze.offset().left < $("#righthandequipmentunder").offset().left + 60 && deze.offset().left > $("#righthandequipmentunder").offset().left - 60 && deze.offset().top < $("#righthandequipmentunder").offset().top + 60 && deze.offset().top > $("#righthandequipmentunder").offset().top - 60) {
               var checkEquipSpace = "#righthandequipment";
-              var checkEquipPlayer = player.equipment.rightHand;
+              var checkEquipPlayer = "rightHand";
               equipItem(item, checkEquipSpace, checkEquipPlayer);
             }
-            else if(deze.offset().left < $("#lefthandequipment").offset().left + 60 && deze.offset().left > $("#lefthandequipment").offset().left - 60 && deze.offset().top < $("#lefthandequipment").offset().top + 60 && deze.offset().top > $("#lefthandequipment").offset().top - 60) {
+            else if(deze.offset().left < $("#lefthandequipmentunder").offset().left + 60 && deze.offset().left > $("#lefthandequipmentunder").offset().left - 60 && deze.offset().top < $("#lefthandequipmentunder").offset().top + 60 && deze.offset().top > $("#lefthandequipmentunder").offset().top - 60) {
               var checkEquipSpace = "#lefthandequipment";
-              var checkEquipPlayer = player.equipment.leftHand;
+              var checkEquipPlayer = "leftHand";
               equipItem(item, checkEquipSpace, checkEquipPlayer);
             }
             else {
@@ -725,26 +726,26 @@ var changeInventory = function(item, dont) {
             switch (item.equip) {
               case "head":
                 var checkEquipSpace = "#headequipment";
-                var checkEquipPlayer = player.equipment.head;
+                var checkEquipPlayer = "head";
                 break;
               case "amulet":
                 var checkEquipSpace = "#amuletequipment";
-                var checkEquipPlayer = player.equipment.amulet;
+                var checkEquipPlayer = "amulet";
                 break;
               case "torso":
                 var checkEquipSpace = "#torsoequipment";
-                var checkEquipPlayer = player.equipment.torso;
+                var checkEquipPlayer = "torso";
                 break;
               case "legs":
                 var checkEquipSpace = "#legsequipment";
-                var checkEquipPlayer = player.equipment.legs;
+                var checkEquipPlayer = "legs";
                 break;
               case "feet":
                 var checkEquipSpace = "#feetequipment";
-                var checkEquipPlayer = player.equipment.feet;
+                var checkEquipPlayer = "feet";
                 break;
             };
-            if(deze.offset().left < $(checkEquipSpace).offset().left + 60 && deze.offset().left > $(checkEquipSpace).offset().left - 60 && deze.offset().top < $(checkEquipSpace).offset().top + 60 && deze.offset().top > $(checkEquipSpace).offset().top - 60) {
+            if(deze.offset().left < $((checkEquipSpace+"under")).offset().left + 60 && deze.offset().left > $((checkEquipSpace+"under")).offset().left - 60 && deze.offset().top < $((checkEquipSpace+"under")).offset().top + 60 && deze.offset().top > $((checkEquipSpace+"under")).offset().top - 60) {
               equipItem(item, checkEquipSpace, checkEquipPlayer);
             }
             else {
@@ -776,44 +777,98 @@ var changeInventory = function(item, dont) {
   };
 };
 
+var updateStats = function() {
+  player.dmg = 1;
+  player.def = 1;
+  for(var data in player.equipment) {
+    if(player.equipment[data].dmg) player.dmg += player.equipment[data].dmg;
+    if(player.equipment[data].def) player.def += player.equipment[data].def;
+  };
+};
 var equipItem = function(item, checkEquipSpace, checkEquipPlayer, handSwitch) {
   if(item === "-random") {
-    // later issues
+    switch (Math.floor(Math.random()*7)) {
+      case 0:
+        item = "-headequipment";
+        checkEquipPlayer = "head";
+        break;
+      case 1:
+        item = "-amuletequipment";
+        checkEquipPlayer = "amulet";
+        break;
+      case 2:
+        item = "-torsoequipment";
+        checkEquipPlayer = "torso";
+        break;
+      case 3:
+        item = "-righthandequipment";
+        checkEquipPlayer = "rightHand";
+        break;
+      case 4:
+        item = "-lefthandequipment";
+        checkEquipPlayer = "leftHand";
+        break;
+      case 5:
+        item = "-legsequipment";
+        checkEquipPlayer = "legs";
+        break;
+      case 6:
+        item = "-feetequipment";
+        checkEquipPlayer = "feet";
+        break;
+    };
+    equipItem(item, checkEquipSpace, checkEquipPlayer);
   }
   else if(item[0] === "-") {
-    // item = item.replace("-", "");
-    // let itemJ = jsonItems[item];
-    // if(player.inventory.includes(itemJ)) {
-    //   var removeThisItem = player.inventory.indexOf(itemJ);
-    //   player.inventory.splice(removeThisItem, 1);
-    //   itemImage[removeThisItem].remove();
-    //   if(!dont) {
-    //     message.innerHTML += "<br>You have lost the " + item + ".";
-    //     prevM += "<br>You have lost the " + item + ".";
-    //   };
-    // };    // later later later
-  }
-  else {
-    deze.css({
-      "left": 0,
-      "top": 0,
-      "z-index": 10
-    });
-    if(!handSwitch) {
-      changeInventory("-" + item.name, true);
-      if($(checkEquipSpace).attr("class") === "fullEquip") {
-        changeInventory($(checkEquipSpace).attr("name"), true);
+    item = item.replace("-", "");
+    let itemJ = jsonItems[$("#" + item).attr("name")];
+    if(player.equipment[checkEquipPlayer] === itemJ) {
+      player.equipment[checkEquipPlayer] = {};
+      $("#" + item).remove();
+      if(!handSwitch) {
+        changeInventory(itemJ.name);
+        y("You have unequipped the " + itemJ.name + ".");
       };
     };
-    $(checkEquipSpace).attr({
-      "src": item.image,
-      "title": item.hover,
-      "class": "fullEquip",
-      "name": item.name
+    updateStats();
+  }
+  else {
+    if(!handSwitch) {
+      y("You have equipped the " + item.name + ".");
+      deze.css({
+        "left": 0,
+        "top": 0,
+        "z-index": 10
+      });
+      changeInventory("-" + item.name, true);
+      if($(checkEquipSpace).attr("class") === "fullEquip") {
+        equipItem("-" + checkEquipSpace.replace("#", ""), checkEquipSpace, checkEquipPlayer);
+      };
+    }
+    else {
+      if(checkEquipPlayer === "rightHand") {
+        var checkEquipPlayerSwitch = "leftHand";
+      }
+      else if(checkEquipPlayer === "leftHand") {
+        var checkEquipPlayerSwitch = "rightHand";
+      };
+      equipItem("-" + deze.attr("id"), checkEquipSpace, checkEquipPlayerSwitch, true);
+      if($(checkEquipSpace).attr("class") === "fullEquip") {
+        equipItem(player.equipment[checkEquipPlayer], "#" + deze.attr("id"), checkEquipPlayerSwitch, true);
+        equipItem("-" + checkEquipSpace.replace("#", ""), checkEquipSpace, checkEquipPlayer, true);
+      };
+    };
+    player.equipment[checkEquipPlayer] = item;
+    var newEquipImgTag = $("<img>", {
+      id: checkEquipSpace.replace("#", ""),
+      class: "fullEquip",
+      src: item.image,
+      title: item.hover,
+      name: item.name
     });
-    $(checkEquipSpace).on("mousedown", function(e) {
+    newEquipImgTag.on("mousedown", function(e) {
       if(!(ssX < startX + 20 && ssX > startX -20 && ssY < startY +20 && ssY > startY -20)) {
-        $(checkEquipSpace).on("click", function(e) {
+        newEquipImgTag.on("click", function(e) {
           itemEquipEvents(item.name ,e);
         });
       };
@@ -828,49 +883,60 @@ var equipItem = function(item, checkEquipSpace, checkEquipPlayer, handSwitch) {
         $(document).off("mousemove");
         $(document).off("mouseup");
         if(ssX < startX + 20 && ssX > startX -20 && ssY < startY +20 && ssY > startY -20) {
-          $(checkEquipSpace).on("click", function(e) {
+          newEquipImgTag.on("click", function(e) {
             itemEquipEvents(item.name ,e);
           });
         }
         else {
-          $(checkEquipSpace).off("click");
+          newEquipImgTag.off("click");
         };
         draggableItem = false;
         if(item.equip === "hands") {
           if(deze.offset().left < $("#righthandequipmentunder").offset().left + 60 && deze.offset().left > $("#righthandequipmentunder").offset().left - 60 && deze.offset().top < $("#righthandequipmentunder").offset().top + 60 && deze.offset().top > $("#righthandequipmentunder").offset().top - 60) {
-            console.log("hi");
-            deze = 0;
-            var checkEquipSpace = "#righthandequipment";
-            var checkEquipPlayer = player.equipment.rightHand;
-            equipItem(item, checkEquipSpace, checkEquipPlayer, true);
+            if(deze.attr("id") === "righthandequipment") {
+              deze.css({
+                "left": $("#" + deze.attr("id") + "under").css("left"),
+                "top": $("#" + deze.attr("id") + "under").css("top"),
+                "z-index": 10
+              });
+            }
+            else {
+              equipItem(item, "#righthandequipment", "rightHand", true);
+            };
           }
           else if(deze.offset().left < $("#lefthandequipmentunder").offset().left + 60 && deze.offset().left > $("#lefthandequipmentunder").offset().left - 60 && deze.offset().top < $("#lefthandequipmentunder").offset().top + 60 && deze.offset().top > $("#lefthandequipmentunder").offset().top - 60) {
-            var checkEquipSpace = "#lefthandequipment";
-            var checkEquipPlayer = player.equipment.leftHand;
-            equipItem(item, checkEquipSpace, checkEquipPlayer, true);
+            if(deze.attr("id") === "lefthandequipment") {
+              deze.css({
+                "left": $("#" + deze.attr("id") + "under").css("left"),
+                "top": $("#" + deze.attr("id") + "under").css("top"),
+                "z-index": 10
+              });
+            }
+            else {
+              equipItem(item, "#lefthandequipment", "leftHand", true);
+            };
           }
-          else if(deze.offset().left > $("#character").offset().right || deze.offset().left < $("#character").offset().left - 60 || deze.offset().top > $("#character").offset().bottom || deze.offset().top < $("#character").offset().top - 60) {
-            // equipItem("-" + item.name);
-            changeInventory(item.name);
+          else if(deze.offset().left > $("#character").offset().left + 244 || deze.offset().left < $("#character").offset().left - 60 || deze.offset().top > $("#character").offset().top + 350 || deze.offset().top < $("#character").offset().top - 60) {
+            checkEquipPlayer = deze.attr("id").replace("hand", "Hand").replace("equipment", "");
+            equipItem("-" + deze.attr("id"), checkEquipSpace, checkEquipPlayer);
           }
           else {
-            console.log($(deze.attr("id") + "under"));
             deze.css({
-              "left": $(deze.attr("id") + "under").attr("left") + "px",
-              "top": $(deze.attr("id") + "under").attr("top") + "px",
+              "left": $("#" + deze.attr("id") + "under").css("left"),
+              "top": $("#" + deze.attr("id") + "under").css("top"),
               "z-index": 10
             });
           };
         }
         else {
-          if(deze.offset().left > $("#character").offset().right || deze.offset().left < $("#character").offset().left - 60 || deze.offset().top > $("#character").offset().bottom || deze.offset().top < $("#character").offset().top - 60) {
-            // equipItem("-" + item.name);
-            changeInventory(item.name);
+          if(deze.offset().left > $("#character").offset().left + 244 || deze.offset().left < $("#character").offset().left - 60 || deze.offset().top > $("#character").offset().top + 350 || deze.offset().top < $("#character").offset().top - 60) {
+            checkEquipPlayer = deze.attr("id").replace("equipment", "");
+            equipItem("-" + deze.attr("id"), checkEquipSpace, checkEquipPlayer);
           }
           else {
             deze.css({
-              "left": 0,
-              "top": 0,
+              "left": $("#" + deze.attr("id") + "under").css("left"),
+              "top": $("#" + deze.attr("id") + "under").css("top"),
               "z-index": 10
             });
           };
@@ -891,7 +957,9 @@ var equipItem = function(item, checkEquipSpace, checkEquipPlayer, handSwitch) {
         dropdown.hide(100);
       });
     });
+    $("#equipspace").append(newEquipImgTag);
   };
+  updateStats();
 };
 
 var exitLabyrinth = function() {

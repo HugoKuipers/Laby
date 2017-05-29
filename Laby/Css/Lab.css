@@ -612,3 +612,31 @@ button:focus {
   top: 61%;
   left: 20%;
 }
+.attack {
+  top: 44%;
+  width: 8vh;
+  height: 8vh;
+  background-image: url("../Images/Attack.png");
+  background-repeat: no-repeat;
+  background-size: 80px 80px;
+}
+.defend {
+  top: 78%;
+  width: 8vh;
+  height: 8vh;
+  background-image: url("../Images/Defend.png");
+  background-repeat: no-repeat;
+  background-size: 80px 80px;
+}
+#attackRight {
+  left: 23%;
+}
+#attackLeft {
+  left: 63%;
+}
+#defendRight {
+  left: 23%;
+}
+#defendLeft {
+  left: 63%;
+}

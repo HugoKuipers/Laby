@@ -34,5 +34,55 @@ useItemEquipEvents = function(id) {
           y("Ban...Kai");
       };
       break;
+    case "Wooden Sword":
+      switch (laby.rows[player.y].cells[player.x].id) {
+        case "":
+          useItemEvents(id);
+          break;
+        default:
+          if(dontUseThat()) return;
+          y("");
+      };
+      break;
+    case "":
+      switch (laby.rows[player.y].cells[player.x].id) {
+        case "":
+          useItemEvents(id);
+          break;
+        default:
+          if(dontUseThat()) return;
+          y("");
+      };
+      break;
+    case "":
+      switch (laby.rows[player.y].cells[player.x].id) {
+        case "":
+          useItemEvents(id);
+          break;
+        default:
+          if(dontUseThat()) return;
+          y("");
+      };
+    break;
+    case "":
+      switch (laby.rows[player.y].cells[player.x].id) {
+        case "":
+          useItemEvents(id);
+          break;
+        default:
+          if(dontUseThat()) return;
+          y("");
+      };
+      break;
+    case "":
+      switch (laby.rows[player.y].cells[player.x].id) {
+        case "":
+          useItemEvents(id);
+          break;
+        default:
+          if(dontUseThat()) return;
+          y("");
+      };
+      break;
   };
 };

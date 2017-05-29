@@ -231,18 +231,6 @@ var multipleEquations = function(n, x) {
         else {
           var tempSign2 = "*";
           var tempFinal = tempTotal / tempCompare;
-          if((tempFinal*1000) % 1 !== 0) {
-            tempEquals = "\u2248";
-            tempFinal = tempFinal.toString();
-            var tempPointPlace = tempFinal.indexOf(".");
-            if(parseInt(tempFinal[tempPointPlace+4]) > 4) {
-              var tempFinalRoundUp = (parseInt(tempFinal[tempPointPlace+3]) + 1).toString();
-              tempFinal = (tempFinal.substr(0, (tempPointPlace+3))) + tempFinalRoundUp;
-            }
-            else {
-              tempFinal = tempFinal.substr(0, (tempPointPlace+4));
-            };
-          };
         };
         break;
       case 3:
@@ -264,20 +252,20 @@ var multipleEquations = function(n, x) {
         }
         else {
           var tempFinal = tempCompare / tempTotal;
-          if((tempFinal*1000) % 1 !== 0) {
-            tempEquals = "\u2248";
-            tempFinal = tempFinal.toString();
-            var tempPointPlace = tempFinal.indexOf(".");
-            if(parseInt(tempFinal[tempPointPlace+4]) > 4) {
-              var tempFinalRoundUp = (parseInt(tempFinal[tempPointPlace+3]) + 1).toString();
-              tempFinal = (tempFinal.substr(0, (tempPointPlace+3))) + tempFinalRoundUp;
-            }
-            else {
-              tempFinal = tempFinal.substr(0, (tempPointPlace+4));
-            };
-          };
         };
         break;
+    };
+    if((tempFinal*1000) % 1 !== 0) {
+      tempEquals = "\u2248";
+      tempFinal = tempFinal.toString();
+      var tempPointPlace = tempFinal.indexOf(".");
+      if(parseInt(tempFinal[tempPointPlace+4]) > 4) {
+        var tempFinalRoundUp = (parseInt(tempFinal[tempPointPlace+3]) + 1).toString();
+        tempFinal = (tempFinal.substr(0, (tempPointPlace+3))) + tempFinalRoundUp;
+      }
+      else {
+        tempFinal = tempFinal.substr(0, (tempPointPlace+4));
+      };
     };
     var tempFinalPrint = tempFinal;
     for(var j = 0; j < n; j++) {

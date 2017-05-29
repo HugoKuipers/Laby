@@ -11,7 +11,9 @@
     "hover": "Makeshift Club",
     "image": "../../Images/Club.png",
     "value": 0,
-    "equip": "hands"
+    "equip": "hands",
+    "dmg": 2,
+    "def": 1
   },
   "Labyrinth's Crystal": {
     "name": "Labyrinth's Crystal",
@@ -39,7 +41,8 @@
     "hover": "Cartography Tool",
     "image": "../../Images/Passer.png",
     "value": 10,
-    "equip": "feet"
+    "equip": "feet",
+    "def": 1
   },
   "Magic Scroll: Earth": {
     "name": "Magic Scroll: Earth",
@@ -81,7 +84,8 @@
     "hover": "Wooden Sword",
     "image": "../../Images/Sword.png",
     "value": 0,
-    "equip": "hands"
+    "equip": "hands",
+    "dmg": 1
   },
   "Beeswax": {
     "name": "Beeswax",
