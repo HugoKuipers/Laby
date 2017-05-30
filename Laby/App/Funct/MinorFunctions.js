@@ -55,7 +55,6 @@ var fourNumberProblem = function(x) {
     };
   };
 };
-
 var solveXproblem = function(x) {
   a = Math.floor(Math.random()*x);
   b = Math.floor(Math.random()*2*x);
@@ -120,7 +119,6 @@ var solveXproblem = function(x) {
     };
   };
 };
-
 var multipleEquations = function(n, x) {
   var equationVariables = {};
   var equationAnswers = [];
@@ -291,7 +289,6 @@ var multipleEquations = function(n, x) {
       i -= 1;
     };
   };
-  console.log(equationVariables);
   askProblem += "Find the value of each variable, please enter your answers in order.";
   createInputNum("","",0);
   for(var i = 1; i < n; i++) {

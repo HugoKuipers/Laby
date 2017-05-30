@@ -236,11 +236,12 @@ events = function() {
       else {
         m("As you are traversing a large plain with rocks strewn all over it you hear a cry for help. When you approach you find a man in robes stuck below a sizable boulder. 'Please help me' he cries 'I'll give you a scroll if you do so please just hurry!<br>Help the man?");
         createInputOpt(["Try to help", "Make fun of him", "Just walk away"], "Try to help", forms);
-        move = function() {
-          move();
-          justMageIssues += 1;
+        if(originalMove === undefined) originalMove = move;
+        move = function(xy, posmin) {
+          originalMove(xy, posmin);
+          if($(laby.rows[prevY].cells[prevX]).hasClass("player")) justMageIssues += 1;
           if(justMageIssues === 10) {
-            move = move();
+            move = originalMove;
           };
         };
       };
