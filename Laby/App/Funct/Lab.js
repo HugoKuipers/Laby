@@ -8,6 +8,7 @@ var setPlayer = function() {
     luck: 0,
     dmg: 1,
     def: 1,
+    sight: 1,
     inventory: [],
     equipment: {
       head: {},
@@ -324,27 +325,22 @@ var setLabyrinth = function() {
       createTr.insertCell(j);
     };
   };
-  // autoWidth = (window.innerWidth * 0.6) / labyrinth.width;
-  // if(autoWidth > 80) autoWidth = 80;
-  // for(var i = 0; i < labyTd.length; i++) {
-  //   labyTd[i].style.height = autoWidth + "px";
-  //   labyTd[i].style.width = autoWidth + "px";
-  // };
-  // for(var i = 0; i < playerClass.length; i++) {
-  //   playerClass[i].style.backgroundSize = autoWidth + "px " + autoWidth + "px";
-  // };
-  // window.onresize = function() {
-  //   autoWidth = (window.innerWidth * 0.6) / labyrinth.width;
-  //   if(autoWidth > 80) autoWidth = 80;
-  //   for(var i = 0; i < labyTd.length; i++) {
-  //     labyTd[i].style.height = autoWidth + "px";
-  //     labyTd[i].style.width = autoWidth + "px";
-  //   };
-  //   for(var i = 0; i < playerClass.length; i++) {
-  //     playerClass[i].style.backgroundSize = autoWidth + "px " + autoWidth + "px";
-  //   };
-  // };
-  // document.getElementsByClassName("explored").style.backgroundSize = autoWidth;
+  var visibleWidth = (($("#viewbox").width() - (($("#viewbox").width() % 83))) / 83);
+  var visibleHeight = (($("#viewbox").height() - (($("#viewbox").height() % 83))) / 83);
+  $("#viewbox").css({
+    width: visibleWidth*83 + 1,
+    height: visibleHeight*83 + 1
+  });
+  if($("#viewbox").width() > $("#laby").width()) {
+    $("#viewbox").css({
+      width: $("#laby").width() + 4
+    });
+  };
+  if($("#viewbox").height() > $("#laby").height()) {
+    $("#viewbox").css({
+      height: $("#laby").height() + 4
+    });
+  };
   setPlayer();
   laby.rows[player.y].cells[player.x].className = "player";
   laby.rows[player.y].cells[player.x].id = "entrance";
@@ -353,6 +349,7 @@ var setLabyrinth = function() {
   openInv.style.display = "initial";
   openSet.style.display = "initial";
   openChar.style.display = "initial";
+  openMap.style.display = "initial";
   ableMove(true);
   for(var c = 0; c < player.x; c++) {
     laby.rows[labyrinth.height-1].cells[c].className = "wall";
@@ -421,28 +418,28 @@ var viewMap = function() {
     minoClass[0].classList.remove("minotaur");
   };
   if(laby.rows[player.y].rowIndex !== 0 && laby.rows[player.y].rowIndex !== size && laby.rows[player.y].cells[player.x].cellIndex !== 0 && laby.rows[player.y].cells[player.x].cellIndex !== labyrinth.width - 1) {
-    for(var l = -1; l < 2; l++) {
-      viewRow(l, -1, 2);
+    for(var l = -player.sight; l < player.sight+1; l++) {
+      viewRow(l, -player.sight, player.sight+1);
     };
   }
   else if(laby.rows[player.y].rowIndex === 0 && laby.rows[player.y].cells[player.x].cellIndex !== 0 && laby.rows[player.y].cells[player.x].cellIndex !== labyrinth.width - 1) {
-    for(var l = -1; l < 2; l++) {
-      viewRow(l, 0, 2);
+    for(var l = -player.sight; l < player.sight+1; l++) {
+      viewRow(l, 0, player.sight+1);
     };
   }
   else if(laby.rows[player.y].rowIndex === size) {
-    for(var l = -1; l < 2; l++) {
-      viewRow(l, -1, 1);
+    for(var l = -player.sight; l < player.sight+1; l++) {
+      viewRow(l, -player.sight, 1);
     };
   }
   else if(laby.rows[player.y].cells[player.x].cellIndex === 0 && laby.rows[player.y].rowIndex !== 0) {
-    for(var l = 0; l < 2; l++) {
-      viewRow(l, -1, 2);
+    for(var l = 0; l < player.sight+1; l++) {
+      viewRow(l, -player.sight, player.sight+1);
     };
   }
   else if(laby.rows[player.y].cells[player.x].cellIndex === labyrinth.width - 1 && laby.rows[player.y].rowIndex !== 0) {
-    for(var l = -1; l < 1; l++) {
-      viewRow(l, -1, 2);
+    for(var l = -player.sight; l < 1; l++) {
+      viewRow(l, -player.sight, player.sight+1);
     };
   };
 };

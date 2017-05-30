@@ -17,10 +17,10 @@
       <button type="button" id="east" disabled class="direction">East</button>
       <button type="button" id="south" disabled class="direction">South</button>
       <button type="button" id="west" disabled class="direction">West</button>
-      <button type="button" id="attackRight" disabled class="attack"></button>
-      <button type="button" id="attackLeft" disabled class="attack"></button>
-      <button type="button" id="defendRight" disabled class="defend"></button>
-      <button type="button" id="defendLeft" disabled class="defend"></button>
+      <img src="../../Images/Attack.png" id="attackRight" class="attack"/>
+      <img src="../../Images/Attack.png" id="attackLeft" class="attack"/>
+      <img src="../../Images/Defend.png" id="defendRight" class="defend"/>
+      <img src="../../Images/Defend.png" id="defendLeft" class="defend"/>
     </div>
     <div id="text">
       <div id="alertdiv" class="divintext">
@@ -43,6 +43,7 @@
       <button type="button" id="openinv" title="Open your inventory">Inventory</button>
       <button type="button" id="openset" title="Open settings">Settings</button>
       <button type="button" id="openchar" title="Open character equipment">Character</button>
+      <button type="button" id="openmap" title="Open the mini map">Map</button>
     </div>
     <div id="inventory">
       <div id="dragbar">
@@ -75,11 +76,21 @@
         <img src="../../Images/LeftHand.png" id="lefthandequipmentunder" title="Left Hand" class="underEquip"/>
         <img src="../../Images/Pants.jpg" id="legsequipmentunder" title="Legs" class="underEquip"/>
         <img src="../../Images/Feet.png" id="feetequipmentunder" title="Feet" class="underEquip"/>
+        <div id="statside"></div>
       </div>
     </div>
-    <div id="visual">
-      <table id="laby">
-      </table>
+    <div id="minimap">
+      <div id="mapdragbar">
+        <span id="mapheader">Map</span>
+      </div>
+      <button id="closemap">&#10006;</button>
+      <p id="innermap"></p>
+    </div>
+    <div id="viewbox">
+      <div id="visual">
+        <table id="laby">
+        </table>
+      </div>
     </div>
     <script src="VardocAfter.js"></script>
     <script src="../Funct/Lab.js"></script>

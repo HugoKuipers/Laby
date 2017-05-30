@@ -224,7 +224,26 @@ events = function() {
       m("");
       break;
     case "apprentice":
-      m("As you are traversing a large plain with rocks strewn all over it you hear a cry for help. When you approach you find a man stuck")
+      if(questionAnswer === "Try to help") {
+        m("");
+      }
+      else if(questionAnswer === "Make fun of him") {
+        m("");
+      }
+      else if(justMageIssues === 10) {
+        m("");
+      }
+      else {
+        m("As you are traversing a large plain with rocks strewn all over it you hear a cry for help. When you approach you find a man in robes stuck below a sizable boulder. 'Please help me' he cries 'I'll give you a scroll if you do so please just hurry!<br>Help the man?");
+        createInputOpt(["Try to help", "Make fun of him", "Just walk away"], "Try to help", forms);
+        move = function() {
+          move();
+          justMageIssues += 1;
+          if(justMageIssues === 10) {
+            move = move();
+          };
+        };
+      };
       break;
     case "booty":
       if(player.luck === Math.floor(labyrinth.width*size*0.1)) {

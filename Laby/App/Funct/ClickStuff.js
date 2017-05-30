@@ -110,6 +110,14 @@ document.onkeydown = function(e) {
         document.getElementById("closeinv").click();
       };
       break;
+    case 77:
+      if(miniMap.style.display === "none" || miniMap.style.display === "") {
+        openMap.click();
+      }
+      else if(miniMap.style.display === "initial") {
+        document.getElementById("closemap").click();
+      };
+      break;
   };
 };
 
@@ -221,4 +229,15 @@ document.getElementById("closechar").onclick = function() {
 };
 charDragBar.onmousedown = function(e) {
   generalMove(e, character);
+};
+
+openMap.onclick = function() {
+  if(openMap.style.display === "") return;
+  miniMap.style.display = "initial";
+};
+document.getElementById("closemap").onclick = function() {
+  miniMap.style.display = "none";
+};
+mapDragBar.onmousedown = function(e) {
+  generalMove(e, miniMap);
 };

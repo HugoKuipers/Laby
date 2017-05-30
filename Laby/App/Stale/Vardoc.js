@@ -28,6 +28,7 @@ var prevM = "";
 var prevA = "";
 var attackAmount;
 var deadGobPotTry;
+var justMageIssues = 0;
 var correctProblem;
 var answerProblem;
 var answerProblem1;
