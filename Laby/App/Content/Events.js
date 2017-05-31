@@ -236,6 +236,9 @@ events = function() {
       else if(justMageIssues === 10) {
         m("");
       }
+      else if(justMageIssues > 0) {
+        m("");
+      }
       else {
         m("As you are traversing a large plain with rocks strewn all over it you hear a cry for help. When you approach you find a man in robes stuck below a sizable boulder. 'Please help me' he cries 'I'll give you a scroll if you do so please just hurry!<br>Help the man?");
         createInputOpt(["Try to help", "Make fun of him", "Just walk away"], "Try to help", forms);

@@ -26,7 +26,15 @@ document.onkeydown = function(e) {
     case 37:
       e.preventDefault();
       if(forms.innerHTML !== "" && forms.firstChild.firstChild === document.getElementById("inputnum")) {
-        document.getElementById("inputnum").value = document.getElementById("inputnum").min;
+        if(document.getElementById("inputnum").min) {
+          document.getElementById("inputnum").value = document.getElementById("inputnum").min;
+        }
+        else if(parseInt(document.getElementById("inputnum").value) === "NaN") {
+          document.getElementById("inputnum").value = 0;
+        }
+        else {
+          document.getElementById("inputnum").value = parseInt(document.getElementById("inputnum").value) - 10;
+        };
       }
       else if((forms.innerHTML !== "" && forms.firstChild.firstChild === document.getElementsByName("choice")[0]) || (formsitems.innerHTML !== "" && formsitems.firstChild.firstChild === document.getElementsByName("choice")[0])) {
         document.getElementsByName("choice")[0].checked = true;
@@ -44,6 +52,9 @@ document.onkeydown = function(e) {
     case 38:
       e.preventDefault();
       if(forms.innerHTML !== "" && forms.firstChild.firstChild === document.getElementById("inputnum")) {
+        if(parseInt(document.getElementById("inputnum").value) === "NaN") {
+          document.getElementById("inputnum").value = 0;
+        };
         document.getElementById("inputnum").value = parseInt(document.getElementById("inputnum").value) + 1;
         if(parseInt(document.getElementById("inputnum").value) > parseInt(document.getElementById("inputnum").max)) {
           document.getElementById("inputnum").value = parseInt(document.getElementById("inputnum").value) - 1;
@@ -72,7 +83,15 @@ document.onkeydown = function(e) {
     case 39:
       e.preventDefault();
       if(forms.innerHTML !== "" && forms.firstChild.firstChild === document.getElementById("inputnum")) {
-        document.getElementById("inputnum").value = document.getElementById("inputnum").max;
+        if(document.getElementById("inputnum").max) {
+          document.getElementById("inputnum").value = document.getElementById("inputnum").max;
+        }
+        else if(parseInt(document.getElementById("inputnum").value) === "NaN") {
+          document.getElementById("inputnum").value = 0;
+        }
+        else {
+          document.getElementById("inputnum").value = parseInt(document.getElementById("inputnum").value) + 10;
+        };
       }
       else if((forms.innerHTML !== "" && forms.firstChild.firstChild === document.getElementsByName("choice")[0]) || (formsitems.innerHTML !== "" && formsitems.firstChild.firstChild === document.getElementsByName("choice")[0])) {
         for(var i in document.getElementsByName("choice")) {
@@ -92,6 +111,9 @@ document.onkeydown = function(e) {
     case 40:
       e.preventDefault();
       if(forms.innerHTML !== "" && forms.firstChild.firstChild === document.getElementById("inputnum")) {
+        if(parseInt(document.getElementById("inputnum").value) === "NaN") {
+          document.getElementById("inputnum").value = 0;
+        };
         document.getElementById("inputnum").value = parseInt(document.getElementById("inputnum").value) - 1;
         if(parseInt(document.getElementById("inputnum").value) < parseInt(document.getElementById("inputnum").min)) {
           document.getElementById("inputnum").value = parseInt(document.getElementById("inputnum").value) + 1;
