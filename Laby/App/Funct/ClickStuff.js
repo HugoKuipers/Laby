@@ -30,6 +30,12 @@ document.onkeydown = function(e) {
       }
       else if((forms.innerHTML !== "" && forms.firstChild.firstChild === document.getElementsByName("choice")[0]) || (formsitems.innerHTML !== "" && formsitems.firstChild.firstChild === document.getElementsByName("choice")[0])) {
         document.getElementsByName("choice")[0].checked = true;
+        if(document.getElementsByName("choice")[0] === "Just walk away") {
+          justWalkAway(true);
+        }
+        else {
+          justWalkAway(false);
+        };
       }
       else {
         west.click();
@@ -50,6 +56,12 @@ document.onkeydown = function(e) {
               return;
             };
             document.getElementsByName("choice")[i-1].checked = true;
+            if(document.getElementsByName("choice")[i-1] === "Just walk away") {
+              justWalkAway(true);
+            }
+            else {
+              justWalkAway(false);
+            };
           };
         };
       }
@@ -65,6 +77,12 @@ document.onkeydown = function(e) {
       else if((forms.innerHTML !== "" && forms.firstChild.firstChild === document.getElementsByName("choice")[0]) || (formsitems.innerHTML !== "" && formsitems.firstChild.firstChild === document.getElementsByName("choice")[0])) {
         for(var i in document.getElementsByName("choice")) {
           document.getElementsByName("choice")[document.getElementsByName("choice").length - 1].checked = true;
+          if(document.getElementsByName("choice")[document.getElementsByName("choice").length - 1] === "Just walk away") {
+            justWalkAway(true);
+          }
+          else {
+            justWalkAway(false);
+          };
         };
       }
       else {
@@ -86,7 +104,12 @@ document.onkeydown = function(e) {
               return;
             };
             document.getElementsByName("choice")[i+1].checked = true;
-            return;
+            if(document.getElementsByName("choice")[i+1] === "Just walk away") {
+              justWalkAway(true);
+            }
+            else {
+              justWalkAway(false);
+            };
           };
         };
       }
@@ -130,7 +153,7 @@ enter.onclick = function() {
     document.getElementById("buttons").style.top = "-25%";
     createInputNum(5, 15, defaultSize);
     document.getElementById("submitinput").onclick = function() {
-      if(document.getElementById("inputnum").value < 5 || document.getElementById("inputnum").value > 15) return;
+      if(document.getElementById("inputnum").value < 5 || document.getElementById("inputnum").value > 100) return;
       inputSize = document.getElementById("inputnum").value;
       size = parseInt(inputSize);
       setLabyrinth();
@@ -165,16 +188,24 @@ enter.onclick = function() {
 };
 
 north.onclick = function() {
-  move("y", false);
+  for(var data in moveFunctions) {
+    moveFunctions[data]("y", false);
+  };
 };
 east.onclick = function() {
-  move("x", true);
+  for(var data in moveFunctions) {
+    moveFunctions[data]("x", true);
+  };
 };
 south.onclick = function() {
-  move("y", true);
+  for(var data in moveFunctions) {
+    moveFunctions[data]("y", true);
+  };
 };
 west.onclick = function() {
-  move("x", false);
+  for(var data in moveFunctions) {
+    moveFunctions[data]("x", false);
+  };
 };
 
 var generalMove = function(e, place) {

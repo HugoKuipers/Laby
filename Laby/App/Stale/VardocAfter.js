@@ -22,6 +22,7 @@ var charDragBar = document.getElementById("chardragbar");
 var openMap = document.getElementById("openmap");
 var miniMap = document.getElementById("minimap");
 var mapDragBar = document.getElementById("mapdragbar");
+var innerMap = document.getElementById("innermap");
 var enter = document.getElementById("enter");
 var north = document.getElementById("north");
 var east = document.getElementById("east");

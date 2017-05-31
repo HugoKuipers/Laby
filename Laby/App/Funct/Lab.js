@@ -108,6 +108,25 @@ var cancelThisFunction = function() {
     return true;
   };
 };
+var justWalkAway = function(walk) {
+  ableMove(walk);
+  document.getElementById("submitinput").disabled = walk;
+  if(walk) {
+    if(!moveFunctions["removeInputOpt"]) {
+      moveFunctions["removeInputOpt"] = function(xy, posmin) {
+        while (forms.firstChild) {
+          forms.removeChild(forms.firstChild);
+        };
+        delete moveFunctions["removeInputOpt"];
+      };
+    };
+  }
+  else {
+    if(moveFunctions["removeInputOpt"]) {
+      delete moveFunctions["removeInputOpt"];
+    };
+  };
+};
 
 var createInputNum = function(min, max, start) {
   var form = document.createElement("form");
@@ -148,7 +167,19 @@ var createInputOpt = function(n, selected, place, id) {
     radio.value = n[i];
     radio.id = n[i];
     radio.checked = false;
-    radio.name = "choice"
+    radio.name = "choice";
+    if(n.includes("Just walk away")) {
+      if(n[i] === "Just walk away") {
+        radio.onclick = function() {
+          justWalkAway(true);
+        };
+      }
+      else {
+        radio.onclick = function() {
+          justWalkAway(false);
+        };
+      };
+    };
     var label = document.createElement("label");
     label.htmlFor = n[i];
     label.innerHTML = n[i] + "<br>";
@@ -161,14 +192,6 @@ var createInputOpt = function(n, selected, place, id) {
   form.appendChild(submitInput);
   place.appendChild(form);
   if(selected) document.getElementById(selected).checked = true;
-  // document.getElementById("Just walk away").onclick = function() {
-  //   ableMove(true);
-  //   document.getElementById("submitinput").disabled = true;
-  // };
-    //     ableMove(false);
-    //     document.getElementById("submitinput").disabled = false;
-    //   };
-    // };  /////wat als je de pijltjes gebruikt?
   document.getElementById("submitinput").onclick = function() {
     for(var i in n) {
       if(place.innerHTML === "") {
@@ -325,20 +348,42 @@ var setLabyrinth = function() {
       createTr.insertCell(j);
     };
   };
-  var visibleWidth = (($("#viewbox").width() - (($("#viewbox").width() % 83))) / 83);
-  var visibleHeight = (($("#viewbox").height() - (($("#viewbox").height() % 83))) / 83);
-  $("#viewbox").css({
-    width: visibleWidth*83 + 1,
-    height: visibleHeight*83 + 1
-  });
+  visibleWidth = (($("#viewbox").width() - ($("#viewbox").width() % 83)) / 83);
+  if (visibleWidth % 2 === 0) {
+    if($(window).width()/20 + ($("#viewbox").width() % 83) > 100) {
+      visibleWidth += 1;
+    }
+    else {
+      visibleWidth -= 1;
+    };
+  };
+  visibleHeight = (($("#viewbox").height() - ($("#viewbox").height() % 83)) / 83);
+  if (visibleWidth % 2 === 0) {
+    if($(window).width()/20 + ($("#viewbox").width() % 83) > 100) {
+      visibleHeight += 1;
+    }
+    else {
+      visibleHeight -= 1;
+    };
+  };
   if($("#viewbox").width() > $("#laby").width()) {
     $("#viewbox").css({
       width: $("#laby").width() + 4
+    });
+  }
+  else {
+    $("#viewbox").css({
+      width: visibleWidth*83 + 1
     });
   };
   if($("#viewbox").height() > $("#laby").height()) {
     $("#viewbox").css({
       height: $("#laby").height() + 4
+    });
+  }
+  else {
+    $("#viewbox").css({
+      height: visibleHeight*83 + 1
     });
   };
   setPlayer();
@@ -373,8 +418,9 @@ var setLabyrinth = function() {
       w -= 1
     };
     countFor += 1;
-    if(countFor >= 500) w = size*labyrinth.width;
+    if(countFor >= (size*labyrinth.width) + 100) w = size*labyrinth.width;
   };
+  centerCamera();
   viewMap();
   clickMove();
 };
@@ -414,6 +460,9 @@ var viewRow = function(l, kMin, kMax) {
   };
 };
 var viewMap = function() {
+  while (innerMap.firstChild) {
+    innerMap.removeChild(innerMap.firstChild);
+  };
   for(var i = 0; i < minoClass.length; i++) {
     minoClass[0].classList.remove("minotaur");
   };
@@ -440,6 +489,63 @@ var viewMap = function() {
   else if(laby.rows[player.y].cells[player.x].cellIndex === labyrinth.width - 1 && laby.rows[player.y].rowIndex !== 0) {
     for(var l = -player.sight; l < 1; l++) {
       viewRow(l, -player.sight, player.sight+1);
+    };
+  };
+    $("#innermap").html($("#laby").clone());
+};
+var centerCamera = function() {
+  if(labyrinth.width > visibleWidth) {
+    if(player.x <= Math.floor(visibleWidth/2)) {
+      $("#visual").css({
+        "left": -3
+      });
+      $("#viewbox").css({
+        "border-left": "3px solid rgb(28, 16, 4)"
+      });
+    }
+    else if(player.x >= labyrinth.width - Math.ceil(visibleWidth/2)) {
+      $("#visual").css({
+        "left": -(labyrinth.width - visibleWidth) * 83 - 3
+      });
+      $("#viewbox").css({
+        "border-right": "3px solid rgb(28, 16, 4)"
+      });
+    }
+    else {
+      $("#visual").css({
+        "left": -(player.x - Math.floor(visibleWidth/2)) * 83 - 3
+      });
+      $("#viewbox").css({
+        "border-left": "3px solid rgb(125, 27, 142)",
+        "border-right": "3px solid rgb(125, 27, 142)"
+      });
+    };
+  };
+  if(labyrinth.height > visibleHeight) {
+    if(player.y <= Math.floor(visibleHeight/2)) {
+      $("#visual").css({
+        "top": -3
+      });
+      $("#viewbox").css({
+        "border-top": "3px solid rgb(28, 16, 4)"
+      });
+    }
+    else if(player.y >= labyrinth.height - Math.ceil(visibleHeight/2)) {
+      $("#visual").css({
+        "top": -(labyrinth.height - visibleHeight) * 83 - 3
+      });
+      $("#viewbox").css({
+        "border-bottom": "3px solid rgb(28, 16, 4)"
+      });
+    }
+    else {
+      $("#visual").css({
+        "top": -(player.y - Math.floor(visibleHeight/2)) * 83 - 3
+      });
+      $("#viewbox").css({
+        "border-top": "3px solid rgb(125, 27, 142)",
+        "border-bottom": "3px solid rgb(125, 27, 142)"
+      });
     };
   };
 };
@@ -480,30 +586,33 @@ var minoMove = function() {
   minoCheck(1);
 };
 
-var move = function(xy, posmin) {
-  var prevX = player.x;
-  var prevY = player.y;
-  (posmin) ? player[xy] += 1 : player[xy] -= 1;
-  if(player.x < 0 || player.x >= labyrinth.width || player.y < 0 || player.y >= labyrinth.height || laby.rows[player.y].cells[player.x].className === "wall") {
-    a("You can't walk through walls!");
-    player.x = prevX;
-    player.y = prevY;
+var moveFunctions = {
+  move: function(xy, posmin) {
+    prevX = player.x;
+    prevY = player.y;
+    (posmin) ? player[xy] += 1 : player[xy] -= 1;
+    if(player.x < 0 || player.x >= labyrinth.width || player.y < 0 || player.y >= labyrinth.height || laby.rows[player.y].cells[player.x].className === "wall") {
+      a("You can't walk through walls!");
+      player.x = prevX;
+      player.y = prevY;
+    }
+    else {
+      a("");
+      laby.rows[prevY].cells[prevX].classList.remove("player");
+      if($(laby.rows[prevY].cells[prevX]).hasClass("explored") === false) laby.rows[prevY].cells[prevX].className += " explored";
+      laby.rows[player.y].cells[player.x].className += " player";
+      clearTimeout(cancelableTimer);
+      minoMove();
+      centerCamera();
+      viewMap();
+      clickMove();
+      events();
+    };
   }
-  else {
-    a("");
-    laby.rows[prevY].cells[prevX].classList.remove("player");
-    if($(laby.rows[prevY].cells[prevX]).hasClass("explored") === false) laby.rows[prevY].cells[prevX].className += " explored";
-    laby.rows[player.y].cells[player.x].className += " player";
-    clearTimeout(cancelableTimer);
-    minoMove();
-    viewMap();
-    clickMove();
-    events();
-  };
 };
 var randomMove = function() {
-  var prevX = player.x;
-  var prevY = player.y;
+  prevX = player.x;
+  prevY = player.y;
   laby.rows[prevY].cells[prevX].classList.remove("player");
   if($(laby.rows[prevY].cells[prevX]).hasClass("explored") === false) laby.rows[prevY].cells[prevX].className += " explored";
   player.x = Math.floor(Math.random()*labyrinth.width);

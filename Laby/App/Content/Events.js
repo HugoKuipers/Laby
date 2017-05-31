@@ -166,6 +166,9 @@ events = function() {
         changeLife(napTime);
         for(var i = -1; i < napTime; i++) {
           minoMove();
+          for(var data in moveFunctions) {
+            if(data !== "move") moveFunctions[data]();
+          };
         };
         viewMap();
         laby.rows[player.y].cells[player.x].id = "napAgain";
@@ -236,12 +239,10 @@ events = function() {
       else {
         m("As you are traversing a large plain with rocks strewn all over it you hear a cry for help. When you approach you find a man in robes stuck below a sizable boulder. 'Please help me' he cries 'I'll give you a scroll if you do so please just hurry!<br>Help the man?");
         createInputOpt(["Try to help", "Make fun of him", "Just walk away"], "Try to help", forms);
-        if(originalMove === undefined) originalMove = move;
-        move = function(xy, posmin) {
-          originalMove(xy, posmin);
-          if($(laby.rows[prevY].cells[prevX]).hasClass("player")) justMageIssues += 1;
+        moveFunctions["justMageMoves"] = function(xy, posmin) {
+          if(!$(laby.rows[prevY].cells[prevX]).hasClass("player")) justMageIssues += 1;
           if(justMageIssues === 10) {
-            move = originalMove;
+            delete moveFunctions["justMageMoves"];
           };
         };
       };

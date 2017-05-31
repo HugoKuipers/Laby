@@ -176,8 +176,8 @@ button:focus {
   color: rgb(102, 232, 255);
 }
 #openmap {
-  background-color: rgb(93, 182, 198);
-  color: rgb(0, 8, 47);
+  background-color: rgb(166, 89, 198);
+  color: rgb(28, 5, 27);
   font-size: 20px;
   display: none;
   position: relative;
@@ -189,8 +189,8 @@ button:focus {
   top: 60%;
 }
 #openmap:active {
-  background-color: rgb(53, 63, 115);
-  color: rgb(102, 232, 255);
+  background-color: rgb(117, 17, 134);
+  color: rgb(205, 149, 255);
 }
 
 #inventory {
@@ -368,7 +368,7 @@ button:focus {
   position: fixed;
   background-color: rgb(64, 135, 148);
   width: 242px;
-  height: 348px;;
+  height: 348px;
   z-index: 5;
   display: none;
   border-radius: 20px;
@@ -499,14 +499,14 @@ button:focus {
 
 #minimap {
   position: fixed;
-  background-color: rgb(64, 135, 148);
-  width: 242px;
-  height: 348px;;
+  background-color: rgb(28, 16, 4);
+  max-width: 90%;
+  max-height: 90%;
   z-index: 5;
   display: none;
   border-radius: 20px;
-  border: 1px solid rgb(2, 4, 11);
-  box-shadow: -5px 5px 5px 0px black;
+  border: 1px solid rgb(27, 9, 31);
+  box-shadow: -5px 2px 5px 0px black;
   left: 60%;
   top: 10%;
   text-align: center;
@@ -518,19 +518,19 @@ button:focus {
   border-bottom: solid black 1px;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  background-color: rgb(0, 8, 47);
+  background-color: rgb(63, 10, 73);
 }
 #mapheader {
   position: relative;
   right: 5px;
-  color: rgb(120, 224, 242);
+  color: rgb(212, 131, 241);
   font-size: 20px;
   top: 1px;
   z-index: 7;
 }
 #closemap {
-  color: rgb(115, 134, 227);
-  background-color: rgb(0, 8, 47);
+  color: rgb(160, 69, 198);
+  background-color: rgb(63, 10, 73);
   right: 0px;
   top: 0px;
   border-radius: 0px;
@@ -547,11 +547,25 @@ button:focus {
 }
 #closemap:active {
   position: absolute;
-  background-color: rgb(0, 8, 47);
+  background-color: rgb(63, 10, 73);
   color: rgb(213, 12, 12);
 }
 #innermap {
   margin: 0px;
+}
+#innermap #laby {
+  border: 0.003em solid rgb(27, 9, 31);
+  border-collapse: collapse;
+  background-color: rgb(209, 205, 241);
+  margin: 4px;
+  margin-bottom: 16px;
+}
+#innermap #laby td {
+  border: 0.001em dashed rgb(55, 82, 22);
+  width: 20px;
+  height: 20px;
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
 }
 
 #viewbox {
@@ -569,7 +583,7 @@ button:focus {
   position: absolute;
   left: 0%;
   top: 0%;
-  width: 8000px;
+  width: 16000px;
 }
 #laby {
   border: 0.3em solid rgb(28, 16, 4);
@@ -623,7 +637,7 @@ button:focus {
   background-image: url("../Images/StarPlayer.png");
   opacity: 1;
 }
-#laby td.hiddenminotaur{}
+#laby td.hiddenminotaur {}
 #laby td.minotaur {
   background-image: url("../Images/Minotaur.jpeg");
   opacity: 1;
