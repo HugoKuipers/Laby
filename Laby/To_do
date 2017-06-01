@@ -1,5 +1,5 @@
 Sight range correct
-Stats
+Statscreen
 miniMap paar foutjes fixen
 viewbox
 teleporter
@@ -7,3 +7,8 @@ combine
 unequip
 just walk away
 drag windows niet uit scherm
+attdef buttons
+normal playable
+hard playable
+addEvents afmaken
+merchant

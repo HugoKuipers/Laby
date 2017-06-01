@@ -112,18 +112,18 @@ var justWalkAway = function(walk) {
   ableMove(walk);
   document.getElementById("submitinput").disabled = walk;
   if(walk) {
-    if(!moveFunctions["removeInputOpt"]) {
-      moveFunctions["removeInputOpt"] = function(xy, posmin) {
+    if(!beforeMoveFunctions["removeInputOpt"]) {
+      beforeMoveFunctions["removeInputOpt"] = function(xy, posmin) {
         while (forms.firstChild) {
           forms.removeChild(forms.firstChild);
         };
-        delete moveFunctions["removeInputOpt"];
+        delete beforeMoveFunctions["removeInputOpt"];
       };
     };
   }
   else {
-    if(moveFunctions["removeInputOpt"]) {
-      delete moveFunctions["removeInputOpt"];
+    if(beforeMoveFunctions["removeInputOpt"]) {
+      delete beforeMoveFunctions["removeInputOpt"];
     };
   };
 };
@@ -193,12 +193,14 @@ var createInputOpt = function(n, selected, place, id) {
   place.appendChild(form);
   if(selected) document.getElementById(selected).checked = true;
   document.getElementById("submitinput").onclick = function() {
+    var doneWithThisLoop = false;
     for(var i in n) {
-      if(place.innerHTML === "") {
+      if(doneWithThisLoop === true) {
         return
       }
       else if(document.getElementById(n[i]).checked === true) {
         questionAnswer = n[i];
+        doneWithThisLoop = true;
         while (place.firstChild) {
           place.removeChild(place.firstChild);
         };
@@ -325,12 +327,68 @@ var createPath = function() {
 };
 
 var addEvent = function(id) {
-  newEventLocation = laby.rows[Math.floor(Math.random()*size)].cells[Math.floor(Math.random()*labyrinth.width)];
-  if(newEventLocation.id === "" && newEventLocation.className !== "wall" && newEventLocation.className !== "player") {
-    newEventLocation.id = id;
-  }
-  else {
-    addEvent(id);
+  if(!id) {
+    switch (difficulty.length) {
+      case 2:
+        var chance = "chanceEasy";
+        var max = "maxEasy";
+        break;
+      case 3:
+        var chance = "chanceNormal";
+        var max = "maxNormal";
+        break;
+      case 4:
+        var chance = "chanceHard";
+        var max = "maxHard";
+        break;
+    };
+    var greatestChance = 0;
+    for(var data in jsonEvents) {
+      if(greatestChance < jsonEvents[data][chance]) greatestChance = jsonEvents[data][chance];
+    };
+    var thresholdChance = Math.ceil(Math.random()*greatestChance);
+    var thisEventPerhaps = Math.floor(Math.random()*(Object.keys(jsonEvents).length));
+    if(jsonEvents[Object.keys(jsonEvents)[thisEventPerhaps]][chance] >= thresholdChance) {
+      if(changedJsonEvents[Object.keys(jsonEvents)[thisEventPerhaps]]) {
+        if(changedJsonEvents[Object.keys(jsonEvents)[thisEventPerhaps]][max] === 0) {
+          addEvent();
+        }
+        else {
+          changedJsonEvents[Object.keys(jsonEvents)[thisEventPerhaps]][max] -= 1;
+          id = changedJsonEvents[Object.keys(jsonEvents)[thisEventPerhaps]]["id"];
+        };
+      }
+      else {
+        var amountOfTilesPerc = (size*labyrinth.width)/100;
+        changedJsonEvents[Object.keys(jsonEvents)[thisEventPerhaps]] = jsonEvents[Object.keys(jsonEvents)[thisEventPerhaps]];
+        if(changedJsonEvents[Object.keys(jsonEvents)[thisEventPerhaps]][max] === "justOne") {
+          changedJsonEvents[Object.keys(jsonEvents)[thisEventPerhaps]][max] = 0;
+          id = changedJsonEvents[Object.keys(jsonEvents)[thisEventPerhaps]]["id"];
+        }
+        else {
+          changedJsonEvents[Object.keys(jsonEvents)[thisEventPerhaps]][max] = (Math.ceil(changedJsonEvents[Object.keys(jsonEvents)[thisEventPerhaps]][max] * amountOfTilesPerc)) - 1;
+          id = changedJsonEvents[Object.keys(jsonEvents)[thisEventPerhaps]]["id"];
+        };
+      };
+    }
+    else {
+      addEvent();
+    };
+  };
+  if(id) {
+    newEventLocation = laby.rows[Math.floor(Math.random()*size)].cells[Math.floor(Math.random()*labyrinth.width)];
+    if(newEventLocation.id === "" && newEventLocation.className !== "wall" && newEventLocation.className !== "player") {
+      newEventLocation.id = id;
+      startCountingEvents = 0;
+    }
+    else {
+      startCountingEvents += 1
+      if(startCountingEvents > (size*labyrinth.width) + 100) {
+        startCountingEvents = 0;
+        return;
+      };
+      addEvent(id);
+    };
   };
 };
 
@@ -348,6 +406,7 @@ var setLabyrinth = function() {
       createTr.insertCell(j);
     };
   };
+  viewBox.style.display = "initial";
   visibleWidth = (($("#viewbox").width() - ($("#viewbox").width() % 83)) / 83);
   if (visibleWidth % 2 === 0) {
     if($(window).width()/20 + ($("#viewbox").width() % 83) > 100) {
@@ -403,14 +462,14 @@ var setLabyrinth = function() {
   createPath();
   setMinotaur();
   laby.rows[minotaur.y].cells[minotaur.x].className = "hiddenminotaur";
-  for(var data in rooms) {
-    addEvent(rooms[data]);
+  var amountOfEvents = Math.floor((size*labyrinth.width)*((Math.floor(Math.random()*21)*0.01)+0.4));
+  for(var i = 0; i < amountOfEvents; i++) {
+    addEvent();
   };
   var countFor = 0;
   var v = Math.floor((size*labyrinth.width)*((Math.floor(Math.random()*41)*0.01)+0.2));
-  for(var w = 0;w < v; w++) {
-    var newWallLocation;
-    newWallLocation = laby.rows[Math.floor(Math.random()*size)].cells[Math.floor(Math.random()*labyrinth.width)];
+  for(var w = 0; w < v; w++) {
+    var newWallLocation = laby.rows[Math.floor(Math.random()*size)].cells[Math.floor(Math.random()*labyrinth.width)];
     if(newWallLocation.id === "" && newWallLocation.className !== "wall" && newWallLocation.className !== "path") {
       newWallLocation.className = "wall";
     }
@@ -586,6 +645,7 @@ var minoMove = function() {
   minoCheck(1);
 };
 
+var beforeMoveFunctions = {};
 var moveFunctions = {
   move: function(xy, posmin) {
     prevX = player.x;

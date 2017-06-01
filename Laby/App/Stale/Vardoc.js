@@ -4,13 +4,18 @@ const fs = require("fs");
 var jsonItems = $.getJSON("../../Data/Items.json", function(json) {
   jsonItems =  json;
 });
+var jsonEvents = $.getJSON("../../Data/Events.json", function(json) {
+  jsonEvents =  json;
+});
+var changedJsonEvents = {};
 const easy = ["treasure", "key"];
 const normal = ["treasureTwo", "keyTwo1", "keyTwo2"];
 const hard = ["treasureThree", "keyThree1", "keyThree2", "keyThree3"];
-var rooms = ["goblin", "chest", "randomTrap", "randomTrap", "merchant", "lab", "riddle", "nap", "daedalus", "teleporter", "teleporter", "booty", "math"];
+var rooms = ["goblin", "chest", "randomTrap", "merchant", "lab", "riddle", "nap", "daedalus", "teleporter", "booty", "math"];
 var traps = ["boulder", "pitfall"];
 var jsonSettings;
 var jsonStats;
+var startCountingEvents = 0;
 var difficulty;
 var defaultSize;
 var events;

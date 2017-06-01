@@ -578,6 +578,7 @@ button:focus {
   border-radius: 4px;
   background-color: rgba(38, 24, 200, 0);
   overflow: hidden;
+  display: none;
 }
 #visual {
   position: absolute;

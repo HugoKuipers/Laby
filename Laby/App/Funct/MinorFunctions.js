@@ -56,9 +56,9 @@ var fourNumberProblem = function(x) {
   };
 };
 var solveXproblem = function(x) {
-  a = Math.floor(Math.random()*x);
-  b = Math.floor(Math.random()*2*x);
-  c = Math.floor(Math.random()*x);
+  let aNum = Math.floor(Math.random()*x);
+  let bNum = Math.floor(Math.random()*2*x);
+  let cNum = Math.floor(Math.random()*x);
   switch (Math.floor(Math.random()*2)) {
     case 0:
       var sign1 = "+";
@@ -83,9 +83,9 @@ var solveXproblem = function(x) {
       var sign3 = "-";
       break;
   };
-  askProblem = "X\xB2" + " " + sign1 + " " + a + "X" + " " + sign2 + " " + b + " " + "=" + " " + sign3 + c;
-  let newb = parseInt(sign2+b) - parseInt(sign3+c);
-  let newa = parseInt(sign1+a);
+  askProblem = "X\xB2" + " " + sign1 + " " + aNum + "X" + " " + sign2 + " " + bNum + " " + "=" + " " + sign3 + cNum;
+  let newb = parseInt(sign2+bNum) - parseInt(sign3+cNum);
+  let newa = parseInt(sign1+aNum);
   let range = Math.max(Math.sqrt(newa*newa), Math.sqrt(newb*newb));
   var possibleSolve = false;
   for(var i = -range; i <= range; i++) {
@@ -98,7 +98,7 @@ var solveXproblem = function(x) {
     };
   };
   if(possibleSolve === false) {
-    solveXproblem();
+    solveXproblem(x);
   }
   else {
     askProblem += "<br>Find both solutions for X";

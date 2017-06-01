@@ -26,14 +26,16 @@ document.onkeydown = function(e) {
     case 37:
       e.preventDefault();
       if(forms.innerHTML !== "" && forms.firstChild.firstChild === document.getElementById("inputnum")) {
-        if(document.getElementById("inputnum").min) {
-          document.getElementById("inputnum").value = document.getElementById("inputnum").min;
+        if(!($("input").is(":focus"))) $("#inputnum").focus();
+        var focusedNum = $("input:focus");
+        if(focusedNum[0].min) {
+          focusedNum[0].value = focusedNum[0].min;
         }
-        else if(parseInt(document.getElementById("inputnum").value) === "NaN") {
-          document.getElementById("inputnum").value = 0;
+        else if(focusedNum[0].value === "") {
+          focusedNum[0].value = 0;
         }
         else {
-          document.getElementById("inputnum").value = parseInt(document.getElementById("inputnum").value) - 10;
+          focusedNum[0].value = parseInt(focusedNum[0].value) - 10;
         };
       }
       else if((forms.innerHTML !== "" && forms.firstChild.firstChild === document.getElementsByName("choice")[0]) || (formsitems.innerHTML !== "" && formsitems.firstChild.firstChild === document.getElementsByName("choice")[0])) {
@@ -52,12 +54,18 @@ document.onkeydown = function(e) {
     case 38:
       e.preventDefault();
       if(forms.innerHTML !== "" && forms.firstChild.firstChild === document.getElementById("inputnum")) {
-        if(parseInt(document.getElementById("inputnum").value) === "NaN") {
-          document.getElementById("inputnum").value = 0;
+        if(!($("input").is(":focus"))) $("#inputnum").focus();
+        var focusedNum = $("input:focus");
+        if(focusedNum[0].value === "") {
+          if(focusedNum[0].max) {
+            focusedNum[0].value = focusedNum[0].max;
+          }
+          else {
+            focusedNum[0].value = 0;
+          };
         };
-        document.getElementById("inputnum").value = parseInt(document.getElementById("inputnum").value) + 1;
-        if(parseInt(document.getElementById("inputnum").value) > parseInt(document.getElementById("inputnum").max)) {
-          document.getElementById("inputnum").value = parseInt(document.getElementById("inputnum").value) - 1;
+        if(parseInt(focusedNum[0].value) < parseInt(focusedNum[0].max) || focusedNum[0].max === "") {
+          focusedNum[0].value = parseInt(focusedNum[0].value) + 1;
         };
       }
       else if((forms.innerHTML !== "" && forms.firstChild.firstChild === document.getElementsByName("choice")[0]) || (formsitems.innerHTML !== "" && formsitems.firstChild.firstChild === document.getElementsByName("choice")[0])) {
@@ -83,14 +91,16 @@ document.onkeydown = function(e) {
     case 39:
       e.preventDefault();
       if(forms.innerHTML !== "" && forms.firstChild.firstChild === document.getElementById("inputnum")) {
-        if(document.getElementById("inputnum").max) {
-          document.getElementById("inputnum").value = document.getElementById("inputnum").max;
+        if(!($("input").is(":focus"))) $("#inputnum").focus();
+        var focusedNum = $("input:focus");
+        if(focusedNum[0].max) {
+          focusedNum[0].value = focusedNum[0].max;
         }
-        else if(parseInt(document.getElementById("inputnum").value) === "NaN") {
-          document.getElementById("inputnum").value = 0;
+        else if(focusedNum[0].value === "") {
+          focusedNum[0].value = 0;
         }
         else {
-          document.getElementById("inputnum").value = parseInt(document.getElementById("inputnum").value) + 10;
+          focusedNum[0].value = parseInt(focusedNum[0].value) + 10;
         };
       }
       else if((forms.innerHTML !== "" && forms.firstChild.firstChild === document.getElementsByName("choice")[0]) || (formsitems.innerHTML !== "" && formsitems.firstChild.firstChild === document.getElementsByName("choice")[0])) {
@@ -111,12 +121,18 @@ document.onkeydown = function(e) {
     case 40:
       e.preventDefault();
       if(forms.innerHTML !== "" && forms.firstChild.firstChild === document.getElementById("inputnum")) {
-        if(parseInt(document.getElementById("inputnum").value) === "NaN") {
-          document.getElementById("inputnum").value = 0;
+        if(!($("input").is(":focus"))) $("#inputnum").focus();
+        var focusedNum = $("input:focus");
+        if(focusedNum[0].value === "") {
+          if(focusedNum[0].min) {
+            focusedNum[0].value = focusedNum[0].min;
+          }
+          else {
+            focusedNum[0].value = 0;
+          };
         };
-        document.getElementById("inputnum").value = parseInt(document.getElementById("inputnum").value) - 1;
-        if(parseInt(document.getElementById("inputnum").value) < parseInt(document.getElementById("inputnum").min)) {
-          document.getElementById("inputnum").value = parseInt(document.getElementById("inputnum").value) + 1;
+        if(parseInt(focusedNum[0].value) > parseInt(focusedNum[0].min) || focusedNum[0].min === "") {
+          focusedNum[0].value = parseInt(focusedNum[0].value) - 1;
         };
       }
       else if((forms.innerHTML !== "" && forms.firstChild.firstChild === document.getElementsByName("choice")[0]) || (formsitems.innerHTML !== "" && formsitems.firstChild.firstChild === document.getElementsByName("choice")[0])) {
@@ -210,21 +226,33 @@ enter.onclick = function() {
 };
 
 north.onclick = function() {
+  for(var data in beforeMoveFunctions) {
+    beforeMoveFunctions[data]();
+  };
   for(var data in moveFunctions) {
     moveFunctions[data]("y", false);
   };
 };
 east.onclick = function() {
+  for(var data in beforeMoveFunctions) {
+    beforeMoveFunctions[data]();
+  };
   for(var data in moveFunctions) {
     moveFunctions[data]("x", true);
   };
 };
 south.onclick = function() {
+  for(var data in beforeMoveFunctions) {
+    beforeMoveFunctions[data]();
+  };
   for(var data in moveFunctions) {
     moveFunctions[data]("y", true);
   };
 };
 west.onclick = function() {
+  for(var data in beforeMoveFunctions) {
+    beforeMoveFunctions[data]();
+  };
   for(var data in moveFunctions) {
     moveFunctions[data]("x", false);
   };

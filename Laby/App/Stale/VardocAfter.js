@@ -33,6 +33,7 @@ var hiddenminoClass = document.getElementsByClassName("hiddenminotaur");
 var minoClass = document.getElementsByClassName("minotaur");
 var exploredClass = document.getElementsByClassName("explored");
 var visual = document.getElementById("visual");
+var viewBox = document.getElementById("viewbox");
 var dropdown = $("#dropdown");
 var useDrop = $("#use");
 var dropDrop = $("#drop");

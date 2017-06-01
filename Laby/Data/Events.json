@@ -1,5 +1,82 @@
 {
   "goblin": {
-    "id": "goblin"
+    "id": "goblin",
+    "chanceEasy": 12,
+    "maxEasy": 4,
+    "depth": 0,
+    "maxDepth": 99999,
+    "dependency": "none"
+  },
+  "chest": {
+    "id": "chest",
+    "chanceEasy": 15,
+    "maxEasy": 3,
+    "depth": 0,
+    "maxDepth": 99999,
+    "dependency": "none"
+  },
+  "teleporter": {
+    "id": "teleporter",
+    "chanceEasy": 25,
+    "maxEasy": 50,
+    "depth": 0,
+    "maxDepth": 99999,
+    "dependency": "none"
+  },
+  "math": {
+    "id": "math",
+    "chanceEasy": 6,
+    "maxEasy": "justOne",
+    "depth": 0,
+    "maxDepth": 99999,
+    "dependency": "none"
+  },
+  "randomTrap": {
+    "id": "randomTrap",
+    "chanceEasy": 10,
+    "maxEasy": 3,
+    "depth": 0,
+    "maxDepth": 99999,
+    "dependency": "none"
+  },
+  "lab": {
+    "id": "lab",
+    "chanceEasy": 20,
+    "maxEasy": 5,
+    "depth": 0,
+    "maxDepth": 99999,
+    "dependency": "none"
+  },
+  "merchant": {
+    "id": "merchant",
+    "chanceEasy": 12,
+    "maxEasy": 2,
+    "depth": 0,
+    "maxDepth": 99999,
+    "dependency": "none"
+  },
+  "booty": {
+    "id": "booty",
+    "chanceEasy": 6,
+    "maxEasy": 1,
+    "depth": 0,
+    "maxDepth": 99999,
+    "dependency": "none"
+  },
+  "daedalus": {
+    "id": "daedalus",
+    "chanceEasy": 8,
+    "maxEasy": "justOne",
+    "depth": 0,
+    "maxDepth": 99999,
+    "dependency": "none"
+  },
+  "apprentice": {
+    "id": "apprentice",
+    "chanceEasy": 10,
+    "maxEasy": 2,
+    "depth": 0,
+    "maxDepth": 99999,
+    "dependency": "none"
   }
 }

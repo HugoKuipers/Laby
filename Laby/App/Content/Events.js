@@ -90,15 +90,15 @@ events = function() {
       changeLife(-2);
       laby.rows[player.y].cells[player.x].id = "knownBoulder";
       break;
-    case "pitfall":
-      m("You notice a badly hidden pitfall, leaves over a hole in the middle of a marble floor, and simply avoid it. 'Only a fool would fall for such a pitiful trap' you remark, and spend a while laughing about that ingenius pun you just made.");
-      laby.rows[player.y].cells[player.x].id = "knownPitfall";
-      break;
     case "knownBoulder":
       m("Once more you challange the long hallway, native habitat of the boulder, wishing to know what lies at the end. You know what will come, so you start running long before you hear the rumbling. just when the passage starts to widen out the boulder hits your back. You get thrown forward, into a room filled with precious gems. For a single moment you admire the sight, then all goes black.");
       a("You got crushed by a boulder.");
       player.life = 1;
       changeLife(-1);
+      break;
+    case "pitfall":
+      m("You notice a badly hidden pitfall, leaves over a hole in the middle of a marble floor, and simply avoid it. 'Only a fool would fall for such a pitiful trap' you remark, and spend a while laughing about that ingenius pun you just made.");
+      laby.rows[player.y].cells[player.x].id = "knownPitfall";
       break;
     case "knownPitfall":
       m("You rush through a marble ruin, vaguely remembering a great joke you made while exploring it, when you lose the ground beneath your feet. You tumble into a deep hole and with a loud crash land on a pile of junk. When you come to your senses and look around you find yourself far away from the ruin, in a different section of the labyrinth.");
