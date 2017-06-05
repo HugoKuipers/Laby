@@ -4,6 +4,7 @@
     "hover": "Labyrinth Key",
     "image": "../../Images/Key.jpg",
     "value": 250,
+    "merchants": {},
     "equip": "no"
   },
   "Makeshift Club": {
@@ -11,6 +12,7 @@
     "hover": "Makeshift Club",
     "image": "../../Images/Club.png",
     "value": 0,
+    "merchants": {},
     "equip": "hands",
     "dmg": 2,
     "def": 1
@@ -20,6 +22,7 @@
     "hover": "Labyrinth's Crystal",
     "image": "../../Images/Crystal.png",
     "value": 0,
+    "merchants": {},
     "equip": "no"
   },
   "Strange Artifact": {
@@ -27,6 +30,7 @@
     "hover": "Strange Artifact",
     "image": "../../Images/StrangeArt.png",
     "value": 0,
+    "merchants": {},
     "equip": ""
   },
   "Potion": {
@@ -34,6 +38,9 @@
     "hover": "Potion",
     "image": "../../Images/Potion.png",
     "value": 20,
+    "merchants": {
+      "general": 20
+    },
     "equip": "no"
   },
   "Cartography Tool": {
@@ -41,7 +48,8 @@
     "hover": "Cartography Tool",
     "image": "../../Images/Passer.png",
     "value": 10,
-    "equip": "feet",
+    "merchants": {},
+    "equip": "no",
     "def": 1
   },
   "Magic Scroll: Earth": {
@@ -49,6 +57,7 @@
     "hover": "Magic Scroll: Earth",
     "image": "../../Images/ScrollEarth.png",
     "value": 0,
+    "merchants": {},
     "equip": "no"
   },
   "Magic Scroll: Air": {
@@ -56,6 +65,7 @@
     "hover": "Magic Scroll: Air",
     "image": "../../Images/ScrollAir.png",
     "value": 0,
+    "merchants": {},
     "equip": "no"
   },
   "Magic Scroll: Fire": {
@@ -63,6 +73,7 @@
     "hover": "Magic Scroll: Fire",
     "image": "../../Images/ScrollFire.png",
     "value": 0,
+    "merchants": {},
     "equip": "no"
   },
   "Magic Scroll: Water": {
@@ -70,6 +81,7 @@
     "hover": "Magic Scroll: Water",
     "image": "../../Images/ScrollWater.png",
     "value": 0,
+    "merchants": {},
     "equip": "no"
   },
   "Minotaur Horn": {
@@ -77,6 +89,7 @@
     "hover": "Minotaur Horn",
     "image": "../../Images/Horn.jpg",
     "value": 0,
+    "merchants": {},
     "equip": "no"
   },
   "Wooden Sword": {
@@ -84,6 +97,7 @@
     "hover": "Wooden Sword",
     "image": "../../Images/Sword.png",
     "value": 0,
+    "merchants": {},
     "equip": "hands",
     "dmg": 1
   },
@@ -92,13 +106,19 @@
     "hover": "Beeswax",
     "image": "../../Images/Beeswax.png",
     "value": 0,
+    "merchants": {
+      "general": 10
+    },
     "equip": "no"
   },
-  "": {
-    "name": "",
-    "hover": "",
-    "image": "../../Images/Honey.jpg",
+  "Honey": {
+    "name": "Honey",
+    "hover": "Honey",
+    "image": "../../Images/Honey.png",
     "value": 0,
+    "merchants": {
+      "general": 24
+    },
     "equip": "no"
   },
   "Geese Feathers": {
@@ -106,6 +126,17 @@
     "hover": "Geese Feathers",
     "image": "../../Images/Feathers.png",
     "value": 0,
+    "merchants": {
+      "general": 16
+    },
     "equip": "no"
+  },
+  "": {
+    "name": "",
+    "hover": "",
+    "image": "../../Images/.",
+    "value": 0,
+    "merchants": {},
+    "equip": "head"
   }
 }

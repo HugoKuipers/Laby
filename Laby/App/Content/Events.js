@@ -143,9 +143,19 @@ events = function() {
       laby.rows[player.y].cells[player.x].id = "";
       break;
     case "merchant":
-      m("While comfortably strolling around, you hear a yell behind you: 'Hey you over there, would you care to lighten your load, or perhaps add something helpfull to it?'. The merchant has now caught up with you and begins to stall out his wares, all the while making smalltalk. You find out he has been going around the labyrinth peddeling to adventurers like yourself, from his jewelry and the size of his stumach you conclude the advantage of little competiton more than makes up for the dangers of the job.<br>You can sell items from your inventory here, or buy some from the merchant. (but not right now because i don't know how....)");
+      m("as you are comfortably strolling around, you hear a yell behind you: 'Hey you over there, would you care to lighten your load, or perhaps add something helpfull to it?'. The merchant has now caught up with you and begins to stall out his wares, all the while making smalltalk. You find out he has been going around the labyrinth peddeling to adventurers like yourself, from his jewelry and the size of his stumach you conclude the advantage of little competiton more than makes up for the dangers of the job.<br>You can sell items from your inventory here, or buy some from the merchant. (but not right now because i don't know how....)");
+      laby.rows[player.y].cells[player.x].id = "merchantGone";
+      createMerchant("general");
+      addEvent("merchantAgain", merchantTypeId);
+      break;
+    case "merchantGone":
+      m("");
       laby.rows[player.y].cells[player.x].id = "";
-      addEvent("merchant");
+      break;
+    case "merchantAgain":
+      m("");
+      laby.rows[player.y].cells[player.x].id = "merchantGone";
+      addEvent("merchantAgain");
       break;
     case "lab":
       m("In a cavern you discover an alchemical lab, it seems like it was abandoned just recently and in a hurry, and hasn't been found by the local inhabitants yet. There are old tomes and empty flasks of glass scattered about, but you lack the understanding required to really understand what the owner was trying to accomplish. Just as you start to grow bored, you notice a flask still containing some liquid behind a large pile of rocks, the owner must have missed it when they made their escape. You take the flask and want to continue looking around, but then you hear heavy footsteps approaching, and decide not to find out who, or what, they belong to.<br>You have gained a Potion.");
@@ -193,26 +203,40 @@ events = function() {
       m("The entrance is still closed, there is no way out here.");
       break;
     case "teleporter":
-      m("A secret passage leads you to a small room, dominated by a large circle that is drawn on the floor and filled with strange runes, in the middle of the circle you notice a peculier hole. You are fairly certain this is a magic formation, although if you don't know it's purpose. Once you inspect the room a little closer you see a differnt colored brick sitcking out of the wall.<br>Push the brick in?");
+      m("A secret passage leads you to a small room, dominated by a large circle that is drawn on the floor and filled with strange runes, in the middle of the circle you see a peculiar hole. You are fairly certain this is a magic formation. 'What could it's purpose be?' Upon closer inspection of the room, you notice a differently coloured brick sticking out of the wall.<br>Push the brick in?");
       createInputOpt(["Yes", "No"], "Yes", forms);
       laby.rows[player.y].cells[player.x].id = "inactiveTeleporter";
       break;
     case "inactiveTeleporter":
       if(questionAnswer === "Yes") {
-        m("You");
+        m("");
+        createInputOpt(["Yes", "No", "Just walk away"], "No", forms);
         laby.rows[player.y].cells[player.x].id = "activeTeleporter";
         laby.rows[player.y].cells[player.x].class = "teleportHere";
       }
       else if(questionAnswer === "No") {
-        m("Probably best not to mess with it, you know of too many incidents involing magic that ended with people turning into frogs, or worse.");
+        m("'Probably best not to mess with it.' You know of too many incidents involving magic that ended with people turning into frogs, or worse.");
       }
       else {
         m("You return to the small room with large magic circle, your eyes are quickly drawn to the brick, it still sticks out of the wall, waiting to be pushed in.<br>Push the brick in?");
-        createInputOpt(["Yes", "No"], "Yes", forms);
+        createInputOpt(["Yes", "No", "Just walk away"], "Yes", forms);
       };
       break;
     case "activeTeleporter":
-      m("You");
+      if(questionAnswer === "Yes") {
+        if($(".teleportHere").length > 1) {
+          m("");
+        }
+        else {
+          m("");
+        };
+      }
+      else if(questionAnswer === "No") {
+        m("No telling what will happen if you step inside, better safe than sorry.");
+      }
+      else {
+        m("You");
+      };
       break;
     case "daedalus":
       m("A ray of sun shines through a broken part of the labyrinth's ceiling, it touches a large hill covered with beautiful flowers. High on the hill a bronze statue of a boy catches your eye, a wooden framework sprouting from it's back. A strange presence fills the room, giving you goosebumps, it seems to demand you to do something for it, but you are unsure what that would be.");
@@ -307,7 +331,7 @@ events = function() {
             var betGold = 50;
             break;
         };
-        m("Just as you're about to turn a corner a well dressed young man appears from the other side, his face lights up the moment he sees you; 'At last, someone who might alleviate my boredom!', he looks you up and down, 'well, maybe not, but this could still be fun.' he mutters. 'Traveller, I'm a student of math, but have grown bored with simple academics, would you be interested in a little wager? I will present you with a problem, if you can solve it in 1 minute you can have my abacus, if not you'll give me " + betGold + " gold.<br>Take the wager?");
+        m("Just as you're about to turn a corner, a well dressed young man appears from the other side, whose face lights up the moment he sees you; 'At last, someone who might alleviate my boredom!'. He looks you up and down, 'well, maybe not, but this could still be fun.' He mutters. 'Traveller, I'm a student of math, but have grown bored with simple academics, would you be interested in a little wager? I will present you with a problem, if you can solve it I'll let you have my abacus, if not you'll owe me " + betGold + " gold.<br>Take the wager?");
         createInputOpt(["Accept", "Refuse", "Just walk away"], "Accept", forms);
       };
       break;

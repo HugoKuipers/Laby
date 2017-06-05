@@ -317,3 +317,152 @@ var multipleEquations = function(n, x) {
     };
   };
 };
+
+var createMerchant = function(type) {
+  for(var i = 0; i < 99; i++) {
+    if(!(document.getElementsByClassName(type + i)[0]) && !(merchantList[type + i])) {
+      merchantTypeId = type + i;
+      i = 100;
+    };
+  };
+  merchantList[merchantTypeId] = {};
+  merchantList[merchantTypeId].inventory = [];
+  switch(type) {
+    case "general":
+      var amountMerchantItems = Math.floor(((14-(difficulty.length*2)) * (1+(0.1*player.depth)-0.1)) * (Math.random()+0.5));
+      merchantList[merchantTypeId].gold = Math.floor((150-difficulty.length*20) * (1+(Math.random()*2)) * (1+(0.1*player.depth)-0.1));
+      merchantList[merchantTypeId].name = "Some guy";
+      break;
+  };
+  var merchantPossibleItems = {};
+  var greatestChance = 0;
+  for(var data in jsonItems) {
+    if(jsonItems[data].merchants[type]) {
+      if(greatestChance < jsonItems[data].merchants[type]) greatestChance = jsonItems[data].merchants[type];
+      merchantPossibleItems[data] = jsonItems[data];
+    };
+  };
+  for(var i = 0; i < amountMerchantItems; i++) {
+    var thresholdChance = Math.ceil(Math.random()*greatestChance);
+    var thisItemPerhaps = Math.floor(Math.random()*(Object.keys(merchantPossibleItems).length));
+    if(merchantPossibleItems[Object.keys(merchantPossibleItems)[thisItemPerhaps]].merchants[type] >= thresholdChance) {
+      changeMerchantInventory(merchantPossibleItems[Object.keys(merchantPossibleItems)[thisItemPerhaps]].name, merchantTypeId);
+    }
+    else {
+      i -= 1;
+    };
+  };
+};
+var interactMerchant = function(merchant) {
+  if(document.getElementById("mercItemSpace" + merchant)) return;
+  var actualMerchant = document.createElement("div");
+  actualMerchant.id = "merchantWindow";
+  var barMerc = document.createElement("div");
+  barMerc.id = "mercDragBar";
+  barMerc.onmousedown = function(e) {
+    generalMove(e, actualMerchant);
+  };
+  var barHead = document.createElement("span");
+  barHead.id = "mercHeader";
+  barHead.innerHTML = merchantList[merchant].name + "'s Store";
+  var closeMerc = document.createElement("button");
+  closeMerc.id = "closeMerc";
+  closeMerc.innerHTML = "&#10006;";
+  closeMerc.onclick = function() {
+    while (merchantSpace.firstChild) {
+      merchantSpace.removeChild(merchantSpace.firstChild);
+    };
+  };
+  var mercItemSpace = document.createElement("p");
+  mercItemSpace.id = "mercItemSpace" + merchant;
+  actualMerchant.appendChild(barMerc);
+  barMerc.appendChild(barHead);
+  actualMerchant.appendChild(closeMerc);
+  actualMerchant.appendChild(mercItemSpace);
+  merchantSpace.appendChild(actualMerchant);
+  for(var i = 0; i < merchantList[merchant].inventory.length; i++) {
+    changeMerchantInventory(merchantList[merchant].inventory[i].name, merchant, true);
+  };
+};
+var changeMerchantInventory = function(item, merchant, justPic) {
+  if(item[0] === "-") {
+    item = item.replace("-", "");
+    let itemJ = jsonItems[item];
+    if(merchantList[merchant].inventory.includes(itemJ)) {
+      var removeThisItem = merchantList[merchant].inventory.indexOf(itemJ);
+      merchantList[merchant].inventory.splice(removeThisItem, 1);
+      document.getElementById("mercItemSpace")[removeThisItem].remove();
+    };
+  }
+  else {
+    item = jsonItems[item];
+    if(!justPic) {
+      merchantList[merchant].inventory.push(item);
+    };
+    if(merchantSpace.firstChild) {
+      var newMercItemImgTag = $("<img>", {
+        id: item.name,
+        class: "MerchantItems",
+        src: item.image,
+        title: item.hover
+      });
+      newMercItemImgTag.on("mousedown", function(e) {
+        if(!(ssX < startX + 20 && ssX > startX -20 && ssY < startY +20 && ssY > startY -20)) {
+          newMercItemImgTag.on("click", function(e) {
+            itemEvents(this.id ,e);
+          });
+        };
+        if(item.equip !== "no") {
+          deze = $(this);
+          e.preventDefault();
+          draggableItem = true;
+          startX = e.clientX;
+          startY = e.clientY;
+          var ssX = startX;
+          var ssY = startY;
+          $(document).on("mouseup", function(e) {
+            $(document).off("mousemove");
+            $(document).off("mouseup");
+            if(ssX < startX + 20 && ssX > startX -20 && ssY < startY +20 && ssY > startY -20) {
+              newMercItemImgTag.on("click", function(e) {
+                itemEvents(this.id ,e);
+              });
+            }
+            else {
+              newMercItemImgTag.off("click");
+            };
+            draggableItem = false;
+          });
+          $(document).on("mousemove", function(e) {
+            e.preventDefault();
+            if(!draggableItem) return;
+            var deltaX = e.clientX - startX;
+            var deltaY = e.clientY - startY;
+            deze.css({
+              "z-index": 50,
+              "left": parseInt(deze.css("left").replace("px", "")) + deltaX + "px",
+              "top": parseInt(deze.css("top").replace("px", "")) + deltaY + "px"
+            });
+            startX = e.clientX;
+            startY = e.clientY;
+            dropdown.hide(100);
+          });
+        };
+      });
+      $("#mercItemSpace"+merchant).append(newMercItemImgTag);
+    };
+  };
+};
+var setMerchantTypeId = function() {
+  for(var data in laby.rows[player.y].cells[player.x].classList) {
+    var typeName = (laby.rows[player.y].cells[player.x].classList[data]).substr(0, (laby.rows[player.y].cells[player.x].classList[data].length-1));
+    if(typeName === "general") {
+      merchantTypeId = laby.rows[player.y].cells[player.x].classList[data];
+      return;
+    };
+  };
+};
+var removeMerchantClass = function() {
+  setMerchantTypeId();
+  laby.rows[player.y].cells[player.x].classList.remove(merchantTypeId);
+};

@@ -19,7 +19,8 @@ var setPlayer = function() {
       legs: {},
       feet: {}
     },
-    points: 0
+    points: 0,
+    depth: 1
   };
   attackAmount = 0;
   deadGobPotTry = 0;
@@ -326,7 +327,7 @@ var createPath = function() {
   };
 };
 
-var addEvent = function(id) {
+var addEvent = function(id, idClass) {
   if(!id) {
     switch (difficulty.length) {
       case 2:
@@ -379,6 +380,9 @@ var addEvent = function(id) {
     newEventLocation = laby.rows[Math.floor(Math.random()*size)].cells[Math.floor(Math.random()*labyrinth.width)];
     if(newEventLocation.id === "" && newEventLocation.className !== "wall" && newEventLocation.className !== "player") {
       newEventLocation.id = id;
+      if(idClass) {
+        newEventLocation.className += " " + idClass;
+      };
       startCountingEvents = 0;
     }
     else {
@@ -387,7 +391,7 @@ var addEvent = function(id) {
         startCountingEvents = 0;
         return;
       };
-      addEvent(id);
+      addEvent(id, idClass);
     };
   };
 };

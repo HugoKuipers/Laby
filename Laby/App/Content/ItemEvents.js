@@ -6,7 +6,7 @@ var dontUseThat = function() {
   };
 };
 var drinkPotion = function() {
-  y("You examine the potion a bit closer, it smells somewhat funny, but it should be fine to drink it. You take a small sip at first... It tastes great! You quickly gulp down the entire potion.");
+  y("You examine the potion a bit closer, it smells somewhat funny, but it should be fine to drink it. You take a small sip first... 'It tastes great!' You quickly gulp down the entire potion.");
   changeLife(2, true);
   changeInventory("-Potion");
 };

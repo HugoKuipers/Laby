@@ -36,6 +36,8 @@ var prevY;
 var attackAmount;
 var deadGobPotTry;
 var justMageIssues = 0;
+var merchantTypeId;
+var merchantList = {};
 var correctProblem;
 var answerProblem;
 var answerProblem1;

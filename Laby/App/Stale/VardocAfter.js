@@ -12,6 +12,7 @@ var inventory = document.getElementById("inventory");
 var dragBar = document.getElementById("dragbar");
 var itemspace = document.getElementById("itemspace");
 var itemImage = itemspace.getElementsByTagName("img");
+var merchantSpace = document.getElementById("merchantspace");
 var openSet = document.getElementById("openset");
 var settings = document.getElementById("settings");
 var settingsDragBar = document.getElementById("settingsdragbar");
