@@ -850,7 +850,13 @@ var changeInventory = function(item, dont) {
     newItemImgTag.on("mousedown", function(e) {
       if(!(ssX < startX + 20 && ssX > startX -20 && ssY < startY +20 && ssY > startY -20)) {
         newItemImgTag.on("click", function(e) {
-          itemEvents(this.id ,e);
+          if(merchantSpace.firstChild) {
+            var activeMerchant = merchantSpace.firstChild.childNodes[2].id.replace("mercItemSpace", "");
+            buyOrSell(e, this.id, activeMerchant);
+          }
+          else {
+            itemEvents(this.id ,e);
+          };
         });
       };
       if(item.equip !== "no") {
@@ -866,7 +872,13 @@ var changeInventory = function(item, dont) {
           $(document).off("mouseup");
           if(ssX < startX + 20 && ssX > startX -20 && ssY < startY +20 && ssY > startY -20) {
             newItemImgTag.on("click", function(e) {
-              itemEvents(this.id ,e);
+              if(merchantSpace.firstChild) {
+                var activeMerchant = merchantSpace.firstChild.childNodes[3].id.replace("mercItemSpace", "");
+                buyOrSell(e, this.id, activeMerchant);
+              }
+              else {
+                itemEvents(this.id ,e);
+              };
             });
           }
           else {
@@ -939,7 +951,7 @@ var changeInventory = function(item, dont) {
           });
           startX = e.clientX;
           startY = e.clientY;
-          dropdown.hide(100);
+          hideDropDown();
         });
       };
     });

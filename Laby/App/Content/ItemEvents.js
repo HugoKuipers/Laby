@@ -19,19 +19,19 @@ itemEvents = function(id, e) {
     left: e.clientX
   });
   setTimeout(function() {
-      $(document).one("mousedown", function(e) {
-        if(e.target.className === "invItems" || e.target.id === "use" || e.target.id === "drop") return;
-        dropdown.hide(100);
-      });
+    $(document).one("mousedown", function(e) {
+      if(e.target.className === "invItems" || e.target.id === "use" || e.target.id === "drop") return;
+      hideDropDown();
+    });
   }, 1);
   dropDrop.click(function() {
     changeInventory("-" + id, true);
     y("You have dropped the " + id);
-    dropdown.hide(100);
+    hideDropDown();
   });
   useDrop.click(function() {
     useItemEvents(id);
-    dropdown.hide(100);
+    hideDropDown();
   });
 };
 useItemEvents = function(id) {

@@ -318,6 +318,11 @@ var multipleEquations = function(n, x) {
   };
 };
 
+var hideDropDown = function() {
+  dropdown.hide(100);
+  shopDrop.hide(100);
+};
+
 var createMerchant = function(type) {
   for(var i = 0; i < 99; i++) {
     if(!(document.getElementsByClassName(type + i)[0]) && !(merchantList[type + i])) {
@@ -332,6 +337,7 @@ var createMerchant = function(type) {
       var amountMerchantItems = Math.floor(((14-(difficulty.length*2)) * (1+(0.1*player.depth)-0.1)) * (Math.random()+0.5));
       merchantList[merchantTypeId].gold = Math.floor((150-difficulty.length*20) * (1+(Math.random()*2)) * (1+(0.1*player.depth)-0.1));
       merchantList[merchantTypeId].name = "Some guy";
+      merchantList[merchantTypeId].haggler = Math.floor(Math.random()*(21+difficulty.length*10)+10)/100;
       break;
   };
   var merchantPossibleItems = {};
@@ -402,52 +408,50 @@ var changeMerchantInventory = function(item, merchant, justPic) {
     if(merchantSpace.firstChild) {
       var newMercItemImgTag = $("<img>", {
         id: item.name,
-        class: "MerchantItems",
+        class: "merchantItems",
         src: item.image,
         title: item.hover
       });
       newMercItemImgTag.on("mousedown", function(e) {
         if(!(ssX < startX + 20 && ssX > startX -20 && ssY < startY +20 && ssY > startY -20)) {
           newMercItemImgTag.on("click", function(e) {
-            itemEvents(this.id ,e);
+            buyOrSell(e, this.id , merchant);
           });
         };
-        if(item.equip !== "no") {
-          deze = $(this);
+        deze = $(this);
+        e.preventDefault();
+        draggableItem = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        var ssX = startX;
+        var ssY = startY;
+        $(document).on("mouseup", function(e) {
+          $(document).off("mousemove");
+          $(document).off("mouseup");
+          if(ssX < startX + 20 && ssX > startX -20 && ssY < startY +20 && ssY > startY -20) {
+            newMercItemImgTag.on("click", function(e) {
+              buyOrSell(e, this.id , merchant);
+            });
+          }
+          else {
+            newMercItemImgTag.off("click");
+          };
+          draggableItem = false;
+        });
+        $(document).on("mousemove", function(e) {
           e.preventDefault();
-          draggableItem = true;
+          if(!draggableItem) return;
+          var deltaX = e.clientX - startX;
+          var deltaY = e.clientY - startY;
+          deze.css({
+            "z-index": 50,
+            "left": parseInt(deze.css("left").replace("px", "")) + deltaX + "px",
+            "top": parseInt(deze.css("top").replace("px", "")) + deltaY + "px"
+          });
           startX = e.clientX;
           startY = e.clientY;
-          var ssX = startX;
-          var ssY = startY;
-          $(document).on("mouseup", function(e) {
-            $(document).off("mousemove");
-            $(document).off("mouseup");
-            if(ssX < startX + 20 && ssX > startX -20 && ssY < startY +20 && ssY > startY -20) {
-              newMercItemImgTag.on("click", function(e) {
-                itemEvents(this.id ,e);
-              });
-            }
-            else {
-              newMercItemImgTag.off("click");
-            };
-            draggableItem = false;
-          });
-          $(document).on("mousemove", function(e) {
-            e.preventDefault();
-            if(!draggableItem) return;
-            var deltaX = e.clientX - startX;
-            var deltaY = e.clientY - startY;
-            deze.css({
-              "z-index": 50,
-              "left": parseInt(deze.css("left").replace("px", "")) + deltaX + "px",
-              "top": parseInt(deze.css("top").replace("px", "")) + deltaY + "px"
-            });
-            startX = e.clientX;
-            startY = e.clientY;
-            dropdown.hide(100);
-          });
-        };
+          hideDropDown();
+        });
       });
       $("#mercItemSpace"+merchant).append(newMercItemImgTag);
     };
@@ -465,4 +469,36 @@ var setMerchantTypeId = function() {
 var removeMerchantClass = function() {
   setMerchantTypeId();
   laby.rows[player.y].cells[player.x].classList.remove(merchantTypeId);
+};
+var buyOrSell = function(e, id, merchant) {
+  bosDrop.off("click");
+  shopDrop.show(150);
+  shopDrop.css({
+    top: e.clientY,
+    left: e.clientX
+  });
+  if(e.target.className === "merchantItems") {
+    bosDrop.html("Buy");
+    document.getElementById('buysell').title = "Buy this item";
+  }
+  else if(e.target.className === "invItems") {
+    bosDrop.html("Sell");
+    document.getElementById('buysell').title = "Sell this item";
+  };
+  setTimeout(function() {
+    $(document).one("mousedown", function(e) {
+      if(e.target.className === "merchantItems" || e.target.className === "invItems" || e.target.id === "buysell") return;
+      hideDropDown();
+    });
+  }, 1);
+  bosDrop.click(function() {
+    console.log(bosDrop.html());
+    if(bosDrop.html() === "Buy") {
+
+    }
+    else if(bosDrop.html() === "Sell") {
+
+    };
+    hideDropDown();
+  });
 };

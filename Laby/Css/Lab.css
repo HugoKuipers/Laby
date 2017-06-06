@@ -266,8 +266,8 @@ button:focus {
 }
 
 #dropdown {
-  width: 60px;
-  height: 55px;
+  width: 80px;
+  height: 83px;
   display: none;
   position: fixed;
   z-index: 15;
@@ -286,6 +286,9 @@ button:focus {
   background-color: rgb(122, 237, 237);
 }
 #use {
+  border-bottom: 1px solid rgb(51, 161, 161);
+}
+#combine {
   border-bottom: 1px solid rgb(51, 161, 161);
 }
 
@@ -358,6 +361,27 @@ button:focus {
   width: 60px;
   height: 60px;
   margin: 9px;
+}
+
+#shopdropdown {
+  width: 60px;
+  height: 27px;
+  display: none;
+  position: fixed;
+  z-index: 15;
+  background-color: rgb(222, 237, 237);
+  text-align: center;
+  color: rgb(6, 17, 42);
+  border: 1px rgb(51, 161, 161) solid;
+  cursor: pointer;
+}
+#shopdropdown p {
+  padding: 2px;
+  margin: 0px;
+  font-size: 20px;
+}
+#shopdropdown p:hover {
+  background-color: rgb(122, 237, 237);
 }
 
 #settings {

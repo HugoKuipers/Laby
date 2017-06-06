@@ -38,3 +38,5 @@ var viewBox = document.getElementById("viewbox");
 var dropdown = $("#dropdown");
 var useDrop = $("#use");
 var dropDrop = $("#drop");
+var shopDrop = $("#shopdropdown");
+var bosDrop = $("#buysell");
