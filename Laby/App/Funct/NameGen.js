@@ -1,4 +1,8 @@
 "use strict";
+var jsonNameLists = $.getJSON("../../Data/NameLists.json", function(json) {
+  jsonNameLists =  json;
+});
+
 nameGen = function() {
   var nameLength = 3 + Math.floor(Math.random()*7);
   var firstLetter = String.fromCharCode(65 + Math.floor(Math.random()*26));
@@ -95,4 +99,143 @@ nameGen = function() {
     allGenNames.push(madeUpName);
     return madeUpName;
   };
+};
+
+createMarkovData = function(list, dataName) {
+  var firstLetters = {};
+  var secondLetters = {};
+  var letterCombos = {};
+  for(var i in list) {
+    if(firstLetters[list[i].substr(0,1)]) {
+      firstLetters[list[i].substr(0,1)] += 1;
+    }
+    else {
+      firstLetters[list[i].substr(0,1)] = 1;
+    };
+    if(secondLetters[list[i].substr(0,1)]) {
+      if(secondLetters[list[i].substr(0,1)][list[i].substr(1,1)]) {
+        secondLetters[list[i].substr(0,1)][list[i].substr(1,1)] += 1;
+      }
+      else {
+        secondLetters[list[i].substr(0,1)][list[i].substr(1,1)] = 1;
+      };
+    }
+    else {
+      secondLetters[list[i].substr(0,1)] = {};
+      secondLetters[list[i].substr(0,1)][list[i].substr(1,1)] = 1;
+    };
+    for(var j = 2; j < list[i].length; j++) {
+      if(letterCombos[list[i].substr((j-2),2).toLowerCase()]) {
+        if(letterCombos[list[i].substr((j-2),2).toLowerCase()][list[i].substr(j,1)]) {
+          letterCombos[list[i].substr((j-2),2).toLowerCase()][list[i].substr(j,1)] += 1;
+        }
+        else {
+          letterCombos[list[i].substr((j-2),2).toLowerCase()][list[i].substr(j,1)] = 1;
+        };
+      }
+      else {
+        letterCombos[list[i].substr((j-2),2).toLowerCase()] = {};
+        letterCombos[list[i].substr((j-2),2).toLowerCase()][list[i].substr(j,1)] = 1;
+      };
+    };
+    if(letterCombos[list[i].substr((list[i].length-2),2).toLowerCase()]) {
+      if(letterCombos[list[i].substr((list[i].length-2),2).toLowerCase()]["EndHere"]) {
+        letterCombos[list[i].substr((list[i].length-2),2).toLowerCase()]["EndHere"] += 1;
+      }
+      else {
+        letterCombos[list[i].substr((list[i].length-2),2).toLowerCase()]["EndHere"] = 1;
+      };
+    }
+    else {
+      letterCombos[list[i].substr((list[i].length-2),2).toLowerCase()] = {};
+      letterCombos[list[i].substr((list[i].length-2),2).toLowerCase()]["EndHere"] = 1;
+    };
+  };
+  markovData[dataName] = {
+    firstLetters: firstLetters,
+    secondLetters: secondLetters,
+    letterCombos: letterCombos
+  };
+};
+markovNameGen = function(data) {
+  var completeLetters = 0;
+  while(completeLetters === 0) {
+    var greatestChance = 0;
+    for(var i in markovData[data]["firstLetters"]) {
+      if(greatestChance < markovData[data]["firstLetters"][i]) greatestChance = markovData[data]["firstLetters"][i];
+    };
+    var thresholdChance = Math.ceil(Math.random()*greatestChance);
+    var thisLetterPerhaps = Math.floor(Math.random()*(Object.keys(markovData[data]["firstLetters"]).length));
+    if(markovData[data]["firstLetters"][Object.keys(markovData[data]["firstLetters"])[thisLetterPerhaps]] >= thresholdChance) {
+      var madeUpName = Object.keys(markovData[data]["firstLetters"])[thisLetterPerhaps];
+      completeLetters += 1;
+    };
+  };
+  while(completeLetters === 1) {
+    greatestChance = 0;
+    for(var i in markovData[data]["secondLetters"][madeUpName]) {
+      if(greatestChance < markovData[data]["secondLetters"][madeUpName][i]) greatestChance = markovData[data]["secondLetters"][madeUpName][i];
+    };
+    var thresholdChance = Math.ceil(Math.random()*greatestChance);
+    var thisLetterPerhaps = Math.floor(Math.random()*(Object.keys(markovData[data]["secondLetters"][madeUpName]).length));
+    if(markovData[data]["secondLetters"][madeUpName][Object.keys(markovData[data]["secondLetters"][madeUpName])[thisLetterPerhaps]] >= thresholdChance) {
+      madeUpName += Object.keys(markovData[data]["secondLetters"][madeUpName])[thisLetterPerhaps];
+      var workUpName = madeUpName.toLowerCase();
+      completeLetters += 1;
+    };
+  };
+  var endOfTheLine = false;
+  while(completeLetters < 7) {
+    greatestChance = 0;
+    for(var i in markovData[data]["letterCombos"][workUpName.substr(completeLetters-2, 2)]) {
+      if(greatestChance < markovData[data]["letterCombos"][workUpName.substr(completeLetters-2, 2)][i]) greatestChance = markovData[data]["letterCombos"][workUpName.substr(completeLetters-2, 2)][i];
+    };
+    var thresholdChance = Math.ceil(Math.random()*greatestChance);
+    var thisLetterPerhaps = Math.floor(Math.random()*(Object.keys(markovData[data]["letterCombos"][workUpName.substr(completeLetters-2, 2)]).length));
+    if(markovData[data]["letterCombos"][workUpName.substr(completeLetters-2, 2)][Object.keys(markovData[data]["letterCombos"][workUpName.substr(completeLetters-2, 2)])[thisLetterPerhaps]] >= thresholdChance) {
+      if(Object.keys(markovData[data]["letterCombos"][workUpName.substr(completeLetters-2, 2)])[thisLetterPerhaps] === "EndHere" && completeLetters === 2) {}
+      else if(Object.keys(markovData[data]["letterCombos"][workUpName.substr(completeLetters-2, 2)])[thisLetterPerhaps] === "EndHere") {
+        endOfTheLine = true;
+        completeLetters = 7;
+      }
+      else {
+        madeUpName += Object.keys(markovData[data]["letterCombos"][workUpName.substr(completeLetters-2, 2)])[thisLetterPerhaps];
+        workUpName = madeUpName.toLowerCase();
+        completeLetters += 1;
+      };
+    };
+  };
+  while(endOfTheLine === false && completeLetters < 11) {
+    if(Object.keys(markovData[data]["letterCombos"][workUpName.substr(completeLetters-2, 2)]).includes("EndHere")) {
+      endOfTheLine = true;
+    }
+    else {
+      greatestChance = 0;
+      for(var i in markovData[data]["letterCombos"][workUpName.substr(completeLetters-2, 2)]) {
+        if(greatestChance < markovData[data]["letterCombos"][workUpName.substr(completeLetters-2, 2)][i]) greatestChance = markovData[data]["letterCombos"][workUpName.substr(completeLetters-2, 2)][i];
+      };
+      var thresholdChance = Math.ceil(Math.random()*greatestChance);
+      var thisLetterPerhaps = Math.floor(Math.random()*(Object.keys(markovData[data]["letterCombos"][workUpName.substr(completeLetters-2, 2)]).length));
+      if(markovData[data]["letterCombos"][workUpName.substr(completeLetters-2, 2)][Object.keys(markovData[data]["letterCombos"][workUpName.substr(completeLetters-2, 2)])[thisLetterPerhaps]] >= thresholdChance) {
+        madeUpName += Object.keys(markovData[data]["letterCombos"][workUpName.substr(completeLetters-2, 2)])[thisLetterPerhaps];
+        workUpName = madeUpName.toLowerCase();
+        completeLetters += 1;
+      };
+    };
+  };
+  if(allGenNames.includes(madeUpName)) {
+    markovNameGen(data);
+  }
+  else {
+    allGenNames.push(madeUpName);
+    return madeUpName;
+  };
+};
+
+var markovTest = function() {
+  for(var i = 0; i < 10000; i++) {
+    nameGen();
+  };
+  createMarkovData(allGenNames, "Weird Names");
+  markovNameGen("Weird Names");
 };

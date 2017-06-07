@@ -5,6 +5,12 @@ var dontUseThat = function() {
     return true;
   };
 };
+var defDontUseThat = function() {
+  if(doNotUseThat = true) {
+    a("You have something to do first!");
+    return true;
+  };
+};
 var drinkPotion = function() {
   y("You examine the potion a bit closer, it smells somewhat funny, but it should be fine to drink it. You take a small sip first... 'It tastes great!' You quickly gulp down the entire potion.");
   changeLife(2, true);
@@ -35,6 +41,7 @@ itemEvents = function(id, e) {
   });
 };
 useItemEvents = function(id) {
+  if(defDontUseThat()) return;
   switch (id) {
     case "Labyrinth Key":
       switch (laby.rows[player.y].cells[player.x].id) {
@@ -183,7 +190,7 @@ useItemEvents = function(id) {
             m("Using the beeswax as glue you attach the feathers to the wooden framework on the back of the statue,");
           }
           else {
-            y("You attempt to attach the feathers to the back of the statue, however they keep falling down. You'll need something to make them stick together.");
+            y("You attempt to attach the feathers to the back of the statue, however they keep falling off. You'll need something to make them stick together.");
           };
           break;
         default:

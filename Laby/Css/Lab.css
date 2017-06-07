@@ -811,6 +811,7 @@ button:focus {
   left: 20%;
 }
 #buttons img {
+  cursor: pointer;
   position: absolute;
   width: 8vh;
   height: 8vh;
@@ -823,12 +824,14 @@ button:focus {
 }
 #attackRight {
   left: 23%;
+  transform: scaleX(-1);
 }
 #attackLeft {
   left: 63%;
 }
 #defendRight {
   left: 23%;
+  transform: scaleX(-1);
 }
 #defendLeft {
   left: 63%;

@@ -131,11 +131,11 @@
     },
     "equip": "no"
   },
-  "": {
-    "name": "",
-    "hover": "",
-    "image": "../../Images/.",
-    "value": 0,
+  "Laurel Wreath": {
+    "name": "Laurel Wreath",
+    "hover": "Laurel Wreath",
+    "image": "../../Images/Laurel.png",
+    "value": 30,
     "merchants": {},
     "equip": "head"
   }

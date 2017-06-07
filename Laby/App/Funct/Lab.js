@@ -218,11 +218,22 @@ var createInputOpt = function(n, selected, place, id) {
   };
 };
 var createContinueButton = function(text, id, noitems) {
+  if(noitems) doNotUseThat = true;
+  if(id) {
+    var place = formsitems;
+  }
+  else {
+    place = forms;
+  };
   var goOn =  document.createElement("button");
   goOn.innerHTML = text;
   goOn.id = "goOn";
   goOn.type = "button";
   goOn.onclick = function() {
+    doNotUseThat = false;
+    while (place.firstChild) {
+      place.removeChild(place.firstChild);
+    };
     if(id) {
       useItemEvents(id);
     }
@@ -230,12 +241,7 @@ var createContinueButton = function(text, id, noitems) {
       events();
     };
   };
-  if(id) {
-    formsitems.appendChild(goOn);
-  }
-  else {
-    forms.appendChild(goOn);
-  };
+  place.appendChild(goOn);
 };
 
 var addKeyEvent = function(id) {
@@ -674,7 +680,7 @@ var moveFunctions = {
     };
   }
 };
-var randomMove = function() {
+var randomMove = function(id) {
   prevX = player.x;
   prevY = player.y;
   laby.rows[prevY].cells[prevX].classList.remove("player");
@@ -691,7 +697,7 @@ var randomMove = function() {
     minoMove();
     viewMap();
     clickMove();
-    events();
+    createContinueButton("Explore your surroundings", id, true);
   };
 };
 var ableMove = function(bool) {
@@ -780,7 +786,11 @@ var changeLife = function(amount, item) {
   };
   player.life += amount;
   document.getElementById("life").innerHTML = "Life: " + player.life;
-  if(amount > 0) {
+  if(amount === "kill") {
+    player.life = 0;
+    document.getElementById("life").innerHTML = "Life: " + player.life;
+  }
+  else if(amount > 0) {
     place.innerHTML += "<br>You have gained " + amount + " life.";
     if(!item) prevM += "<br>You have gained " + amount + " life.";
   }
