@@ -158,6 +158,9 @@ createMarkovData = function(list, dataName) {
   };
 };
 markovNameGen = function(data) {
+  if(!(jsonNameLists[data])) {
+    createMarkovData(jsonNameLists[data], data);
+  };
   var completeLetters = 0;
   while(completeLetters === 0) {
     var greatestChance = 0;
@@ -234,8 +237,7 @@ markovNameGen = function(data) {
 
 var markovTest = function() {
   for(var i = 0; i < 10000; i++) {
-    nameGen();
+    markovNameGen("dutch");
+    console.log("and one done");
   };
-  createMarkovData(allGenNames, "Weird Names");
-  markovNameGen("Weird Names");
 };
