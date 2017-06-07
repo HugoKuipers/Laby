@@ -21,6 +21,8 @@ var defaultSize;
 var events;
 var itemEvents;
 var useItemEvents;
+var nameGen;
+var allGenNames = [];
 var attEvents;
 var defEvents;
 var questionAnswer;

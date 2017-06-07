@@ -336,7 +336,7 @@ var createMerchant = function(type) {
     case "general":
       var amountMerchantItems = Math.floor(((14-(difficulty.length*2)) * (1+(0.1*player.depth)-0.1)) * (Math.random()+0.5));
       merchantList[merchantTypeId].gold = Math.floor((150-difficulty.length*20) * (1+(Math.random()*2)) * (1+(0.1*player.depth)-0.1));
-      merchantList[merchantTypeId].name = "Some guy";
+      merchantList[merchantTypeId].name = nameGen();
       merchantList[merchantTypeId].haggler = Math.floor(Math.random()*(21+difficulty.length*10)+10)/100;
       break;
   };

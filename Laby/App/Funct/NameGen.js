@@ -1,7 +1,7 @@
 "use strict";
-var nameGen = function() {
+nameGen = function() {
   var nameLength = 3 + Math.floor(Math.random()*7);
-  var firstLetter = String.fromCharCode(65 + Math.floor(Math.random()*25));
+  var firstLetter = String.fromCharCode(65 + Math.floor(Math.random()*26));
   var vowelsCatOne = ["a", "e"];
   var vowelsCatTwo = ["a", "e", "i", "u", "o"];
   var vowelsCatThree = ["a", "e", "i", "u", "o", "y"];
@@ -27,6 +27,22 @@ var nameGen = function() {
     else if(consonantsCatThree.includes(checkLetter) && consonantsCatThree.includes(prevLetter)) {
       nextLetterCV = "V";
     }
+    else if(vowelsCatThree.includes(checkLetter)) {
+      if(Math.floor(Math.random()*3) === 2) {
+        nextLetterCV = "V";
+      }
+      else {
+        nextLetterCV = "C";
+      };
+    }
+    else if(consonantsCatThree.includes(checkLetter)) {
+      if(Math.floor(Math.random()*3) === 2) {
+        nextLetterCV = "C";
+      }
+      else {
+        nextLetterCV = "V";
+      };
+    }
     else {
       if(Math.floor(Math.random()*2) === 1) {
         nextLetterCV = "C";
@@ -35,26 +51,36 @@ var nameGen = function() {
         nextLetterCV = "V";
       };
     };
-    var pickCat = Math.floor(Math.random()*6);
+    var pickCat = Math.floor(Math.random()*5);
     if(nextLetterCV === "C") {
-      if(pickCat === 0 || pickCat === 1 || pickCat === 2) {
-        pickCat = consonantsCatThree;
+      if(pickCat === 0 || pickCat === 1) {
+        if(consonantsCatThree.includes(checkLetter)) {
+          pickCat = consonantsCatTwo;
+        }
+        else {
+          pickCat = consonantsCatThree;
+        };
       }
-      else if(pickCat === 3 || pickCat === 4) {
+      else if(pickCat === 2 || pickCat === 3) {
         pickCat = consonantsCatTwo;
       }
-      else if(pickCat === 5) {
+      else if(pickCat === 4) {
         pickCat = consonantsCatOne;
       };
     }
-    else if(nextLetterCV === "C") {
-      if(pickCat === 0 || pickCat === 1 || pickCat === 2) {
-        pickCat = vowelsCatThree;
+    else if(nextLetterCV === "V") {
+      if(pickCat === 0 || pickCat === 1) {
+        if(vowelsCatThree.includes(checkLetter)) {
+          pickCat = vowelsCatTwo;
+        }
+        else {
+          pickCat = vowelsCatThree;
+        };
       }
-      else if(pickCat === 3 || pickCat === 4) {
+      else if(pickCat === 2 || pickCat === 3) {
         pickCat = vowelsCatTwo;
       }
-      else if(pickCat === 5) {
+      else if(pickCat === 4) {
         pickCat = vowelsCatOne;
       };
     };
@@ -62,5 +88,11 @@ var nameGen = function() {
     checkLetter = pickCat[Math.floor(Math.random()*pickCat.length)];
     madeUpName += checkLetter;
   };
-  console.log(madeUpName);
+  if(allGenNames.includes(madeUpName)) {
+    nameGen();
+  }
+  else {
+    allGenNames.push(madeUpName);
+    return madeUpName;
+  };
 };
