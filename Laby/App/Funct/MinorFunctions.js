@@ -336,7 +336,7 @@ var createMerchant = function(type) {
     case "general":
       var amountMerchantItems = Math.floor(((14-(difficulty.length*2)) * (1+(0.1*player.depth)-0.1)) * (Math.random()+0.5));
       merchantList[merchantTypeId].gold = Math.floor((150-difficulty.length*20) * (1+(Math.random()*2)) * (1+(0.1*player.depth)-0.1));
-      merchantList[merchantTypeId].name = nameGen();
+      merchantList[merchantTypeId].name = markovNameGen("dutch");
       merchantList[merchantTypeId].haggler = Math.floor(Math.random()*(21+difficulty.length*10)+10)/100;
       break;
   };
@@ -358,6 +358,7 @@ var createMerchant = function(type) {
       i -= 1;
     };
   };
+  laby.rows[player.y].cells[player.x].className += " " + merchantTypeId;
 };
 var interactMerchant = function(merchant) {
   if(document.getElementById("mercItemSpace" + merchant)) return;
@@ -379,11 +380,34 @@ var interactMerchant = function(merchant) {
       merchantSpace.removeChild(merchantSpace.firstChild);
     };
   };
+  var itemLegend = document.createElement("p");
+  itemLegend.id = "itemLegend";
+  var legendPic = document.createElement("img");
+  legendPic.id = "legendPic";
+  legendPic.src = "../../Images/Store.jpg";
+  var legendName = document.createElement("span");
+  legendName.id = "legendName";
+  legendName.innerHTML = "Name:";
+  var legendPrice = document.createElement("span");
+  legendPrice.id = "legendPrice";
+  legendPrice.innerHTML = "Price:";
+  var legendStock = document.createElement("span");
+  legendStock.id = "legendStock";
+  legendStock.innerHTML = "Stock:";
+  var legendAmount = document.createElement("span");
+  legendAmount.id = "legendAmount";
+  legendAmount.innerHTML = "Amount:";
   var mercItemSpace = document.createElement("p");
   mercItemSpace.id = "mercItemSpace" + merchant;
+  itemLegend.appendChild(legendPic);
+  itemLegend.appendChild(legendName);
+  itemLegend.appendChild(legendPrice);
+  itemLegend.appendChild(legendStock);
+  itemLegend.appendChild(legendAmount);
   actualMerchant.appendChild(barMerc);
   barMerc.appendChild(barHead);
   actualMerchant.appendChild(closeMerc);
+  actualMerchant.appendChild(itemLegend);
   actualMerchant.appendChild(mercItemSpace);
   merchantSpace.appendChild(actualMerchant);
   for(var i = 0; i < merchantList[merchant].inventory.length; i++) {
@@ -412,57 +436,57 @@ var changeMerchantInventory = function(item, merchant, justPic) {
         src: item.image,
         title: item.hover
       });
-      newMercItemImgTag.on("mousedown", function(e) {
-        if(!(ssX < startX + 20 && ssX > startX -20 && ssY < startY +20 && ssY > startY -20)) {
-          newMercItemImgTag.on("click", function(e) {
-            buyOrSell(e, this.id , merchant);
-          });
-        };
-        deze = $(this);
-        e.preventDefault();
-        draggableItem = true;
-        startX = e.clientX;
-        startY = e.clientY;
-        var ssX = startX;
-        var ssY = startY;
-        $(document).on("mouseup", function(e) {
-          $(document).off("mousemove");
-          $(document).off("mouseup");
-          if(ssX < startX + 20 && ssX > startX -20 && ssY < startY +20 && ssY > startY -20) {
-            newMercItemImgTag.on("click", function(e) {
-              buyOrSell(e, this.id , merchant);
-            });
-          }
-          else {
-            newMercItemImgTag.off("click");
-          };
-          draggableItem = false;
-        });
-        $(document).on("mousemove", function(e) {
-          e.preventDefault();
-          if(!draggableItem) return;
-          var deltaX = e.clientX - startX;
-          var deltaY = e.clientY - startY;
-          deze.css({
-            "z-index": 50,
-            "left": parseInt(deze.css("left").replace("px", "")) + deltaX + "px",
-            "top": parseInt(deze.css("top").replace("px", "")) + deltaY + "px"
-          });
-          startX = e.clientX;
-          startY = e.clientY;
-          hideDropDown();
-        });
-      });
+      // newMercItemImgTag.on("mousedown", function(e) {
+      //   if(!(ssX < startX + 20 && ssX > startX -20 && ssY < startY +20 && ssY > startY -20)) {
+      //     newMercItemImgTag.on("click", function(e) {
+      //       buyOrSell(e, this.id , merchant);
+      //     });
+      //   };
+      //   deze = $(this);
+      //   e.preventDefault();
+      //   draggableItem = true;
+      //   startX = e.clientX;
+      //   startY = e.clientY;
+      //   var ssX = startX;
+      //   var ssY = startY;
+      //   $(document).on("mouseup", function(e) {
+      //     $(document).off("mousemove");
+      //     $(document).off("mouseup");
+      //     if(ssX < startX + 20 && ssX > startX -20 && ssY < startY +20 && ssY > startY -20) {
+      //       newMercItemImgTag.on("click", function(e) {
+      //         buyOrSell(e, this.id , merchant);
+      //       });
+      //     }
+      //     else {
+      //       newMercItemImgTag.off("click");
+      //     };
+      //     draggableItem = false;
+      //   });
+      //   $(document).on("mousemove", function(e) {
+      //     e.preventDefault();
+      //     if(!draggableItem) return;
+      //     var deltaX = e.clientX - startX;
+      //     var deltaY = e.clientY - startY;
+      //     deze.css({
+      //       "z-index": 50,
+      //       "left": parseInt(deze.css("left").replace("px", "")) + deltaX + "px",
+      //       "top": parseInt(deze.css("top").replace("px", "")) + deltaY + "px"
+      //     });
+      //     startX = e.clientX;
+      //     startY = e.clientY;
+      //     hideDropDown();
+      //   });
+      // });
       $("#mercItemSpace"+merchant).append(newMercItemImgTag);
     };
   };
 };
 var setMerchantTypeId = function() {
-  for(var data in laby.rows[player.y].cells[player.x].classList) {
+  for(var data = 0; data < laby.rows[player.y].cells[player.x].classList.length; data++) {
     var typeName = (laby.rows[player.y].cells[player.x].classList[data]).substr(0, (laby.rows[player.y].cells[player.x].classList[data].length-1));
     if(typeName === "general") {
       merchantTypeId = laby.rows[player.y].cells[player.x].classList[data];
-      return;
+      return merchantTypeId;
     };
   };
 };
@@ -492,7 +516,6 @@ var buyOrSell = function(e, id, merchant) {
     });
   }, 1);
   bosDrop.click(function() {
-    console.log(bosDrop.html());
     if(bosDrop.html() === "Buy") {
 
     }
@@ -501,4 +524,29 @@ var buyOrSell = function(e, id, merchant) {
     };
     hideDropDown();
   });
+};
+var createOpenShopButton = function(text) {
+  var openShop =  document.createElement("button");
+  if(!text) {
+    openShop.innerHTML = "Shop";
+  }
+  else {
+    openShop.innerHTML = text;
+  }
+  openShop.id = "openShop";
+  openShop.type = "button";
+  var thisMerchant = setMerchantTypeId();
+  openShop.onclick = function() {
+    interactMerchant(thisMerchant);
+  };
+  forms.appendChild(openShop);
+  beforeMoveFunctions["removeShop"] = function() {
+    while (merchantSpace.firstChild) {
+      merchantSpace.removeChild(merchantSpace.firstChild);
+    };
+    while (document.getElementById("openShop")) {
+      document.getElementById("openShop").remove();
+    };
+    delete beforeMoveFunctions["removeShop"];
+  };
 };

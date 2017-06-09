@@ -179,6 +179,14 @@ document.onkeydown = function(e) {
         document.getElementById("closemap").click();
       };
       break;
+    case 83:
+      if(!(merchantSpace.firstChild) && document.getElementById("openShop")) {
+        document.getElementById("openShop").click();
+      }
+      else if(merchantSpace.firstChild) {
+        document.getElementById("closeMerc").click();
+      };
+      break;
   };
 };
 

@@ -158,7 +158,7 @@ createMarkovData = function(list, dataName) {
   };
 };
 markovNameGen = function(data) {
-  if(!(jsonNameLists[data])) {
+  if(!(markovData[data])) {
     createMarkovData(jsonNameLists[data], data);
   };
   var completeLetters = 0;
@@ -232,12 +232,5 @@ markovNameGen = function(data) {
   else {
     allGenNames.push(madeUpName);
     return madeUpName;
-  };
-};
-
-var markovTest = function() {
-  for(var i = 0; i < 10000; i++) {
-    markovNameGen("dutch");
-    console.log("and one done");
   };
 };

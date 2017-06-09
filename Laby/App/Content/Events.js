@@ -150,19 +150,23 @@ events = function() {
       laby.rows[player.y].cells[player.x].id = "";
       break;
     case "merchant":
-      m("as you are comfortably strolling around, you hear a yell behind you: 'Hey you over there, would you care to lighten your load, or perhaps add something helpfull to it?'. The merchant has now caught up with you and begins to stall out his wares, all the while making smalltalk. You find out he has been going around the labyrinth peddeling to adventurers like yourself, from his jewelry and the size of his stumach you conclude the advantage of little competiton more than makes up for the dangers of the job.<br>You can sell items from your inventory here, or buy some from the merchant. (but not right now because i don't know how....)");
+      m("As you are comfortably strolling around, you hear a yell behind you: 'Hey you over there, would you care to lighten your load, or perhaps add something helpfull to it?'. The merchant has now caught up with you and begins to stall out his wares, all the while making smalltalk. You find out he has been going around the labyrinth peddeling to adventurers like yourself, from his jewelry and the size of his stumach you conclude the advantage of little competiton more than makes up for the dangers of the job.<br>You can sell items from your inventory here, or buy some from the merchant.");
       laby.rows[player.y].cells[player.x].id = "merchantGone";
       createMerchant("general");
+      createOpenShopButton();
       addEvent("merchantAgain", merchantTypeId);
+      removeMerchantClass();
       break;
     case "merchantGone":
-      m("");
+      m("merchantGone");
       laby.rows[player.y].cells[player.x].id = "";
       break;
     case "merchantAgain":
-      m("");
+      m("merchantAgain");
       laby.rows[player.y].cells[player.x].id = "merchantGone";
-      addEvent("merchantAgain");
+      createOpenShopButton();
+      addEvent("merchantAgain", merchantTypeId);
+      removeMerchantClass();
       break;
     case "lab":
       m("In a cavern you discover an alchemical lab, it seems like it was abandoned just recently and in a hurry, and hasn't been found by the local inhabitants yet. There are old tomes and empty flasks of glass scattered about, but you lack the understanding required to really understand what the owner was trying to accomplish. Just as you start to grow bored, you notice a flask still containing some liquid behind a large pile of rocks, the owner must have missed it when they made their escape. You take the flask and want to continue looking around, but then you hear heavy footsteps approaching, and decide not to find out who, or what, they belong to.<br>You have gained a Potion.");

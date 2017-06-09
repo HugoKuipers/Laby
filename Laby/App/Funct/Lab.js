@@ -114,7 +114,7 @@ var justWalkAway = function(walk) {
   document.getElementById("submitinput").disabled = walk;
   if(walk) {
     if(!beforeMoveFunctions["removeInputOpt"]) {
-      beforeMoveFunctions["removeInputOpt"] = function(xy, posmin) {
+      beforeMoveFunctions["removeInputOpt"] = function() {
         while (forms.firstChild) {
           forms.removeChild(forms.firstChild);
         };
