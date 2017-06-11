@@ -218,6 +218,7 @@ var createInputOpt = function(n, selected, place, id) {
   };
 };
 var createContinueButton = function(text, id, noitems) {
+  ableMove(false);
   if(noitems) doNotUseThat = true;
   if(id) {
     var place = formsitems;
@@ -230,6 +231,7 @@ var createContinueButton = function(text, id, noitems) {
   goOn.id = "goOn";
   goOn.type = "button";
   goOn.onclick = function() {
+    ableMove(true);
     doNotUseThat = false;
     while (place.firstChild) {
       place.removeChild(place.firstChild);
