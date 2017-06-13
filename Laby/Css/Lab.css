@@ -78,7 +78,6 @@ button:focus {
   position: relative;
   background-color: rgb(182, 195, 236);
   font-size: 24px;
-  cursor: pointer;
   border-radius: 10px;
   border: 1px solid rgb(34, 59, 135);
   margin-left: 10px;
@@ -92,7 +91,6 @@ button:focus {
   position: relative;
   background-color: rgb(182, 195, 236);
   font-size: 24px;
-  cursor: pointer;
   border-radius: 10px;
   border: 1px solid rgb(34, 59, 135);
   margin-left: 10px;
@@ -109,7 +107,6 @@ button:focus {
   position: relative;
   background-color: rgb(182, 195, 236);
   font-size: 24px;
-  cursor: pointer;
   border-radius: 10px;
   border: 1px solid rgb(34, 59, 135);
   margin-left: 10px;
@@ -312,9 +309,8 @@ button:focus {
 
 #merchantWindow {
   position: fixed;
-  background-color: rgb(98, 66, 27);
+  background-color: rgb(40, 177, 70);
   min-width: 120px;
-  max-width: 400px;
   min-height: 105px;
   z-index: 10;
   border-radius: 20px;
@@ -363,22 +359,40 @@ button:focus {
   background-color: rgb(65, 43, 17);
   color: rgb(213, 12, 12);
 }
-#merchantWindow p {
-  margin: 0px;
-}
-#merchantWindow p img {
+#merchantWindow img {
   position: relative;
   width: 58px;
   height: 58px;
   border: 1px solid rgb(81, 29, 84);
   border-radius: 4px;
   margin: 10px;
-  cursor: pointer;
 }
-#merchantWindow p img:hover {
+#merchantWindow #itemRoster {
+  margin: 10px;
+  border: 1px solid rgb(8, 34, 6);
+  border-collapse: collapse;
+}
+#merchantWindow #itemRoster td {
+  border: 1px solid rgb(4, 23, 3);;
+  width: 80px;
+  height: 80px;
+  background-size: 80px 80px;
+  background-repeat: no-repeat;
+  font-size: 20px;
+}
+#merchantWindow #itemRoster tr:first-child td {
+  height: 26px;
+}
+#merchantWindow .numbutton {
   width: 60px;
   height: 60px;
-  margin: 9px;
+  font-size: 20px;
+  border-radius: 0px;
+  border: 0px;
+  background-color: rgb(40, 177, 70);
+  margin: 0px;
+  text-align: center;
+  padding: 0px;
 }
 
 #shopdropdown {
@@ -608,6 +622,30 @@ button:focus {
 #feetequipmentunder {
   top: 267px;
   left: 81px;
+}
+
+#equipdropdown {
+  width: 80px;
+  height: 55px;
+  display: none;
+  position: fixed;
+  z-index: 15;
+  background-color: rgb(222, 237, 237);
+  text-align: center;
+  color: rgb(6, 17, 42);
+  border: 1px rgb(51, 161, 161) solid;
+  cursor: pointer;
+}
+#equipdropdown p {
+  padding: 2px;
+  margin: 0px;
+  font-size: 20px;
+}
+#equipdropdown p:hover {
+  background-color: rgb(122, 237, 237);
+}
+#equipuse {
+  border-bottom: 1px solid rgb(51, 161, 161);
 }
 
 #minimap {

@@ -1,25 +1,25 @@
 itemEquipEvents = function(id, e) {
-  dropDrop.off("click");
-  useDrop.off("click");
-  dropdown.show(150);
-  dropdown.css({
+  unequipDrop.off("click");
+  useEquipDrop.off("click");
+  equipDrop.show(150);
+  equipDrop.css({
     top: e.clientY,
     left: e.clientX
   });
   setTimeout(function() {
       $(document).one("mousedown", function(e) {
-        if(e.target.className === "invItems" || e.target.id === "use" || e.target.id === "drop") return;
-        dropdown.hide(100);
+        if(e.target.className === "fullEquip" || e.target.id === "equipuse" || e.target.id === "unequip") return;
+        hideDropDown();
       });
   }, 1);
-  dropDrop.click(function() {
-    changeInventory("-" + id, true);
-    y("You have dropped the " + id);
-    dropdown.hide(100);
+  unequipDrop.click(function() {
+    changeInventory(id, true);
+    y("You have unequipped the " + id);
+    hideDropDown();
   });
-  useDrop.click(function() {
+  useEquipDrop.click(function() {
     useItemEquipEvents(id);
-    dropdown.hide(100);
+    hideDropDown();
   });
 };
 useItemEquipEvents = function(id) {

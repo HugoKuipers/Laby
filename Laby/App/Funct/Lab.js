@@ -129,7 +129,8 @@ var justWalkAway = function(walk) {
   };
 };
 
-var createInputNum = function(min, max, start) {
+var createInputNum = function(min, max, start, text) {
+  ableMove(false);
   var form = document.createElement("form");
   var input = document.createElement("input");
   input.type = "number";
@@ -142,6 +143,7 @@ var createInputNum = function(min, max, start) {
   var submitInput = document.createElement("button");
   submitInput.type = "button";
   submitInput.innerHTML = "Go!";
+  if(text) submitInput.innerHTML = text;
   submitInput.id = "submitinput";
   form.appendChild(input);
   form.appendChild(submitInput);
@@ -200,9 +202,10 @@ var createInputOpt = function(n, selected, place, id) {
         return
       }
       else if(document.getElementById(n[i]).checked === true) {
+        ableMove(true);
         questionAnswer = n[i];
         doneWithThisLoop = true;
-        while (place.firstChild) {
+        while(place.firstChild) {
           place.removeChild(place.firstChild);
         };
         if(place === forms) {
@@ -211,7 +214,6 @@ var createInputOpt = function(n, selected, place, id) {
         else {
           useItemEvents(id);
         };
-        ableMove(true);
         questionAnswer = "";
       };
     };
@@ -517,6 +519,9 @@ var resetPage = function(clear) {
   };
   editStats(clear);
 };
+var exitLabyrinth = function() {
+  resetPage(true);
+};
 
 var viewRow = function(l, kMin, kMax) {
   var locationIndex = ((laby.rows[player.y].rowIndex * labyrinth.width) + laby.rows[player.y].cells[player.x].cellIndex);
@@ -537,32 +542,77 @@ var viewMap = function() {
   for(var i = 0; i < minoClass.length; i++) {
     minoClass[0].classList.remove("minotaur");
   };
-  if(laby.rows[player.y].rowIndex !== 0 && laby.rows[player.y].rowIndex !== size && laby.rows[player.y].cells[player.x].cellIndex !== 0 && laby.rows[player.y].cells[player.x].cellIndex !== labyrinth.width - 1) {
+  if(laby.rows[player.y].rowIndex - player.sight >= 0 && laby.rows[player.y].rowIndex + player.sight <= size && laby.rows[player.y].cells[player.x].cellIndex  - player.sight >= 0 && laby.rows[player.y].cells[player.x].cellIndex + player.sight <= labyrinth.width - 1) {
     for(var l = -player.sight; l < player.sight+1; l++) {
       viewRow(l, -player.sight, player.sight+1);
     };
   }
-  else if(laby.rows[player.y].rowIndex === 0 && laby.rows[player.y].cells[player.x].cellIndex !== 0 && laby.rows[player.y].cells[player.x].cellIndex !== labyrinth.width - 1) {
-    for(var l = -player.sight; l < player.sight+1; l++) {
-      viewRow(l, 0, player.sight+1);
+  else if(laby.rows[player.y].rowIndex - player.sight < 0 && laby.rows[player.y].rowIndex + player.sight > size && laby.rows[player.y].cells[player.x].cellIndex  - player.sight < 0 && laby.rows[player.y].cells[player.x].cellIndex + player.sight > labyrinth.width - 1) {
+    for(var l = -laby.rows[player.y].cells[player.x].cellIndex; l < labyrinth.width - laby.rows[player.y].cells[player.x].cellIndex; l++) {
+      viewRow(l, -laby.rows[player.y].rowIndex, size - laby.rows[player.y].rowIndex + 1);
     };
   }
-  else if(laby.rows[player.y].rowIndex === size) {
-    for(var l = -player.sight; l < player.sight+1; l++) {
-      viewRow(l, -player.sight, 1);
+  else if(laby.rows[player.y].rowIndex + player.sight > size && laby.rows[player.y].cells[player.x].cellIndex  - player.sight < 0 && laby.rows[player.y].cells[player.x].cellIndex + player.sight > labyrinth.width - 1) {
+    for(var l = -laby.rows[player.y].cells[player.x].cellIndex; l < labyrinth.width - laby.rows[player.y].cells[player.x].cellIndex; l++) {
+      viewRow(l, -player.sight, size - laby.rows[player.y].rowIndex + 1);
     };
   }
-  else if(laby.rows[player.y].cells[player.x].cellIndex === 0 && laby.rows[player.y].rowIndex !== 0) {
-    for(var l = 0; l < player.sight+1; l++) {
+  else if(laby.rows[player.y].rowIndex - player.sight < 0 && laby.rows[player.y].cells[player.x].cellIndex - player.sight < 0 && laby.rows[player.y].cells[player.x].cellIndex + player.sight > labyrinth.width - 1) {
+    for(var l = -laby.rows[player.y].cells[player.x].cellIndex; l < labyrinth.width - laby.rows[player.y].cells[player.x].cellIndex; l++) {
+      viewRow(l, -laby.rows[player.y].rowIndex, player.sight+1);
+    };
+  }
+  else if(laby.rows[player.y].rowIndex - player.sight < 0 && laby.rows[player.y].rowIndex + player.sight > size && laby.rows[player.y].cells[player.x].cellIndex + player.sight > labyrinth.width - 1) {
+    for(var l = -player.sight; l < labyrinth.width - laby.rows[player.y].cells[player.x].cellIndex; l++) {
+      viewRow(l, -laby.rows[player.y].rowIndex, size - laby.rows[player.y].rowIndex + 1);
+    };
+  }
+  else if(laby.rows[player.y].rowIndex - player.sight < 0 && laby.rows[player.y].rowIndex + player.sight > size && laby.rows[player.y].cells[player.x].cellIndex - player.sight < 0) {
+    for(var l = -laby.rows[player.y].cells[player.x].cellIndex; l < labyrinth.width - laby.rows[player.y].cells[player.x].cellIndex; l++) {
+      viewRow(l, -laby.rows[player.y].rowIndex, player.sight+1);
+    };
+  }
+  else if(laby.rows[player.y].rowIndex - player.sight < 0 && laby.rows[player.y].cells[player.x].cellIndex - player.sight < 0) {
+    for(var l = -laby.rows[player.y].cells[player.x].cellIndex; l < player.sight+1; l++) {
+      viewRow(l, -laby.rows[player.y].rowIndex, player.sight+1);
+    };
+  }
+  else if(laby.rows[player.y].rowIndex - player.sight < 0 && laby.rows[player.y].cells[player.x].cellIndex + player.sight > labyrinth.width - 1) {
+    for(var l = -player.sight; l < labyrinth.width - laby.rows[player.y].cells[player.x].cellIndex; l++) {
+      viewRow(l, -laby.rows[player.y].rowIndex, player.sight+1);
+    };
+  }
+  else if(laby.rows[player.y].rowIndex + player.sight > size && laby.rows[player.y].cells[player.x].cellIndex - player.sight < 0) {
+    for(var l = -laby.rows[player.y].cells[player.x].cellIndex; l < player.sight+1; l++) {
+      viewRow(l, -player.sight, size - laby.rows[player.y].rowIndex + 1);
+    };
+  }
+  else if(laby.rows[player.y].rowIndex + player.sight > size && laby.rows[player.y].cells[player.x].cellIndex + player.sight > labyrinth.width - 1) {
+    for(var l = -player.sight; l < labyrinth.width - laby.rows[player.y].cells[player.x].cellIndex; l++) {
+      viewRow(l, -player.sight, size - laby.rows[player.y].rowIndex + 1);
+    };
+  }
+  else if(laby.rows[player.y].rowIndex - player.sight < 0) {
+    for(var l = -player.sight; l < player.sight+1; l++) {
+      viewRow(l, -laby.rows[player.y].rowIndex, player.sight+1);
+    };
+  }
+  else if(laby.rows[player.y].rowIndex + player.sight > size) {
+    for(var l = -player.sight; l < player.sight+1; l++) {
+      viewRow(l, -player.sight, size - laby.rows[player.y].rowIndex + 1);
+    };
+  }
+  else if(laby.rows[player.y].cells[player.x].cellIndex - player.sight < 0) {
+    for(var l = -laby.rows[player.y].cells[player.x].cellIndex; l < player.sight+1; l++) {
       viewRow(l, -player.sight, player.sight+1);
     };
   }
-  else if(laby.rows[player.y].cells[player.x].cellIndex === labyrinth.width - 1 && laby.rows[player.y].rowIndex !== 0) {
-    for(var l = -player.sight; l < 1; l++) {
+  else if(laby.rows[player.y].cells[player.x].cellIndex + player.sight > labyrinth.width - 1) {
+    for(var l = -player.sight; l < labyrinth.width - laby.rows[player.y].cells[player.x].cellIndex; l++) {
       viewRow(l, -player.sight, player.sight+1);
     };
   };
-    $("#innermap").html($("#laby").clone());
+  $("#innermap").html($("#laby").clone());
 };
 var centerCamera = function() {
   if(labyrinth.width > visibleWidth) {
@@ -1148,14 +1198,10 @@ var equipItem = function(item, checkEquipSpace, checkEquipPlayer, handSwitch) {
         });
         startX = e.clientX;
         startY = e.clientY;
-        dropdown.hide(100);
+        hideDropDown();
       });
     });
     $("#equipspace").append(newEquipImgTag);
   };
   updateStats();
-};
-
-var exitLabyrinth = function() {
-  resetPage(true);
 };

@@ -4,11 +4,11 @@ document.onkeydown = function(e) {
   switch(e.keyCode) {
     case 13:
       e.preventDefault();
-      if(forms.innerHTML !== "") {
+      if(document.getElementById("submitinput")) {
         document.getElementById("submitinput").click();
       }
-      else if(formsitems.innerHTML !== "") {
-        document.getElementById("submitinput").click();
+      else if(document.getElementById("goOn")) {
+        document.getElementById("goOn").click();
       }
       else {
         enter.click();
@@ -40,7 +40,7 @@ document.onkeydown = function(e) {
       }
       else if((forms.innerHTML !== "" && forms.firstChild.firstChild === document.getElementsByName("choice")[0]) || (formsitems.innerHTML !== "" && formsitems.firstChild.firstChild === document.getElementsByName("choice")[0])) {
         document.getElementsByName("choice")[0].checked = true;
-        if(document.getElementsByName("choice")[0] === "Just walk away") {
+        if(document.getElementsByName("choice")[0].id === "Just walk away") {
           justWalkAway(true);
         }
         else {
@@ -75,11 +75,13 @@ document.onkeydown = function(e) {
               return;
             };
             document.getElementsByName("choice")[i-1].checked = true;
-            if(document.getElementsByName("choice")[i-1] === "Just walk away") {
+            if(document.getElementsByName("choice")[i-1].id === "Just walk away") {
               justWalkAway(true);
+              return;
             }
             else {
               justWalkAway(false);
+              return;
             };
           };
         };
@@ -104,14 +106,12 @@ document.onkeydown = function(e) {
         };
       }
       else if((forms.innerHTML !== "" && forms.firstChild.firstChild === document.getElementsByName("choice")[0]) || (formsitems.innerHTML !== "" && formsitems.firstChild.firstChild === document.getElementsByName("choice")[0])) {
-        for(var i in document.getElementsByName("choice")) {
-          document.getElementsByName("choice")[document.getElementsByName("choice").length - 1].checked = true;
-          if(document.getElementsByName("choice")[document.getElementsByName("choice").length - 1] === "Just walk away") {
-            justWalkAway(true);
-          }
-          else {
-            justWalkAway(false);
-          };
+        document.getElementsByName("choice")[document.getElementsByName("choice").length - 1].checked = true;
+        if(document.getElementsByName("choice")[document.getElementsByName("choice").length - 1].id === "Just walk away") {
+          justWalkAway(true);
+        }
+        else {
+          justWalkAway(false);
         };
       }
       else {
@@ -142,11 +142,13 @@ document.onkeydown = function(e) {
               return;
             };
             document.getElementsByName("choice")[i+1].checked = true;
-            if(document.getElementsByName("choice")[i+1] === "Just walk away") {
+            if(document.getElementsByName("choice")[i+1].id === "Just walk away") {
               justWalkAway(true);
+              return;
             }
             else {
               justWalkAway(false);
+              return;
             };
           };
         };

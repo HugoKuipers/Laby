@@ -6,7 +6,7 @@ var dontUseThat = function() {
   };
 };
 var defDontUseThat = function() {
-  if(doNotUseThat = true) {
+  if(doNotUseThat === true) {
     a("You have something to do first!");
     return true;
   };

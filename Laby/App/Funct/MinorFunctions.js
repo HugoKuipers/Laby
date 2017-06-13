@@ -321,6 +321,7 @@ var multipleEquations = function(n, x) {
 var hideDropDown = function() {
   dropdown.hide(100);
   shopDrop.hide(100);
+  equipDrop.hide(100);
 };
 
 var createMerchant = function(type) {
@@ -380,34 +381,37 @@ var interactMerchant = function(merchant) {
       merchantSpace.removeChild(merchantSpace.firstChild);
     };
   };
-  var itemLegend = document.createElement("p");
-  itemLegend.id = "itemLegend";
-  var legendPic = document.createElement("img");
+  var itemRoster = document.createElement("table");
+  itemRoster.id = "itemRoster";
+  var legendRow = itemRoster.insertRow(0);
+  var legendPic = legendRow.insertCell(0);
   legendPic.id = "legendPic";
-  legendPic.src = "../../Images/Store.jpg";
-  var legendName = document.createElement("span");
+  var legendName = legendRow.insertCell(1);
   legendName.id = "legendName";
   legendName.innerHTML = "Name:";
-  var legendPrice = document.createElement("span");
+  var legendPrice = legendRow.insertCell(2);
   legendPrice.id = "legendPrice";
   legendPrice.innerHTML = "Price:";
-  var legendStock = document.createElement("span");
+  var legendStock = legendRow.insertCell(3);
   legendStock.id = "legendStock";
   legendStock.innerHTML = "Stock:";
-  var legendAmount = document.createElement("span");
+  var legendAmount = legendRow.insertCell(4);
   legendAmount.id = "legendAmount";
   legendAmount.innerHTML = "Amount:";
   var mercItemSpace = document.createElement("p");
   mercItemSpace.id = "mercItemSpace" + merchant;
-  itemLegend.appendChild(legendPic);
-  itemLegend.appendChild(legendName);
-  itemLegend.appendChild(legendPrice);
-  itemLegend.appendChild(legendStock);
-  itemLegend.appendChild(legendAmount);
+  mercItemSpace.innerHTML = "Total price: ";
+  var currentPrice = document.createElement("span");
+  currentPrice.innerHTML = 0;
+  var buySelected = document.createElement("button");
+  buySelected.innerHTML = "Buy";
+  buySelected.onclick = function() {
+    
+  };
   actualMerchant.appendChild(barMerc);
   barMerc.appendChild(barHead);
   actualMerchant.appendChild(closeMerc);
-  actualMerchant.appendChild(itemLegend);
+  actualMerchant.appendChild(itemRoster);
   actualMerchant.appendChild(mercItemSpace);
   merchantSpace.appendChild(actualMerchant);
   for(var i = 0; i < merchantList[merchant].inventory.length; i++) {
@@ -430,54 +434,39 @@ var changeMerchantInventory = function(item, merchant, justPic) {
       merchantList[merchant].inventory.push(item);
     };
     if(merchantSpace.firstChild) {
-      var newMercItemImgTag = $("<img>", {
-        id: item.name,
-        class: "merchantItems",
-        src: item.image,
-        title: item.hover
-      });
-      // newMercItemImgTag.on("mousedown", function(e) {
-      //   if(!(ssX < startX + 20 && ssX > startX -20 && ssY < startY +20 && ssY > startY -20)) {
-      //     newMercItemImgTag.on("click", function(e) {
-      //       buyOrSell(e, this.id , merchant);
-      //     });
-      //   };
-      //   deze = $(this);
-      //   e.preventDefault();
-      //   draggableItem = true;
-      //   startX = e.clientX;
-      //   startY = e.clientY;
-      //   var ssX = startX;
-      //   var ssY = startY;
-      //   $(document).on("mouseup", function(e) {
-      //     $(document).off("mousemove");
-      //     $(document).off("mouseup");
-      //     if(ssX < startX + 20 && ssX > startX -20 && ssY < startY +20 && ssY > startY -20) {
-      //       newMercItemImgTag.on("click", function(e) {
-      //         buyOrSell(e, this.id , merchant);
-      //       });
-      //     }
-      //     else {
-      //       newMercItemImgTag.off("click");
-      //     };
-      //     draggableItem = false;
-      //   });
-      //   $(document).on("mousemove", function(e) {
-      //     e.preventDefault();
-      //     if(!draggableItem) return;
-      //     var deltaX = e.clientX - startX;
-      //     var deltaY = e.clientY - startY;
-      //     deze.css({
-      //       "z-index": 50,
-      //       "left": parseInt(deze.css("left").replace("px", "")) + deltaX + "px",
-      //       "top": parseInt(deze.css("top").replace("px", "")) + deltaY + "px"
-      //     });
-      //     startX = e.clientX;
-      //     startY = e.clientY;
-      //     hideDropDown();
-      //   });
-      // });
-      $("#mercItemSpace"+merchant).append(newMercItemImgTag);
+      if(document.getElementById(item.name + " row")) {
+        document.getElementById(item.name + " row").getElementsByTagName("td")[3].innerHTML = parseInt(document.getElementById(item.name + " row").getElementsByTagName("td")[3].innerHTML) + 1;
+        document.getElementById(item.name + " counter").max = parseInt(document.getElementById(item.name + " counter").max) + 1;
+      }
+      else {
+        var newItemRow = document.getElementById("itemRoster").insertRow(document.getElementById("itemRoster").length);
+        newItemRow.id = item.name + " row";
+        var newCounterInput = document.createElement("input");
+        newCounterInput.type = "number";
+        newCounterInput.min = 0;
+        newCounterInput.max = 1;
+        newCounterInput.value = 0;
+        newCounterInput.step = 1;
+        newCounterInput.id = item.name + " counter";
+        newCounterInput.className = "numbutton";
+        newItemRow.insertCell(0).innerHTML = "<img src='"+item.image+"' id='"+item.name+"' class='merchantItems' title='"+item.hover+"' />";
+        newItemRow.insertCell(1).innerHTML = item.name;
+        var tempValue = item.value*(merchantList[merchant].haggler+1);
+        if((tempValue) % 1 !== 0) {
+          tempValue = tempValue.toString();
+          var tempPointPlace = tempValue.indexOf(".");
+          if(parseInt(tempValue[tempPointPlace+1]) > 4) {
+            var tempValueRoundUp = (parseInt(tempValue[tempPointPlace-1]) + 1).toString();
+            tempValue = (tempValue.substr(0, (tempPointPlace-1))) + tempValueRoundUp;
+          }
+          else {
+            tempValue = tempValue.substr(0, (tempPointPlace));
+          };
+        };
+        newItemRow.insertCell(2).innerHTML = tempValue;
+        newItemRow.insertCell(3).innerHTML = 1;
+        newItemRow.insertCell(4).appendChild(newCounterInput);
+      };
     };
   };
 };
@@ -501,11 +490,7 @@ var buyOrSell = function(e, id, merchant) {
     top: e.clientY,
     left: e.clientX
   });
-  if(e.target.className === "merchantItems") {
-    bosDrop.html("Buy");
-    document.getElementById('buysell').title = "Buy this item";
-  }
-  else if(e.target.className === "invItems") {
+  if(e.target.className === "invItems") {
     bosDrop.html("Sell");
     document.getElementById('buysell').title = "Sell this item";
   };
@@ -516,11 +501,11 @@ var buyOrSell = function(e, id, merchant) {
     });
   }, 1);
   bosDrop.click(function() {
-    if(bosDrop.html() === "Buy") {
-
-    }
-    else if(bosDrop.html() === "Sell") {
-
+    if(bosDrop.html() === "Sell") {
+      console.log("Hi there");
+      changeInventory("-"+id);
+      changeMerchantInventory(id, merchant);
+      changeGold(id.value*(1 - merchantList[merchant].haggler));
     };
     hideDropDown();
   });
