@@ -830,6 +830,7 @@ var clickMove = function() {
 };
 
 var changeLife = function(amount, item) {
+  amount = parseInt(amount);
   if(item) {
     var place = itemText;
   }
@@ -857,6 +858,7 @@ var changeLife = function(amount, item) {
   };
 };
 var changeGold = function(amount, item) {
+  amount = parseInt(amount);
   if(item) {
     var place = itemText;
   }

@@ -27,6 +27,8 @@ var createMarkovData;
 var markovNameGen;
 var allGenNames = [];
 var markovData = {};
+var hideDropDown;
+var roundNumber;
 var attEvents;
 var defEvents;
 var questionAnswer;

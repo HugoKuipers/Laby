@@ -383,7 +383,7 @@ button:focus {
 #merchantWindow #itemRoster tr:first-child td {
   height: 26px;
 }
-#merchantWindow .numbutton {
+#merchantWindow .counterclass {
   width: 60px;
   height: 60px;
   font-size: 20px;
@@ -393,6 +393,23 @@ button:focus {
   margin: 0px;
   text-align: center;
   padding: 0px;
+}
+.counterclass:focus {
+  outline: none;
+}
+#merchantWindow p {
+  font-size: 20px;
+}
+#currentPrice {
+  font-size: 20px;
+}
+#buySelected {
+  position: relative;
+  font-size: 22px;
+  background-color: rgb(166, 250, 227);
+  font-family: initial;
+  border-radius: 20px;
+  border: 1px solid rgb(20, 140, 107);
 }
 
 #shopdropdown {

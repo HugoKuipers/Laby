@@ -318,10 +318,187 @@ var multipleEquations = function(n, x) {
   };
 };
 
-var hideDropDown = function() {
+hideDropDown = function() {
   dropdown.hide(100);
   shopDrop.hide(100);
   equipDrop.hide(100);
+};
+roundNumber = function(number, decimals) {
+  var deciZeros = "1";
+  for(var i = 0; i < decimals; i++) {
+    deciZeros = parseInt(deciZeros + "0");
+  };
+  if((number*deciZeros) % 1 !== 0) {
+    number = number.toString();
+    var tempPointPlace = number.indexOf(".");
+    if(parseInt(number[tempPointPlace+1+decimals]) > 4) {
+      if(decimals === 0) {
+        var tempValueRoundUp = (parseInt(number[tempPointPlace-1]) + 1).toString();
+        number = (number.substr(0, (tempPointPlace-1))) + tempValueRoundUp;
+      }
+      else {
+        var tempValueRoundUp = (parseInt(number[tempPointPlace+decimals]) + 1).toString();
+        number = (number.substr(0, (tempPointPlace+decimals))) + tempValueRoundUp;
+      };
+    }
+    else {
+      if(decimals === 0) {
+        number = number.substr(0, (tempPointPlace));
+      }
+      else {
+        number = number.substr(0, (tempPointPlace+decimals+1));
+      };
+    };
+  };
+  return number;
+};
+
+var interactInventory = function() {
+  document.getElementById("closeinv").click();
+  // if(document.getElementById("mercItemSpace" + merchant)) return;
+  var specialInv = document.createElement("div");
+  specialInv.id = "specialInv";
+  var specialInvBar = document.createElement("div");
+  specialInvBar.id = "specialInvBar";
+  specialInvBar.onmousedown = function(e) {
+    generalMove(e, specialInv);
+  };
+  var specialInvBarHead = document.createElement("span");
+  specialInvBarHead.id = "specialInvBarHead";
+  specialInvBarHead.innerHTML = "Inventory";
+  var closeSpecialInv = document.createElement("button");
+  closeSpecialInv.id = "closeSpecialInv";
+  closeSpecialInv.innerHTML = "&#10006;";
+  closeSpecialInv.onclick = function() {
+    while (specialInvSpace.firstChild) {
+      specialInvSpace.removeChild(specialInvSpace.firstChild);
+    };
+  };
+  var specialInvItemRoster = document.createElement("table");
+  specialInvItemRoster.id = "specialInvItemRoster";
+  var specialInvLegendRow = specialInvItemRoster.insertRow(0);
+  var specialInvLegendPic = specialInvLegendRow.insertCell(0);
+  specialInvLegendPic.id = "specialInvLegendPic";
+  var specialInvLegendName = specialInvItemRoster.insertCell(1);
+  specialInvLegendName.id = "specialInvLegendName";
+  specialInvLegendName.innerHTML = "Name:";
+  var specialInvLegendPrice = specialInvItemRoster.insertCell(2);
+  specialInvLegendPrice.id = "specialInvLegendPrice";
+  specialInvLegendPrice.innerHTML = "Value:";
+  var specialInvLegendStock = specialInvItemRoster.insertCell(3);
+  specialInvLegendStock.id = "specialInvLegendStock";
+  specialInvLegendStock.innerHTML = "Owned:";
+  var specialInvLegendAmount = specialInvItemRoster.insertCell(4);
+  specialInvLegendAmount.id = "specialInvLegendAmount";
+  specialInvLegendAmount.innerHTML = "Amount:";
+  var specialInvItemSpace = document.createElement("p");
+  specialInvItemSpace.id = "specialInvItemSpace";
+  specialInvItemSpace.innerHTML = "Total value: ";
+  var specialInvCurrentPrice = document.createElement("span");
+  specialInvCurrentPrice.id = "specialInvCurrentPrice";
+  specialInvCurrentPrice.innerHTML = 0;
+  var sellSelected = document.createElement("button");
+  sellSelected.id = "sellSelected";
+  sellSelected.innerHTML = "Sell";
+  sellSelected.onclick = function() {
+    var notOkeydokie = false;
+    for(var i = 0; i < document.getElementsByClassName("specialInvCounterclass").length; i++) {
+      if(document.getElementsByClassName("specialInvCounterclass")[i].value < document.getElementsByClassName("specialInvCounterclass")[i].min || document.getElementsByClassName("specialInvCounterclass")[i].value > document.getElementsByClassName("specialInvCounterclass")[i].max) {
+        notOkeydokie = true;
+        document.getElementsByClassName("specialInvCounterclass")[i].value = 0;
+      };
+    };
+    if(notOkeydokie) return;
+    var merchant = document.getElementById("");
+    if(specialInvCurrentPrice.innerHTML > player.gold) {
+      y("");
+    }
+    else {
+      changeGold(specialInvCurrentPrice.innerHTML, true);
+      for(var i = 1; i < specialInvItemRoster.firstChild.childNodes.length; i++) {
+        var thisAmount = specialInvItemRoster.firstChild.childNodes[i].childNodes[4].firstChild.value;
+        var thisItem = specialInvItemRoster.firstChild.childNodes[i].childNodes[1].innerHTML
+        for(var j = 0; j < thisAmount; j++) {
+          specialInvChangeInventory("-"+thisItem);
+          changeMerchantInventory(thisItem, merchant);
+          merchantList[merchant].gold -= parseInt(specialInvCurrentPrice.innerHTML);
+        };
+      };
+      for(var i = 1; i < itemRoster.firstChild.childNodes.length; i++) {
+        itemRoster.firstChild.childNodes[i].childNodes[4].firstChild.value = 0;
+      };
+    };
+  };
+  actualMerchant.appendChild(barMerc);
+  barMerc.appendChild(barHead);
+  actualMerchant.appendChild(closeMerc);
+  actualMerchant.appendChild(itemRoster);
+  actualMerchant.appendChild(mercItemSpace);
+  mercItemSpace.appendChild(currentPrice);
+  mercItemSpace.appendChild(buySelected);
+  merchantSpace.appendChild(actualMerchant);
+  for(var i = 0; i < merchantList[merchant].inventory.length; i++) {
+    changeMerchantInventory(merchantList[merchant].inventory[i].name, merchant, true);
+  };
+};
+var releaseInventory = function() {
+
+};
+var specialInvChangeInventory = function(item, justPic) {
+  if(item[0] === "-") {
+    item = item.replace("-", "");
+    let itemJ = jsonItems[item];
+    if(player.inventory.includes(itemJ)) {
+      var removeThisItem = player.inventory.indexOf(itemJ);
+      player.inventory.splice(removeThisItem, 1);
+      if(document.getElementById(item + " specialInvRow").childNodes[3].innerHTML === "1") {
+        document.getElementById(item + " specialInvRow").parentNode.removeChild(document.getElementById(item + " specialInvRow"));
+      }
+      else {
+        document.getElementById(item + " specialInvRow").childNodes[3].innerHTML -= 1;
+        document.getElementById(item + " specialInvRow").childNodes[4].firstChild.max -= 1;
+      };
+    };
+  }
+  else {
+    item = jsonItems[item];
+    if(!justPic) {
+      player.inventory.push(item);
+    };
+    if(specialInvSpace.firstChild) {
+      if(document.getElementById(item.name + " specialInvRow")) {
+        document.getElementById(item.name + " specialInvRow").getElementsByTagName("td")[3].innerHTML = parseInt(document.getElementById(item.name + " specialInvRow").getElementsByTagName("td")[3].innerHTML) + 1;
+        document.getElementById(item.name + " counter").max = parseInt(document.getElementById(item.name + " counter").max) + 1;
+      }
+      else {
+        var newItemspecialInvRow = document.getElementById("itemRoster").row(document.getElementById("itemRoster").length);
+        newItemspecialInvRow.id = item.name + " specialInvRow";
+        var newCounterInput = document.createElement("input");
+        newCounterInput.type = "number";
+        newCounterInput.min = 0;
+        newCounterInput.max = 1;
+        newCounterInput.value = 0;
+        newCounterInput.step = 1;
+        newCounterInput.id = item.name + " counter";
+        newCounterInput.className = "counterclass";
+        ($(newCounterInput)).change(function() {
+          var totalPrice = 0;
+          for(var i = 1; i < itemRoster.firstChild.childNodes.length; i++) {
+            var thisAmount = itemRoster.firstChild.childNodes[i].childNodes[4].firstChild.value;
+            totalPrice += thisAmount*(parseInt(itemRoster.firstChild.childNodes[i].childNodes[2].innerHTML));
+          };
+          $("#currentPrice").html(totalPrice);
+        });
+        newItemRow.insertCell(0).innerHTML = "<img src='"+item.image+"' id='"+item.name+"' class='merchantItems' title='"+item.hover+"' />";
+        newItemRow.insertCell(1).innerHTML = item.name;
+        var tempValue = item.value*(merchantList[merchant].haggler+1);
+        tempValue = roundNumber(tempValue, 0);
+        newItemRow.insertCell(2).innerHTML = tempValue;
+        newItemRow.insertCell(3).innerHTML = 1;
+        newItemRow.insertCell(4).appendChild(newCounterInput);
+      };
+    };
+  };
 };
 
 var createMerchant = function(type) {
@@ -402,17 +579,46 @@ var interactMerchant = function(merchant) {
   mercItemSpace.id = "mercItemSpace" + merchant;
   mercItemSpace.innerHTML = "Total price: ";
   var currentPrice = document.createElement("span");
+  currentPrice.id = "currentPrice";
   currentPrice.innerHTML = 0;
   var buySelected = document.createElement("button");
+  buySelected.id = "buySelected";
   buySelected.innerHTML = "Buy";
   buySelected.onclick = function() {
-    
+    var notOkeydokie = false;
+    for(var i = 0; i < document.getElementsByClassName("counterclass").length; i++) {
+      if(document.getElementsByClassName("counterclass")[i].value < document.getElementsByClassName("counterclass")[i].min || document.getElementsByClassName("counterclass")[i].value > document.getElementsByClassName("counterclass")[i].max) {
+        notOkeydokie = true;
+        document.getElementsByClassName("counterclass")[i].value = 0;
+      };
+    };
+    if(notOkeydokie) return;
+    if(currentPrice.innerHTML > player.gold) {
+      a("You don't have enough gold");
+    }
+    else {
+      changeGold("-"+currentPrice.innerHTML, true);
+      for(var i = 1; i < itemRoster.firstChild.childNodes.length; i++) {
+        var thisAmount = itemRoster.firstChild.childNodes[i].childNodes[4].firstChild.value;
+        var thisItem = itemRoster.firstChild.childNodes[i].childNodes[1].innerHTML
+        for(var j = 0; j < thisAmount; j++) {
+          changeInventory(thisItem);
+          changeMerchantInventory("-"+thisItem, merchant);
+          merchantList[merchant].gold += parseInt(currentPrice.innerHTML);
+        };
+      };
+      for(var i = 1; i < itemRoster.firstChild.childNodes.length; i++) {
+        itemRoster.firstChild.childNodes[i].childNodes[4].firstChild.value = 0;
+      };
+    };
   };
   actualMerchant.appendChild(barMerc);
   barMerc.appendChild(barHead);
   actualMerchant.appendChild(closeMerc);
   actualMerchant.appendChild(itemRoster);
   actualMerchant.appendChild(mercItemSpace);
+  mercItemSpace.appendChild(currentPrice);
+  mercItemSpace.appendChild(buySelected);
   merchantSpace.appendChild(actualMerchant);
   for(var i = 0; i < merchantList[merchant].inventory.length; i++) {
     changeMerchantInventory(merchantList[merchant].inventory[i].name, merchant, true);
@@ -425,7 +631,13 @@ var changeMerchantInventory = function(item, merchant, justPic) {
     if(merchantList[merchant].inventory.includes(itemJ)) {
       var removeThisItem = merchantList[merchant].inventory.indexOf(itemJ);
       merchantList[merchant].inventory.splice(removeThisItem, 1);
-      document.getElementById("mercItemSpace")[removeThisItem].remove();
+      if(document.getElementById(item + " row").childNodes[3].innerHTML === "1") {
+        document.getElementById(item + " row").parentNode.removeChild(document.getElementById(item + " row"));
+      }
+      else {
+        document.getElementById(item + " row").childNodes[3].innerHTML -= 1;
+        document.getElementById(item + " row").childNodes[4].firstChild.max -= 1;
+      };
     };
   }
   else {
@@ -448,21 +660,19 @@ var changeMerchantInventory = function(item, merchant, justPic) {
         newCounterInput.value = 0;
         newCounterInput.step = 1;
         newCounterInput.id = item.name + " counter";
-        newCounterInput.className = "numbutton";
+        newCounterInput.className = "counterclass";
+        ($(newCounterInput)).change(function() {
+          var totalPrice = 0;
+          for(var i = 1; i < itemRoster.firstChild.childNodes.length; i++) {
+            var thisAmount = itemRoster.firstChild.childNodes[i].childNodes[4].firstChild.value;
+            totalPrice += thisAmount*(parseInt(itemRoster.firstChild.childNodes[i].childNodes[2].innerHTML));
+          };
+          $("#currentPrice").html(totalPrice);
+        });
         newItemRow.insertCell(0).innerHTML = "<img src='"+item.image+"' id='"+item.name+"' class='merchantItems' title='"+item.hover+"' />";
         newItemRow.insertCell(1).innerHTML = item.name;
         var tempValue = item.value*(merchantList[merchant].haggler+1);
-        if((tempValue) % 1 !== 0) {
-          tempValue = tempValue.toString();
-          var tempPointPlace = tempValue.indexOf(".");
-          if(parseInt(tempValue[tempPointPlace+1]) > 4) {
-            var tempValueRoundUp = (parseInt(tempValue[tempPointPlace-1]) + 1).toString();
-            tempValue = (tempValue.substr(0, (tempPointPlace-1))) + tempValueRoundUp;
-          }
-          else {
-            tempValue = tempValue.substr(0, (tempPointPlace));
-          };
-        };
+        tempValue = roundNumber(tempValue, 0);
         newItemRow.insertCell(2).innerHTML = tempValue;
         newItemRow.insertCell(3).innerHTML = 1;
         newItemRow.insertCell(4).appendChild(newCounterInput);

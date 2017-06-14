@@ -275,10 +275,12 @@ var generalMove = function(e, place) {
   startY = e.clientY;
   onmouseup = function(e) {
     draggable = false;
+    onmouseup = undefined;
+    onmousemove = undefined;
   };
   onmousemove = function(e) {
-    e.preventDefault();
     if(!draggable) return;
+    e.preventDefault();
     var deltaX = e.clientX - startX;
     var deltaY = e.clientY - startY;
     place.style.left = deltaX + place.offsetLeft + "px";
