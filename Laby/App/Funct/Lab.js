@@ -1,4 +1,14 @@
 "use strict";
+var docGet = function(id, type) {
+  switch (type) {
+    case "class":
+      return document.getElementsByClassName(id);
+      break;
+    default:
+      return document.getElementById(id);
+  };
+};
+
 var setPlayer = function() {
   player = {
     x: Math.floor(labyrinth.width/2),
